@@ -137,7 +137,7 @@ public class FlatexPDFExtractorTest
         assertThat(entry.getPortfolioTransaction().getType(), is(PortfolioTransaction.Type.SELL));
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
-        assertThat(entry.getPortfolioTransaction().getMonetaryAmount(), is(Money.of(CurrencyUnit.EUR, 5843_00L)));
+        assertThat(entry.getPortfolioTransaction().getMonetaryAmount(), is(Money.of(CurrencyUnit.EUR, 5943_00L)));
         assertThat(entry.getPortfolioTransaction().getDate(), is(LocalDate.parse("2014-01-28")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(100_000000L));
         assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE), is(Money.of(CurrencyUnit.EUR, 5_90L)));
@@ -749,7 +749,7 @@ public class FlatexPDFExtractorTest
         assertThat(entry.getPortfolioTransaction().getType(), is(PortfolioTransaction.Type.SELL));
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
-        assertThat(entry.getPortfolioTransaction().getAmount(), is(Values.Amount.factorize(1716.19)));
+        assertThat(entry.getPortfolioTransaction().getAmount(), is(Values.Amount.factorize(1253.15)));
         assertThat(entry.getPortfolioTransaction().getDate(), is(LocalDate.parse("2016-09-08")));
         assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE),
                         is(Money.of("EUR", Values.Amount.factorize(11.85))));
@@ -765,6 +765,135 @@ public class FlatexPDFExtractorTest
         assertThat(entryTaxReturn.getDate(), is(is(LocalDate.parse("2016-09-08"))));
     }
     
+    @Test
+    public void testWertpapierKaufVerkaufSteuererstattung() throws IOException
+    {
+        FlatexPDFExtractor extractor = new FlatexPDFExtractor(new Client())
+        {
+            @Override
+            String strip(File file) throws IOException
+            {
+                return from("FlatexKaufVerkaufSteuererstattung.txt");
+            }
+        };
+        List<Exception> errors = new ArrayList<Exception>();
+
+        List<Item> results = extractor.extract(Arrays.asList(new File("t")), errors);
+
+        assertThat(errors, empty());
+        assertThat(results.size(), is(7));
+
+        Optional<Item> item;
+
+        // check Käufe
+        // security
+        item = results.stream().filter(i -> i instanceof SecurityItem).findFirst();
+        assertThat(item.isPresent(), is(true));
+        Security security = ((SecurityItem) item.get()).getSecurity();
+        assertThat(security.getIsin(), is("DE000VN4LAU4"));
+        assertThat(security.getWkn(), is("VN4LAU"));
+        assertThat(security.getName(), is("VONT.FINL PR CALL17 DAX"));
+
+        item = results.stream().filter(i -> i instanceof BuySellEntryItem).findFirst();
+        assertThat(item.isPresent(), is(true));
+        assertThat(item.get().getSubject(), instanceOf(BuySellEntry.class));
+        BuySellEntry entry = (BuySellEntry) item.get().getSubject();
+
+        assertThat(entry.getPortfolioTransaction().getType(), is(PortfolioTransaction.Type.BUY));
+        assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
+
+        assertThat(entry.getPortfolioTransaction().getAmount(), is(Values.Amount.factorize(1036.40)));
+        assertThat(entry.getPortfolioTransaction().getDate(), is(LocalDate.parse("2017-01-02")));
+        assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE),
+                        is(Money.of("EUR", Values.Amount.factorize(3.90))));
+        assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1750)));
+
+        Item item2;
+
+        item2 = results.stream().filter(i -> i instanceof SecurityItem).collect(Collectors.toList()).get(1);
+        security = ((SecurityItem) item2).getSecurity();
+        assertThat(security.getIsin(), is("DE000VN547F8"));
+        assertThat(security.getWkn(), is("VN547F"));
+        assertThat(security.getName(), is("VONT.FINL PR PUT17 DAX"));
+
+        item2 = results.stream().filter(i -> i instanceof BuySellEntryItem).collect(Collectors.toList()).get(1);
+        assertThat(item2.getSubject(), instanceOf(BuySellEntry.class));
+        entry = (BuySellEntry) item2.getSubject();
+
+        assertThat(entry.getPortfolioTransaction().getType(), is(PortfolioTransaction.Type.BUY));
+        assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
+
+        assertThat(entry.getPortfolioTransaction().getAmount(), is(Values.Amount.factorize(1003.90)));
+        assertThat(entry.getPortfolioTransaction().getDate(), is(LocalDate.parse("2017-01-02")));
+        assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE),
+                        is(Money.of("EUR", Values.Amount.factorize(3.90))));
+        assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1250)));
+
+        // check Verkäufe
+        item2 = results.stream().filter(i -> i instanceof BuySellEntryItem).collect(Collectors.toList()).get(2);
+        assertThat(item2.getSubject(), instanceOf(BuySellEntry.class));
+        entry = (BuySellEntry) item2.getSubject();
+
+        assertThat(entry.getPortfolioTransaction().getType(), is(PortfolioTransaction.Type.SELL));
+        assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
+
+        assertThat(entry.getPortfolioTransaction().getAmount(), is(Values.Amount.factorize(1232.40)));
+        assertThat(entry.getPortfolioTransaction().getDate(), is(LocalDate.parse("2017-01-02")));
+        assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE),
+                        is(Money.of("EUR", Values.Amount.factorize(3.90))));
+        assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1750)));
+
+        item2 = results.stream().filter(i -> i instanceof BuySellEntryItem).collect(Collectors.toList()).get(3);
+        assertThat(item2.getSubject(), instanceOf(BuySellEntry.class));
+        entry = (BuySellEntry) item2.getSubject();
+
+        assertThat(entry.getPortfolioTransaction().getType(), is(PortfolioTransaction.Type.SELL));
+        assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
+
+        assertThat(entry.getPortfolioTransaction().getAmount(), is(Values.Amount.factorize(844.10)));
+        assertThat(entry.getPortfolioTransaction().getDate(), is(LocalDate.parse("2017-01-02")));
+        assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE),
+                        is(Money.of("EUR", Values.Amount.factorize(5.90))));
+        assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1250)));
+
+        // check Steuererstattung
+        Item itemTaxReturn = results.stream().filter(i -> i instanceof TransactionItem).collect(Collectors.toList())
+                        .get(0);
+
+        AccountTransaction entryTaxReturn = (AccountTransaction) itemTaxReturn.getSubject();
+        assertThat(entryTaxReturn.getType(), is(AccountTransaction.Type.TAX_REFUND));
+        assertThat(entryTaxReturn.getMonetaryAmount(), is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(44.72))));
+        assertThat(entryTaxReturn.getDate(), is(is(LocalDate.parse("2017-01-02"))));
+    }
+
+    @Test
+    public void testSteuertopfoptimierung() throws IOException
+    {
+        FlatexPDFExtractor extractor = new FlatexPDFExtractor(new Client())
+        {
+            @Override
+            String strip(File file) throws IOException
+            {
+                return from("FlatexSteuertopfoptimierung.txt");
+            }
+        };
+        List<Exception> errors = new ArrayList<Exception>();
+
+        List<Item> results = extractor.extract(Arrays.asList(new File("t")), errors);
+
+        assertThat(errors, empty());
+        assertThat(results.size(), is(1));
+
+        Optional<Item> item = results.stream().filter(i -> i instanceof TransactionItem).findFirst();
+        assertThat(item.isPresent(), is(true));
+        assertThat(item.get().getSubject(), instanceOf(AccountTransaction.class));
+        AccountTransaction transaction = (AccountTransaction) item.get().getSubject();
+
+        assertThat(transaction.getType(), is(AccountTransaction.Type.TAX_REFUND));
+        assertThat(transaction.getDate(), is(LocalDate.parse("2016-12-31")));
+        assertThat(transaction.getAmount(), is(Values.Amount.factorize(4.94)));
+        assertThat(transaction.getCurrencyCode(), is("EUR"));
+    }
 
    private String from(String resource)
     {
