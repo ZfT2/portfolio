@@ -76,12 +76,20 @@ public abstract class AbstractPDFExtractor implements Extractor
 
         List<Item> results = new ArrayList<>();
 
-        if (!(inputFile instanceof PDFInputFile))
+        String text = null;
+        if (inputFile instanceof PDFInputFile)
+        {
+            text = ((PDFInputFile) inputFile).getText();
+        }
+        else if (inputFile instanceof PDFTextInputFile)
+        {
+            text = ((PDFTextInputFile) inputFile).getText();
+        }
+        else
+        {
             throw new IllegalArgumentException();
-
-        String text = ((PDFInputFile) inputFile).getText();
+        }
         results.addAll(extract(inputFile.getFile().getName(), text, errors));
-
         this.securityCache = null;
 
         return results;

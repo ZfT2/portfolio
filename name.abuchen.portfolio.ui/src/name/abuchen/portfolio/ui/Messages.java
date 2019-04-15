@@ -758,7 +758,9 @@ public class Messages extends NLS
     public static String PageDescriptionSelectSecurity;
     public static String PageTitleSelectSecurity;
     public static String PDFImportDebugTextExtraction;
+    public static String PDFImportDebugTextImport;
     public static String PDFImportFilterName;
+    public static String PDFTextImportFilterName;
     public static String PDFImportWizardDescription;
     public static String PDFImportWizardMsgExtracting;
     public static String PDFImportWizardTitle;
