@@ -1,0 +1,61 @@
+﻿```
+PDFBox Version: 1.8.17
+Portfolio Performance Version: 0.68.4
+-----------------------------------------
+10919 Berlin Seite 1 von 2
+Depotnummer 500229442
+Kundennummer 51812597
+Max Muster
+Auftragsnummer 9502409400
+Herrn Datum 26.06.2018
+Max Muster
+Musterstr. 2
+54321 Musterhausen
+Einlösung bei Gesamtfälligkeit
+Nominale Wertpapierbezeichnung ISIN (WKN)
+EUR 7.000,00 8,75 % METALCORP GROUP B.V. DE000A1HLTD2 (A1HLTD)
+EO-ANLEIHE 2013(18)
+Rückzahlungskurs 100 % Rückzahlungsdatum 27.06.2018
+Rückzahlungswährung EUR Fälligkeitstag 27.06.2018
+Bestandsstichtag 26.06.2018
+Rückzahlungsbetrag 7.000,00+ EUR
+Einnahmen Differenzmethode (§ 43a Abs. 2 S.2 EStG) 570,74 EUR
+Verrechnete sonstige negative Kapitalerträge 209,26- EUR
+Verrechneter Sparer-Pauschbetrag 50,00- EUR
+Berechnungsgrundlage für die Kapitalertragsteuer 311,48 EUR
+Kapitalertragsteuer 24,45 % auf 311,48 EUR 76,16- EUR
+Solidaritätszuschlag 5,5 % auf 76,16 EUR 4,18- EUR
+Kirchensteuer 9 % auf 76,16 EUR 6,85- EUR
+Ausmachender Betrag 6.912,81+ EUR
+Den Betrag buchen wir zu Gunsten Ihres Kontos 14446074 (IBAN DE30 1203 0000 0014 4460 96), BLZ 12030000 (BIC
+BYLADEM1001).
+Die Wertpapiere entnehmen wir Ihrem Depotkonto.
+Es wurde keine Steuerbescheinigung erstellt.
+Steuerliche Ausgleichrechnung
+Berechnungsgrundlage für die Kapitalertragsteuer 0,00 EUR
+0883.06262200.0000010FA02
+Seite 2 von 2
+Depotnummer 500229442
+Kundennummer 51812597
+Auftragsnummer 9502409400
+Datum 26.06.2018
+Nachrichtlich die Übersicht Ihrer Verrechnungs- und Steuertopfsalden zum Zeitpunkt der Erstellung der Abrechnung.
+Verlustverrechnungstöpfe 2018 Berechnungsgrundlage
+der gezahlten Steuern
+Euro Aktien Sonstige Sparer- anrechenbare Aktien und Sonstige
+Pauschbetrag Quellensteuer
+Vorher 0,00 209,26 50,00 0,00 0,00
+Einnahmen 0,00 209,26- 50,00- 0,00 311,48
+Kapitalrückzahlung
+Nachher 0,00 0,00 0,00 0,00 311,48
+Berücksichtigte Anschaffungsgeschäfte (alle Beträge in EUR)
+Geschäftsart Auftragsnr. Ausführungstag Whr./St. Nennwert/Stück Anschaffungskosten ant. Erlös ant. Ergebnis
+/Unit
+Kauf 2025106900 02.07.2013 EUR 2.000,0000 1.992,76 2.000,00 7,24
+Kauf 4957524800 25.11.2015 EUR 2.000,0000 1.957,50 2.000,00 42,50
+Kauf 6055562600 13.04.2016 EUR 3.000,0000 2.479,00 3.000,00 521,00
+Summe Differenzmethode und Ersatzbemessungsgrundlage 570,74
+Dieses Dokument wurde maschinell erstellt und wird nicht unterschrieben.
+0883.06262200.0000011FA02
+
+```

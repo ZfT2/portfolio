@@ -1,0 +1,56 @@
+﻿```
+PDFBox Version: 1.8.17
+Portfolio Performance Version: 0.68.5.qualifier
+-----------------------------------------
+10919 Berlin Seite 1 von 2
+Depotnummer 500229442
+Kundennummer 51812597
+Max Muster
+Belegnummer 61183998
+Herrn Datum 14.10.2019
+Max Muster
+Musterstr. 2
+54321 Musterhausen
+Ausbuchung wertloser Optionsscheine oder Zertifikate
+Nominale Wertpapierbezeichnung ISIN (WKN)
+Stück 2.050 GOLDMAN SACHS WERTPAPIER GMBH DE000GB1ZNV4 (GB1ZNV)
+PUT 09.10.19 DAX 11950
+Sehr geehrter Herr Muster,
+folgenden Depotbestand haben wir mit Valuta 14.10.2019 ersatzlos ausgebucht:
+Ausbuchung
+Stück 2.050- GOLDMAN SACHS WERTPAPIER GMBH DE000GB1ZNV4 (GB1ZNV)
+PUT 09.10.19 DAX 11950
+Es ergab sich kein positiver Differenzbetrag.
+Ihre Fragen beantworten wir gern.
+Mit freundlichen Grüßen
+Deutsche Kreditbank AG
+Ermittlung steuerrelevanter Erträge auf Folgeseite.
+0883.10142311.0000001KM50
+Seite 2 von 2
+Depotnummer 500229442
+Kundennummer 51812597
+Belegnummer 61183998
+Datum 14.10.2019
+Ermittlung steuerrelevanter Erträge
+Veräußerungsergebnis (Differenzmethode) 1.016,80- EUR
+Bemessungsgrundlage für die Kapitalertragsteuer 1.016,80- EUR
+Eingebuchte sonstige negative Kapitalerträge 1.016,80 EUR
+Berechnungsgrundlage für die Kapitalertragsteuer 0,00 EUR
+Nachrichtlich die Übersicht Ihrer Verrechnungs- und Steuertopfsalden zum Zeitpunkt der Erstellung der Abrechnung.
+Verlustverrechnungstöpfe Berechnungsgrundlage
+der gezahlten Steuern
+Euro Aktien Sonstige Sparer- anrechenbare Aktien und Sonstige
+Pauschbetrag Quellensteuer
+Vorher 0,00 1.777,06 50,00 0,00 0,00
+Veräußerungs- 0,00 1.016,80 0,00 0,00 0,00
+geschäft
+Nachher 0,00 2.793,86 50,00 0,00 0,00
+Berücksichtigte Anschaffungsgeschäfte (alle Beträge in EUR)
+Geschäftsart Auftragsnr. Ausführungstag Whr./St. Nennwert/Stück Anschaffungskosten ant. Verkaufserlös ant. Ergebnis
+Kauf 1452525900 08.10.2019 Stück 2.050,0000 1.016,80 0,00 1.016,80-
+Summe Differenzmethode und Ersatzbemessungsgrundlage 1.016,80-
+Dieses Dokument wurde maschinell erstellt und wird nicht unterschrieben.
+0883.10142311.0000002KM50
+0883.10142311.0000003KM50
+
+```

@@ -20,9 +20,12 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasTicker;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasWkn;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.interest;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.interestCharge;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.outboundDelivery;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.purchase;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.removal;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.sale;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.security;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.taxRefund;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.taxes;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.withFailureMessage;
 import static name.abuchen.portfolio.datatransfer.ExtractorTestUtilities.countAccountTransactions;
@@ -1131,6 +1134,37 @@ public class DkbPDFExtractorTest
                         is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(0.00))));
         assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE),
                         is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(0.00))));
+    }
+
+    @Test
+    public void testWertpapierVerkauf12()
+    {
+        DkbPDFExtractor extractor = new DkbPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Verkauf12.txt"), errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(1L));
+        assertThat(countBuySell(results), is(1L));
+        assertThat(countAccountTransactions(results), is(0L));
+        assertThat(results.size(), is(2));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000A1HLTD2"), hasWkn("A1HLTD"), hasTicker(null), //
+                        hasName("8,75 % METALCORP GROUP B.V. EO-ANLEIHE 2013(18)"), //
+                        hasCurrencyCode("EUR"))));
+
+        // assert transaction
+        assertThat(results, hasItem(sale(
+                        hasDate("2018-06-27"), hasShares(70),
+                        hasSource("Verkauf12.txt"),
+                        hasAmount("EUR", 6912.81), hasGrossValue("EUR", 7000.00),  //
+                        hasNote("Auftragsnummer 9502409400 | Rückzahlungskurs 100 %"),
+                        hasTaxes("EUR", 87.19), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -2390,6 +2424,36 @@ public class DkbPDFExtractorTest
     }
 
     @Test
+    public void testDividende18()
+    {
+        DkbPDFExtractor extractor = new DkbPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Dividende18.txt"), errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(1L));
+        assertThat(countAccountTransactions(results), is(1L));
+        assertThat(results.size(), is(2));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000A1TNA39"), hasWkn("A1TNA3"), hasTicker(null), //
+                        hasName("RICKMERS HOLDING AG ANLEIHE V.2013(2018)"), //
+                        hasCurrencyCode("EUR"))));
+
+        // check dividends transaction
+        assertThat(results, hasItem(dividend( //
+                        hasDate("2017-06-12"), hasShares(700), //
+                        hasSource("Dividende18.txt"), //
+                        hasNote("Abrechnungsnr. 66026715450"), //
+                        hasAmount("EUR", 5192.93), hasGrossValue("EUR", 6212.50), //
+                        hasTaxes("EUR", 1019.57), hasFees("EUR", 0.00))));
+    }
+
+    @Test
     public void testWertpapierAusgang01()
     {
         DkbPDFExtractor extractor = new DkbPDFExtractor(new Client());
@@ -2400,38 +2464,77 @@ public class DkbPDFExtractorTest
                         errors);
 
         assertThat(errors, empty());
+        assertThat(countSecurities(results), is(1L));
+        assertThat(countAccountTransactions(results), is(1L));
         assertThat(results.size(), is(2));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
         // check security
-        Security security = results.stream().filter(SecurityItem.class::isInstance).findFirst()
-                        .orElseThrow(IllegalArgumentException::new).getSecurity();
-        assertThat(security.getIsin(), is("DE000US9RGR9"));
-        assertThat(security.getWkn(), is("US9RGR"));
-        assertNull(security.getTickerSymbol());
-        assertThat(security.getName(), is("24,75 % UBS AG (LONDON BRANCH) EO-ANL. 14(16) RWE"));
-        assertThat(security.getCurrencyCode(), is(CurrencyUnit.EUR));
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000US9RGR9"), hasWkn("US9RGR"), hasTicker(null), //
+                        hasName("24,75 % UBS AG (LONDON BRANCH) EO-ANL. 14(16) RWE"), //
+                        hasCurrencyCode("EUR"))));
 
-        // check transfer_out transaction
-        BuySellEntry entry = (BuySellEntry) results.stream().filter(BuySellEntryItem.class::isInstance).findFirst()
-                        .orElseThrow(IllegalArgumentException::new).getSubject();
+        // assert transaction
+        assertThat(results, hasItem(outboundDelivery(hasDate("2015-11-30"), hasShares(250),
+                        hasSource("WertpapierAusgang01.txt"), hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasNote("Auftragsnummer 489130/67.00 | Depotkonto-Nr. 100235452280"))));
+    }
 
-        assertThat(entry.getPortfolioTransaction().getType(), is(PortfolioTransaction.Type.TRANSFER_OUT));
-        assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.TRANSFER_OUT));
+    @Test
+    public void testWertpapierAusgang02()
+    {
+        DkbPDFExtractor extractor = new DkbPDFExtractor(new Client());
 
-        assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2015-11-30T00:00")));
-        assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(250)));
-        assertThat(entry.getSource(), is("WertpapierAusgang01.txt"));
-        assertThat(entry.getNote(), is("Auftragsnummer 489130/67.00 | Depotkonto-Nr. 100235452280"));
+        List<Exception> errors = new ArrayList<>();
 
-        assertThat(entry.getPortfolioTransaction().getMonetaryAmount(),
-                        is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(0.00))));
-        assertThat(entry.getPortfolioTransaction().getGrossValue(),
-                        is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(0.00))));
-        assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.TAX),
-                        is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(0.00))));
-        assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE),
-                        is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(0.00))));
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "WertpapierAusgang02.txt"),
+                        errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(1L));
+        assertThat(countAccountTransactions(results), is(1L));
+        assertThat(results.size(), is(2));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000BAY0017"), hasWkn("BAY001"), hasTicker(null), //
+                        hasName("BAYER AG NAMENS-AKTIEN O.N."), //
+                        hasCurrencyCode("EUR"))));
+
+        // assert transaction
+        assertThat(results, hasItem(outboundDelivery(hasDate("2024-03-25"), hasShares(250),
+                        hasSource("WertpapierAusgang02.txt"), hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasNote("Auftragsnummer 830154/51.00 | Depotkonto-Nr. 1002322280"))));
+    }
+
+    @Test
+    public void testWertpapierAusbuchung01()
+    {
+        DkbPDFExtractor extractor = new DkbPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "WertpapierAusbuchung01.txt"),
+                        errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(1L));
+        assertThat(countAccountTransactions(results), is(1L));
+        assertThat(results.size(), is(2));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000GB1ZNV4"), hasWkn("GB1ZNV"), hasTicker(null), //
+                        hasName("GOLDMAN SACHS WERTPAPIER GMBH PUT 09.10.19 DAX 11950"), //
+                        hasCurrencyCode("EUR"))));
+
+        // assert transaction
+        assertThat(results, hasItem(outboundDelivery(hasDate("2019-10-14"), hasShares(2050),
+                        hasSource("WertpapierAusbuchung01.txt"), hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasNote("Belegnummer 61183998"))));
     }
 
     @Test
@@ -5072,5 +5175,48 @@ public class DkbPDFExtractorTest
         assertThat(transaction.getAmount(), is(Values.Amount.factorize(8.99)));
         assertThat(transaction.getSource(), is("KreditKontoauszug06.txt"));
         assertThat(transaction.getNote(), is("ZAHLUNG6"));
+    }
+
+    @Test
+    public void testWertpapierErtragStorno01()
+    {
+        DkbPDFExtractor extractor = new DkbPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "WertpapierErtragStorno01.txt"),
+                        errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(1L));
+        assertThat(countAccountTransactions(results), is(2L));
+        assertThat(results.size(), is(3));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000A1TNA39"), hasWkn("A1TNA3"), hasTicker(null), //
+                        hasName("RICKMERS HOLDING AG ANLEIHE V.2013(2018)"), //
+                        hasCurrencyCode("EUR"))));
+
+        // check dividends transaction
+        assertThat(results, hasItem(withFailureMessage( //
+                        Messages.MsgErrorOrderCancellationUnsupported, //
+                        dividend( //
+                                        hasDate("2017-06-12"), hasShares(700), //
+                                        hasSource("WertpapierErtragStorno01.txt"), //
+                                        hasNote("Abrechnungsnr. 66026715450"), //
+                                        hasAmount("EUR", -6212.50), hasGrossValue("EUR", -6212.50), //
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+
+        // check tax refund transaction
+        assertThat(results, hasItem(withFailureMessage( //
+                        Messages.MsgErrorOrderCancellationUnsupported, //
+                        taxRefund( //
+                                        hasDate("2017-06-12"), hasShares(700), //
+                                        hasSource("WertpapierErtragStorno01.txt"), //
+                                        hasNote("Abrechnungsnr. 66026715450"), //
+                                        hasAmount("EUR", 1019.57), hasGrossValue("EUR", 1019.57), //
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
     }
 }

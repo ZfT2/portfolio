@@ -1,0 +1,31 @@
+﻿```
+PDFBox Version: 1.8.17
+Portfolio Performance Version: 0.68.5.qualifier
+-----------------------------------------
+10919 Berlin
+Depotnummer 1003232541
+Kundennummer 51812597
+Max Mustermann
+Auftragsnummer 830154/51.00
+Herrn Datum 25.03.2024
+Max Mustermann Umsatzsteuer-ID DE137178746
+Musterstr. 2
+54321 Musterhausen
+Depotbuchung - Belastung
+unentgeltlicher Depotübertrag, Gläubigeridentität
+Anschaffungsdaten werden soweit vorhanden und gesetzlich vorgesehen übermittelt.
+Nominale Wertpapierbezeichnung ISIN (WKN)
+Stück 250 BAYER AG DE000BAY0017 (BAY001)
+NAMENS-AKTIEN O.N.
+Girosammelverwahrung - Sammel-Urkunden in Namensaktien
+Schlusstag 21.03.2024 Auftrags-Nr. 830154/51.00
+Valuta 25.03.2024 externe Referenz-Nr. KP40030120651080
+Empfängerdaten
+Depotkonto-Inhaber Max Mustermann
+Depotkonto-Nr. 1002322280
+flatex Bank AG
+Die entsprechenden Werte haben wir Ihrem Depotkonto belastet.
+Dieses Dokument wurde maschinell erstellt und wird nicht unterschrieben.
+0883.03252100.0000063OD06
+
+```

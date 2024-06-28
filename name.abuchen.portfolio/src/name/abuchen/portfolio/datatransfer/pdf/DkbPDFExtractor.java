@@ -63,6 +63,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
         addBuySellTransaction();
         addDividendeTransaction();
         addTransferOutTransaction();
+        addDeliveryOutboundTransaction();
         addAdvanceTaxTransaction();
         addBuyTransactionFundsSavingsPlan();
         addAccountStatementTransaction_Format01();
@@ -88,7 +89,8 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         + "|R.cknahme Investmentfonds" //
                         + "|Gesamtk.ndigung" //
                         + "|Teilr.ckzahlung mit Nennwert.nderung" //
-                        + "|Teilliquidation mit Nennwertreduzierung)", isJointAccount);
+                        + "|Teilliquidation mit Nennwertreduzierung" 
+                        + "|Einl.sung bei Gesamtf.lligkeit)", isJointAccount);
         this.addDocumentTyp(type);
 
         Transaction<BuySellEntry> pdfTransaction = new Transaction<>();
@@ -104,7 +106,8 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         + "|R.cknahme Investmentfonds" //
                         + "|Gesamtk.ndigung" //
                         + "|Teilr.ckzahlung mit Nennwert.nderung" //
-                        + "|Teilliquidation mit Nennwertreduzierung)$");
+                        + "|Teilliquidation mit Nennwertreduzierung" 
+                        + "|Einl.sung bei Gesamtf.lligkeit)$");
         type.addBlock(firstRelevantLine);
         firstRelevantLine.set(pdfTransaction);
 
@@ -131,7 +134,8 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                                         + "|Verkauf aus Kapitalmaßnahme" //
                                         + "|R.cknahme Investmentfonds" + "|Gesamtk.ndigung"
                                         + "|Teilr.ckzahlung mit Nennwert.nderung"
-                                        + "|Teilliquidation mit Nennwertreduzierung))$") //
+                                        + "|Teilliquidation mit Nennwertreduzierung)"
+                                        + "|Einl.sung bei Gesamtf.lligkeit)$") //
                         .assign((t, v) -> {
                             if ("Verkauf".equals(v.get("type")) //
                                             || "Verkauf Direkthandel".equals(v.get("type")) //
@@ -139,7 +143,8 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                                             || "Rücknahme Investmentfonds".equals(v.get("type")) //
                                             || "Gesamtkündigung".equals(v.get("type")) //
                                             || "Teilrückzahlung mit Nennwertänderung".equals(v.get("type"))
-                                            || "Teilliquidation mit Nennwertreduzierung".equals(v.get("type"))) //
+                                            || "Teilliquidation mit Nennwertreduzierung".equals(v.get("type")) //
+                                            || "Einlösung bei Gesamtfälligkeit".equals(v.get("type"))) //
                                 t.setType(PortfolioTransaction.Type.SELL);
                         })
 
@@ -247,6 +252,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                                         section -> section //
                                                         .attributes("date") //
                                                         .match("^Den (Gegenwert|Betrag) buchen wir mit Valuta (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                                                        .assign((t, v) -> t.setDate(asDate(v.get("date")))),
+                                        // @formatter:off
+                                        // Rückzahlungskurs 100 % Rückzahlungsdatum 27.06.2018
+                                        // @formatter:on
+                                        section -> section //
+                                                        .attributes("date") //
+                                                        .match("^.* R.ckzahlungsdatum (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
                                                         .assign((t, v) -> t.setDate(asDate(v.get("date")))))
 
                         // @formatter:off
@@ -324,12 +336,25 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
         type.addBlock(firstRelevantLine);
         firstRelevantLine.set(pdfTransaction);
 
+        // Handshake for tax refund transaction
+        Map<String, String> context = type.getCurrentContext();
+
         pdfTransaction //
 
                         .subject(() -> {
                             AccountTransaction accountTransaction = new AccountTransaction();
                             accountTransaction.setType(AccountTransaction.Type.DIVIDENDS);
                             return accountTransaction;
+                        })
+
+                        // @formatter:off
+                        // Storno, da die Zahlung durch die Gesellschaft
+                        // @formatter:on
+                        .section("type").optional() //
+                        .find("^Storno.*$") //
+                        .match("^(?<type>Storno).*$") //
+                        .assign((t, v) -> { 
+                            v.getTransactionContext().put(FAILURE, Messages.MsgErrorOrderCancellationUnsupported);
                         })
 
                         .oneOf( //
@@ -390,6 +415,11 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                             {
                                 t.setShares(asShares(v.get("shares")));
                             }
+                            context.put("name", t.getSecurity().getName());
+                            context.put("isin", t.getSecurity().getIsin());
+                            context.put("wkn", t.getSecurity().getWkn());
+
+                            context.put("shares", getNumberFormat().format(t.getShares() / Values.Share.divider()));
                         })
 
                         // @formatter:off
@@ -399,15 +429,27 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         .match("^Den Betrag buchen wir mit Wertstellung (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .*$") //
                         .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
 
-                        // @formatter:off
-                        // Ausmachender Betrag 144,52+ EUR
-                        // @formatter:on
-                        .section("amount", "currency") //
-                        .match("^Ausmachender Betrag (?<amount>[\\.,\\d]+)\\+ (?<currency>[\\w]{3})$") //
-                        .assign((t, v) -> {
-                            t.setAmount(asAmount(v.get("amount")));
-                            t.setCurrencyCode(asCurrencyCode(v.get("currency")));
-                        })
+                        .oneOf(
+                            // @formatter:off
+                            // Ausmachender Betrag 144,52+ EUR
+                            // @formatter:on
+                            section -> section.attributes("amount", "currency") //
+                            .match("^Ausmachender Betrag (?<amount>[\\.,\\d]+)\\+ (?<currency>[\\w]{3})$") //
+                            .assign((t, v) -> {
+                                t.setAmount(asAmount(v.get("amount")));
+                                t.setCurrencyCode(asCurrencyCode(v.get("currency")));
+                            })
+                         ,
+                            // @formatter:off
+                            // Zinsertrag 6.212,50- EUR
+                            // @formatter:on
+                            section -> section.attributes("amount", "currency") //
+                            .match("^Zinsertrag (?<amount>[\\.,\\d]+)\\- (?<currency>[\\w]{3})$") //
+                            .assign((t, v) -> {
+                                t.setAmount(asAmount(v.get("amount")) * -1);
+                                t.setCurrencyCode(asCurrencyCode(v.get("currency")));
+                            })
+                        )
 
                         // @formatter:off
                         // Devisenkurs EUR / CHF 1,1959
@@ -450,10 +492,18 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .conclude(ExtractorUtils.fixGrossValueA())
 
-                        .wrap(TransactionItem::new);
+                        .wrap((t, ctx) -> {
+                            TransactionItem item = new TransactionItem(t);
+
+                            if (ctx.getString(FAILURE) != null)
+                                item.setFailureMessage(ctx.getString(FAILURE));
+
+                            return item;
+                        });
 
         addTaxesSectionsTransaction(pdfTransaction, type);
         addFeesSectionsTransaction(pdfTransaction, type);
+        addTaxReturnBlockCancellation(context, type);
     }
 
     private void addTransferOutTransaction()
@@ -461,7 +511,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
         DocumentType type = new DocumentType("Depotbuchung \\- Belastung", isJointAccount);
         this.addDocumentTyp(type);
 
-        Transaction<BuySellEntry> pdfTransaction = new Transaction<>();
+        Transaction<PortfolioTransaction> pdfTransaction = new Transaction<>();
 
         Block firstRelevantLine = new Block("^Depotnummer.*$");
         type.addBlock(firstRelevantLine);
@@ -470,38 +520,61 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
         pdfTransaction //
 
                         .subject(() -> {
-                            BuySellEntry portfolioTransaction = new BuySellEntry();
-                            portfolioTransaction.setType(PortfolioTransaction.Type.TRANSFER_OUT);
+                            PortfolioTransaction portfolioTransaction = new PortfolioTransaction();
+                            portfolioTransaction.setType(PortfolioTransaction.Type.DELIVERY_OUTBOUND);
                             return portfolioTransaction;
                         })
 
-                        // @formatter:off
-                        // Nominale Wertpapierbezeichnung ISIN (WKN)
-                        // EUR 25.000,00 24,75 % UBS AG (LONDON BRANCH) DE000US9RGR9 (US9RGR)
-                        // EO-ANL. 14(16) RWE
-                        // @formatter:on
-                        .section("currency", "shares", "name", "isin", "wkn", "nameContinued") //
-                        .find("Nominale Wertpapierbezeichnung ISIN \\(WKN\\)") //
-                        .match("^(?<currency>[\\w]{3}) (?<shares>[\\.,\\d]+) (?<name>.*) (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9]) \\((?<wkn>.*)\\)$") //
-                        .match("^(?<nameContinued>.*)$") //
-                        .assign((t, v) -> {
-                            t.setSecurity(getOrCreateSecurity(v));
+                        .oneOf(
+                            // @formatter:off
+                            // Nominale Wertpapierbezeichnung ISIN (WKN)
+                            // EUR 25.000,00 24,75 % UBS AG (LONDON BRANCH) DE000US9RGR9 (US9RGR)
+                            // EO-ANL. 14(16) RWE
+                            //Stück 250 BAYER AG DE000BAY0017 (BAY001)
+                            //NAMENS-AKTIEN O.N.
+                            // @formatter:on
+                            section -> section.attributes("currency", "shares", "name", "isin", "wkn", "nameContinued") //
+                            .find("Nominale Wertpapierbezeichnung ISIN \\(WKN\\)") //
+                            .match("^(?<currency>[\\w]{3}) (?<shares>[\\.,\\d]+) (?<name>.*) (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9]) \\((?<wkn>.*)\\)$") //
+                            .match("^(?<nameContinued>.*)$") //
+                            .assign((t, v) -> {
+                                t.setSecurity(getOrCreateSecurity(v));
+    
+                                // Percentage quotation, workaround for bonds
+                                BigDecimal shares = asBigDecimal(v.get("shares"));
+                                t.setShares(Values.Share.factorize(shares.doubleValue() / 100));
+    
+                                t.setAmount(0L);
+                                t.setCurrencyCode(asCurrencyCode(
+                                                                            t.getSecurity().getCurrencyCode()));
+                            })
+                        ,
+                            // @formatter:off
+                            // Nominale Wertpapierbezeichnung ISIN (WKN)
+                            //Stück 250 BAYER AG DE000BAY0017 (BAY001)
+                            //NAMENS-AKTIEN O.N.
+                            // @formatter:on
+                                        section -> section.attributes("shares", "name", "isin", "wkn", "nameContinued") //
+                            .find("Nominale Wertpapierbezeichnung ISIN \\(WKN\\)") //
+                                                        .match("^St.ck (?<shares>[\\.,\\d]+) (?<name>.*) (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9]) \\((?<wkn>.*)\\)$") //
+                            .match("^(?<nameContinued>.*)$") //
+                            .assign((t, v) -> {
+                                t.setSecurity(getOrCreateSecurity(v));
 
-                            // Percentage quotation, workaround for bonds
-                            BigDecimal shares = asBigDecimal(v.get("shares"));
-                            t.setShares(Values.Share.factorize(shares.doubleValue() / 100));
-
-                            t.setAmount(0L);
-                            t.setCurrencyCode(asCurrencyCode(
-                                            t.getPortfolioTransaction().getSecurity().getCurrencyCode()));
-                        })
+                                                            t.setShares(asShares(v.get("shares")));
+    
+                                t.setAmount(0L);
+                                t.setCurrencyCode(asCurrencyCode(
+                                                                            t.getSecurity().getCurrencyCode()));
+                            })
+                        )
 
                         // @formatter:off
                         // Valuta 30.11.2015 externe Referenz-Nr. KP40030120300340
                         // @formatter:on
                         .section("date") //
                         .match("^Valuta (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .*$") //
-                        .assign((t, v) -> t.setDate(asDate(v.get("date"))))
+                        .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
 
                         // @formatter:off
                         // Auftragsnummer 489130/67.00
@@ -517,7 +590,69 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         .match("^(?<note>Depotkonto\\-Nr\\. .*)$") //
                         .assign((t, v) -> t.setNote(concatenate(t.getNote(), trim(v.get("note")), " | ")))
 
-                        .wrap(BuySellEntryItem::new);
+                        .wrap(TransactionItem::new);
+    }
+
+    private void addDeliveryOutboundTransaction()
+    {
+        DocumentType type = new DocumentType("Ausbuchung wertloser", isJointAccount);
+        this.addDocumentTyp(type);
+
+        Transaction<PortfolioTransaction> pdfTransaction = new Transaction<>();
+
+        Block firstRelevantLine = new Block("^Ausbuchung wertloser Optionsscheine oder Zertifikate.*$");
+        type.addBlock(firstRelevantLine);
+        firstRelevantLine.set(pdfTransaction);
+
+        pdfTransaction //
+
+                        .subject(() -> {
+                            PortfolioTransaction portfolioTransaction = new PortfolioTransaction();
+                            portfolioTransaction.setType(PortfolioTransaction.Type.DELIVERY_OUTBOUND);
+                            return portfolioTransaction;
+                        })
+
+                        // @formatter:off
+                        // Nominale Wertpapierbezeichnung ISIN (WKN)
+                        // Stück 2.050 GOLDMAN SACHS WERTPAPIER GMBH DE000GB1ZNV4 (GB1ZNV)
+                        // PUT 09.10.19 DAX 11950
+                        // @formatter:on
+                        .section("shares", "name", "isin", "wkn", "nameContinued") //
+                        .find("Nominale Wertpapierbezeichnung ISIN \\(WKN\\)") //
+                        .match("^St.ck (?<shares>[\\.,\\d]+) (?<name>.*) (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9]) \\((?<wkn>.*)\\)$") //
+                        .match("^(?<nameContinued>.*)$") //
+                        .assign((t, v) -> {
+                            t.setSecurity(getOrCreateSecurity(v));
+
+                            t.setShares(asShares(v.get("shares")));
+
+                            t.setAmount(0L);
+                            t.setCurrencyCode(asCurrencyCode(
+                                            t.getSecurity().getCurrencyCode()));
+                        })
+
+                        // @formatter:off
+                        // folgenden Depotbestand haben wir mit Valuta 14.10.2019 ersatzlos ausgebucht:
+                        // @formatter:on
+                        .section("date") //
+                        .match("^folgenden Depotbestand haben wir mit Valuta (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .*$") //
+                        .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
+
+                        // @formatter:off
+                        // Auftragsnummer 489130/67.00
+                        // @formatter:on
+                        .section("note").optional() //
+                        .match("^.*(?<note>Belegnummer .*)$") //
+                        .assign((t, v) -> t.setNote(trim(v.get("note"))))
+
+                        // @formatter:off
+                        // Depotkonto-Nr.
+                        // @formatter:on
+                        .section("note").optional() //
+                        .match("^(?<note>Depotkonto\\-Nr\\. .*)$") //
+                        .assign((t, v) -> t.setNote(concatenate(t.getNote(), trim(v.get("note")), " | ")))
+
+                        .wrap(TransactionItem::new);
     }
 
     private void addAdvanceTaxTransaction()
@@ -1491,6 +1626,88 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         .wrap(t -> {
                             if (t.getCurrencyCode() != null && t.getAmount() != 0)
                                 return new TransactionItem(t);
+                            return null;
+                        });
+    }
+
+    private void addTaxReturnBlockCancellation(Map<String, String> context, DocumentType type)
+    {
+        Transaction<AccountTransaction> pdfTransaction = new Transaction<>();
+
+        Block firstRelevantLine = new Block(
+                        "^Kapitalertragsteuer [\\.,\\d]+([\\s]+)?% .* [\\.,\\d]+ [\\w]{3} [\\.,\\d]+\\+ [\\w]{3}$");
+        type.addBlock(firstRelevantLine);
+        firstRelevantLine.set(pdfTransaction);
+
+        pdfTransaction //
+
+                        .subject(() -> {
+                            AccountTransaction accountTransaction = new AccountTransaction();
+                            accountTransaction.setType(AccountTransaction.Type.TAX_REFUND);
+                            return accountTransaction;
+                        })
+
+                        // @formatter:off
+                        // Kapitalertragsteuer 24,45 % auf 3.641,96 EUR 890,46+ EUR
+                        // @formatter:on
+                        .section("tax", "currency").optional() //
+                        .match("^Kapitalertragsteuer [\\.,\\d]+([\\s]+)?% .* [\\.,\\d]+ [\\w]{3} (?<tax>[\\.,\\d]+)\\+ (?<currency>[\\w]{3})$") //
+                        .assign((t, v) -> {
+                            t.setShares(asShares(context.get("shares")));
+                            t.setSecurity(getOrCreateSecurity(context));
+
+                            t.setCurrencyCode(asCurrencyCode(v.get("currency")));
+                            t.setAmount(t.getAmount() + asAmount(v.get("tax")));
+
+                            v.getTransactionContext().put(FAILURE, Messages.MsgErrorOrderCancellationUnsupported);
+
+                        })
+
+                        // @formatter:off
+                        // Solidaritätszuschlag 5,5 % auf 890,46 EUR 48,97+ EUR
+                        // @formatter:on
+                        .section("tax", "currency").optional() //
+                        .match("^Solidarit.tszuschlag [\\.,\\d]+([\\s]+)?% .* [\\.,\\d]+ [\\w]{3} (?<tax>[\\.,\\d]+)\\+ (?<currency>[\\w]{3})$") //
+                        .assign((t, v) -> {
+                            t.setAmount(t.getAmount() + asAmount(v.get("tax")));
+
+                        })
+
+                        // @formatter:off
+                        // Kirchensteuer 9 % auf 890,46 EUR 80,14+ EUR
+                        // @formatter:on
+                        .section("tax", "currency").optional() //
+                        .match("^Kirchensteuer [\\.,\\d]+([\\s]+)?% .* [\\.,\\d]+ [\\w]{3} (?<tax>[\\.,\\d]+)\\+ (?<currency>[\\w]{3})$") //
+                        .assign((t, v) -> {
+                            t.setAmount(t.getAmount() + asAmount(v.get("tax")));
+                        })
+
+                        // @formatter:off
+                        // Den Betrag buchen wir mit Wertstellung 12.06.2017 zu Lasten des Kontos 14446074 (IBAN DE30 1203 0000 0014 4460
+                        // @formatter:on
+                        .section("date").optional() //
+                        .match("^Den Betrag buchen wir mit Wertstellung (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) zu Lasten des Kontos .*$") //
+                        .assign((t, v) -> {
+                            t.setDateTime(asDate(v.get("date")));
+                        })
+
+                        // @formatter:off
+                        // Abrechnungsnr. 66026715450
+                        // @formatter:on
+                        .section("note").optional() //
+                        .match("^.*(?<note>Abrechnungsnr\\. [\\d]+).*$") //
+                        .assign((t, v) -> t.setNote(trim(v.get("note"))))
+
+                        .wrap((t, ctx) -> {
+                            if (t.getCurrencyCode() != null && t.getAmount() != 0)
+                            {
+                                TransactionItem item = new TransactionItem(t);
+                                if (ctx.getString(FAILURE) != null)
+                                {
+                                    item.setFailureMessage(ctx.getString(FAILURE));
+                                }
+                                return item;
+                            }
                             return null;
                         });
     }
