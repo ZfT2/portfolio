@@ -3007,6 +3007,32 @@ public class OnvistaPDFExtractorTest
     }
 
     @Test
+    public void testDividende18()
+    {
+        OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<Exception>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Dividende18.txt"), errors);
+
+        assertThat(errors, empty());
+        assertThat(results.size(), is(2));
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("LU0165915215"), hasWkn(null), hasTicker(null), //
+                        hasName("AGIF-Allianz Euro Bond Inhaber Anteile A (EUR) o.N."), //
+                        hasCurrencyCode("EUR"))));
+
+        // check dividends transaction
+        assertThat(results, hasItem(dividend( //
+                        hasDate("2015-12-17T00:00"), hasShares(156.729), //
+                        hasSource("Dividende18.txt"), hasNote("Abrechnungs-Nr. 70187215 | Ertrag für 2014/15"), //
+                        hasAmount("EUR", 7.68), //
+                        hasTaxes("EUR", 4.16), hasFees("EUR", 0.00))));
+    }
+
+    @Test
     public void testDividendeStorno01()
     {
         OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
@@ -3763,6 +3789,51 @@ public class OnvistaPDFExtractorTest
     }
 
     @Test
+    public void testReverseSplit01()
+    {
+        OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "ReverseSplit01.txt"), errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(2L));
+        assertThat(countBuySell(results), is(0L));
+        assertThat(countAccountTransactions(results), is(2L));
+        assertThat(results.size(), is(4));
+        // new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("SG1N28909355"), hasWkn(null), hasTicker(null), //
+                        hasName("Ocean Sky International Ltd Registered Shares o.N."), //
+                        hasCurrencyCode("EUR"))));
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("SG1DD2000002"), hasWkn(null), hasTicker(null), //
+                        hasName("Ocean Sky International Ltd Registered Shares o.N."), //
+                        hasCurrencyCode("EUR"))));
+
+        // check transaction
+        assertThat(results, hasItem(outboundDelivery( //
+                        hasDate("2016-11-25T00:00"), hasShares(2000), //
+                        hasSource("ReverseSplit01.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+
+        // check transaction
+        assertThat(results, hasItem(inboundDelivery( //
+                        hasDate("2016-11-25T00:00"), hasShares(1000), //
+                        hasSource("ReverseSplit01.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+    }
+
+    @Test
     public void testZwangsabfindung01()
     {
         OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
@@ -3984,6 +4055,37 @@ public class OnvistaPDFExtractorTest
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
                                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+    }
+
+    @Test
+    public void testUmtausch05()
+    {
+        OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Umtausch05.txt"), errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(1L));
+        assertThat(countBuySell(results), is(0L));
+        assertThat(countAccountTransactions(results), is(1L));
+        assertThat(results.size(), is(2));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE0008032004"), hasWkn(null), hasTicker(null), //
+                        hasName("Commerzbank AG Inhaber-Aktien o.N."), //
+                        hasCurrencyCode("EUR"))));
+
+        // check unsupported transaction
+        assertThat(results, hasItem(inboundDelivery( //
+                        hasDate("2011-06-06T00:00"), hasShares(30), //
+                        hasSource("Umtausch05.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 75.40), hasGrossValue("EUR", 65.40), //
+                        hasTaxes("EUR", 0.00), hasFees("EUR", 10.00))));
     }
 
     @Test
