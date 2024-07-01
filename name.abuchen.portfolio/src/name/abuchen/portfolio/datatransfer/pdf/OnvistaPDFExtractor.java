@@ -40,7 +40,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
         addRegistrationFeeTransaction();
         addAccountStatementTransaction();
         addChangeTransaction();
-        addNonImportableTransaction();
+        addChangeImportableTransaction();
     }
 
     @Override
@@ -1412,7 +1412,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
         addFeesSectionsTransaction(pdfTransaction, type);
     }
 
-    private void addNonImportableTransaction()
+    private void addChangeImportableTransaction()
     {
         final DocumentType type = new DocumentType("(Freier Erhalt" //
                         + "|Freie Lieferung" //
@@ -1543,7 +1543,8 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                                                                         + "|Kapitalerh.hung"
                                                                         + "|Umtausch)) .*$") //
                                                         .assign((t, v) -> {
-                                                            v.getTransactionContext().put(FAILURE, Messages.MsgErrorTransactionTypeNotSupported);
+                                                            // v.getTransactionContext().put(FAILURE,
+                                                            // Messages.MsgErrorTransactionTypeNotSupported);
 
                                                             t.setCurrencyCode(t.getSecurity().getCurrencyCode());
                                                             t.setAmount(0L);
@@ -1592,8 +1593,8 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         .wrap((t, ctx) -> {
                             TransactionItem item = new TransactionItem(t);
 
-                            if (ctx.getString(FAILURE) != null)
-                                item.setFailureMessage(ctx.getString(FAILURE));
+                            // if (ctx.getString(FAILURE) != null)
+                            // item.setFailureMessage(ctx.getString(FAILURE));
 
                             return item;
                         });

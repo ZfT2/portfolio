@@ -3269,14 +3269,13 @@ public class OnvistaPDFExtractorTest
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2022-05-25T00:00"), hasShares(6.00), //
                                         hasSource("DividendeWithOutbondDelivery01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3497,14 +3496,13 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         inboundDelivery( //
                                         hasDate("2011-04-06T00:00"), hasShares(25.00), //
                                         hasSource("Kapitalerhoehung01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3535,24 +3533,22 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorSplitTransactionsNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2013-04-24T00:00"), hasShares(55.00), //
                                         hasSource("Kapitalherabsetzung01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2013-04-24T00:00"), hasShares(5.00), //
                                         hasSource("Kapitalherabsetzung01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3622,14 +3618,13 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2024-02-07T00:00"), hasShares(50.00), //
                                         hasSource("FreieLieferung01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3656,14 +3651,13 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         inboundDelivery( //
                                         hasDate("2016-05-25T00:00"), hasShares(25.00), //
                                         hasSource("EinbuchungVonRechten01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3689,14 +3683,13 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2017-07-04T00:00"), hasShares(12.00), //
                                         hasSource("Fusion01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3900,14 +3893,13 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2011-06-06T00:00"), hasShares(33.00), //
                                         hasSource("Umtausch01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3939,24 +3931,21 @@ public class OnvistaPDFExtractorTest
 
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
-                        inboundDelivery( //
+        assertThat(results, hasItem(inboundDelivery( //
                                         hasDate("2015-11-26T00:00"), hasShares(156.729), //
                                         hasSource("Umtausch02.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2015-11-23T00:00"), hasShares(28.00), //
                                         hasSource("Umtausch02.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3988,24 +3977,22 @@ public class OnvistaPDFExtractorTest
 
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         inboundDelivery( //
                                         hasDate("2019-02-26T00:00"), hasShares(1.9315), //
                                         hasSource("Umtausch03.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2019-02-22T00:00"), hasShares(1.9315), //
                                         hasSource("Umtausch03.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -4037,24 +4024,22 @@ public class OnvistaPDFExtractorTest
 
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2020-09-04T00:00"), hasShares(14.0369), //
                                         hasSource("Umtausch04.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         inboundDelivery( //
                                         hasDate("2020-09-10T00:00"), hasShares(154.018), //
                                         hasSource("Umtausch04.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -4111,14 +4096,13 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(withFailureMessage( //
-                        Messages.MsgErrorTransactionTypeNotSupported, //
+        assertThat(results, hasItem(
                         inboundDelivery( //
                                         hasDate("2011-12-02T00:00"), hasShares(28.00), //
                                         hasSource("FreierErhalt01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
