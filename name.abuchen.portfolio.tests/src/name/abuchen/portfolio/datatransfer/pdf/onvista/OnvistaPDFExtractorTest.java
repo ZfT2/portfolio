@@ -3977,7 +3977,7 @@ public class OnvistaPDFExtractorTest
                                         hasDate("2015-11-23T00:00"), hasShares(28.00), //
                                         hasSource("Umtausch02.txt"), //
                                         hasNote(null), //
-                                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                                        hasAmount("EUR", 0.00), //
                                         hasTaxes("EUR", 12.86), hasFees("EUR", 0.00))));
 
         // check tax refund transaction

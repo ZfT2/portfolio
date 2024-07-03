@@ -1435,11 +1435,11 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         
                         .wrap((t, ctx) -> {
                             TransactionItem item = new TransactionItem(t);
+                            addTaxesSectionsTransaction(pdfTransaction, type);
 
                             return item;
                         });
         
-        addTaxesSectionsTransaction(pdfTransaction, type);
         addTaxReturnBlock(type);
     }
 
