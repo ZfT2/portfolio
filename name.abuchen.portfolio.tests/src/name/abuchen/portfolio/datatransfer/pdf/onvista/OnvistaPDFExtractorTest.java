@@ -21,6 +21,7 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.outboundDeli
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.purchase;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.sale;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.security;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.taxRefund;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.taxes;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.withFailureMessage;
 import static name.abuchen.portfolio.datatransfer.ExtractorTestUtilities.countAccountTransactions;
@@ -3491,11 +3492,11 @@ public class OnvistaPDFExtractorTest
 
         // check security
         assertThat(results, hasItem(security( //
-                        hasIsin("DE0008032004"), hasWkn(null), hasTicker(null), //
-                        hasName("Commerzbank AG Inhaber-Aktien o.N."), //
+                        hasIsin("DE000A1KRJ01"), hasWkn(null), hasTicker(null), //
+                        hasName("Commerzbank AG Inhaber-Erwerbsrechte"), //
                         hasCurrencyCode("EUR"))));
 
-        // check unsupported transaction
+        // check transaction
         assertThat(results, hasItem(
                         inboundDelivery( //
                                         hasDate("2011-04-06T00:00"), hasShares(25.00), //
@@ -3515,10 +3516,10 @@ public class OnvistaPDFExtractorTest
         List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Kapitalherabsetzung01.txt"),
                         errors);
         assertThat(errors, empty());
-        assertThat(countSecurities(results), is(2L));
+        assertThat(countSecurities(results), is(3L));
         assertThat(countBuySell(results), is(0L));
-        assertThat(countAccountTransactions(results), is(2L));
-        assertThat(results.size(), is(4));
+        assertThat(countAccountTransactions(results), is(4L));
+        assertThat(results.size(), is(7));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
         // check security
@@ -3532,19 +3533,39 @@ public class OnvistaPDFExtractorTest
                         hasName("Commerzbank AG Inhaber-Teilrechte"), //
                         hasCurrencyCode("EUR"))));
 
-        // check unsupported transaction
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000CBK1001"), hasWkn(null), hasTicker(null), //
+                        hasName("Commerzbank AG konv.Inhaber-Aktien o.N."), //
+                        hasCurrencyCode("EUR"))));
+
+        // check transaction
         assertThat(results, hasItem(
                         outboundDelivery( //
-                                        hasDate("2013-04-24T00:00"), hasShares(55.00), //
+                                        hasDate("2013-04-24T00:00"), hasShares(55), //
+                                        hasSource("Kapitalherabsetzung01.txt"), //
+                                        hasNote(null), //
+                                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+        
+        assertThat(results, hasItem(
+                        inboundDelivery( //
+                                        hasDate("2013-04-24T00:00"), hasShares(5.5), //
                                         hasSource("Kapitalherabsetzung01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
                                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
-        // check unsupported transaction
         assertThat(results, hasItem(
                         outboundDelivery( //
-                                        hasDate("2013-04-24T00:00"), hasShares(5.00), //
+                                        hasDate("2013-04-24T00:00"), hasShares(5), //
+                                        hasSource("Kapitalherabsetzung01.txt"), //
+                                        hasNote(null), //
+                                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+        
+        assertThat(results, hasItem(
+                        inboundDelivery( //
+                                        hasDate("2013-04-24T00:00"), hasShares(5), //
                                         hasSource("Kapitalherabsetzung01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -3617,10 +3638,10 @@ public class OnvistaPDFExtractorTest
                         hasName("Amundi I.S.-Am.EUR Corp.Bond Nam.-Ant.UC.ETF DR EUR Dis.oN"), //
                         hasCurrencyCode("EUR"))));
 
-        // check unsupported transaction
+        // check transaction
         assertThat(results, hasItem(
                         outboundDelivery( //
-                                        hasDate("2024-02-07T00:00"), hasShares(50.00), //
+                                        hasDate("2024-02-08T00:00"), hasShares(50.00), //
                                         hasSource("FreieLieferung01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -3646,8 +3667,8 @@ public class OnvistaPDFExtractorTest
 
         // check security
         assertThat(results, hasItem(security( //
-                        hasIsin("DE0005557508"), hasWkn(null), hasTicker(null), //
-                        hasName("Deutsche Telekom AG Namens-Aktien o.N."), //
+                        hasIsin("DE000A2AA2C3"), hasWkn(null), hasTicker(null), //
+                        hasName("Deutsche Telekom AG Dividend in Kind-Cash Line"), //
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
@@ -3670,10 +3691,10 @@ public class OnvistaPDFExtractorTest
         List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Fusion01.txt"), errors);
 
         assertThat(errors, empty());
-        assertThat(countSecurities(results), is(1L));
+        assertThat(countSecurities(results), is(2L));
         assertThat(countBuySell(results), is(0L));
-        assertThat(countAccountTransactions(results), is(1L));
-        assertThat(results.size(), is(2));
+        assertThat(countAccountTransactions(results), is(2L));
+        assertThat(results.size(), is(4));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
         // check security
@@ -3682,7 +3703,12 @@ public class OnvistaPDFExtractorTest
                         hasName("Gagfah S.A. Actions nom. EO 1,25"), //
                         hasCurrencyCode("EUR"))));
 
-        // check unsupported transaction
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000A2GS4R1"), hasWkn(null), hasTicker(null), //
+                        hasName("Vonovia SE Inhaber-Teilrechte (Gagfah)"), //
+                        hasCurrencyCode("EUR"))));
+
+        // check transaction
         assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2017-07-04T00:00"), hasShares(12.00), //
@@ -3690,6 +3716,13 @@ public class OnvistaPDFExtractorTest
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
                                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+
+        assertThat(results, hasItem(inboundDelivery( //
+                        hasDate("2017-07-04T00:00"), hasShares(6.84), //
+                        hasSource("Fusion01.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -3914,8 +3947,8 @@ public class OnvistaPDFExtractorTest
         assertThat(errors, empty());
         assertThat(countSecurities(results), is(2L));
         assertThat(countBuySell(results), is(0L));
-        assertThat(countAccountTransactions(results), is(2L));
-        assertThat(results.size(), is(4));
+        assertThat(countAccountTransactions(results), is(3L));
+        assertThat(results.size(), is(5));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
         // check security
@@ -3930,7 +3963,7 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
 
-        // check unsupported transaction
+        // check transaction
         assertThat(results, hasItem(inboundDelivery( //
                                         hasDate("2015-11-26T00:00"), hasShares(156.729), //
                                         hasSource("Umtausch02.txt"), //
@@ -3938,14 +3971,22 @@ public class OnvistaPDFExtractorTest
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
-        // check unsupported transaction
+        // check transaction
         assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2015-11-23T00:00"), hasShares(28.00), //
                                         hasSource("Umtausch02.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+                                        hasTaxes("EUR", 12.86), hasFees("EUR", 0.00))));
+
+        // check tax refund transaction
+        assertThat(results, hasItem(taxRefund( //
+                        hasDate("2015-11-26T00:00"), hasShares(156.729), //
+                        hasSource("Umtausch02.txt"), //
+                        hasNote("Abrechnungs-Nr. 68366911"), //
+                        hasAmount("EUR", 6.90 + 0.38 + 0.62), hasGrossValue("EUR", 7.90), //
+                        hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -4053,8 +4094,8 @@ public class OnvistaPDFExtractorTest
 
         assertThat(errors, empty());
         assertThat(countSecurities(results), is(1L));
-        assertThat(countBuySell(results), is(0L));
-        assertThat(countAccountTransactions(results), is(1L));
+        assertThat(countBuySell(results), is(1L));
+        assertThat(countAccountTransactions(results), is(0L));
         assertThat(results.size(), is(2));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
@@ -4065,10 +4106,10 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // check unsupported transaction
-        assertThat(results, hasItem(inboundDelivery( //
+        assertThat(results, hasItem(purchase( //
                         hasDate("2011-06-06T00:00"), hasShares(30), //
                         hasSource("Umtausch05.txt"), //
-                        hasNote(null), //
+                        hasNote("Abrechnungs-Nr. 36678912"), //
                         hasAmount("EUR", 75.40), hasGrossValue("EUR", 65.40), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 10.00))));
     }
