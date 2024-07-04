@@ -55,7 +55,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         + "|Gesamtf.lligkeit" //
                         + "|Zwangsabfindung" //
                         + "|Umtausch\\/Bezug"
-                        + "|Dividende)");
+                        + "|Dividende)", "(Kontoauszug|KONTOAUSZUG) Nr\\.");
         this.addDocumentTyp(type);
 
         Transaction<BuySellEntry> pdfTransaction = new Transaction<>();
@@ -1435,11 +1435,11 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         
                         .wrap((t, ctx) -> {
                             TransactionItem item = new TransactionItem(t);
-                            addTaxesSectionsTransaction(pdfTransaction, type);
 
                             return item;
                         });
         
+        addTaxesSectionsTransaction(pdfTransaction, type);
         addTaxReturnBlock(type);
     }
 
