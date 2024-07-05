@@ -3948,8 +3948,8 @@ public class OnvistaPDFExtractorTest
         assertThat(errors, empty());
         assertThat(countSecurities(results), is(1L));
         assertThat(countBuySell(results), is(0L));
-        assertThat(countAccountTransactions(results), is(1L));
-        assertThat(results.size(), is(2));
+        assertThat(countAccountTransactions(results), is(2L));
+        assertThat(results.size(), is(3));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
         assertThat(results, hasItem(security( //
@@ -3964,6 +3964,14 @@ public class OnvistaPDFExtractorTest
                         hasNote(null), //
                         hasAmount("EUR", 0.00), //
                         hasTaxes("EUR", 12.86), hasFees("EUR", 0.00))));
+
+        // check transaction
+        assertThat(results, hasItem(taxes( //
+                        hasDate("2015-11-23T00:00"), //
+                        hasSource("Umtausch02_Abrechnung.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 12.86), //
+                        hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -4018,8 +4026,8 @@ public class OnvistaPDFExtractorTest
         assertThat(errors, empty());
         assertThat(countSecurities(results), is(2L));
         assertThat(countBuySell(results), is(0L));
-        assertThat(countAccountTransactions(results), is(2L));
-        assertThat(results.size(), is(4));
+        assertThat(countAccountTransactions(results), is(3L));
+        assertThat(results.size(), is(5));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
         // check security
@@ -4051,6 +4059,14 @@ public class OnvistaPDFExtractorTest
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
                                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+        // check transaction
+        assertThat(results, hasItem(taxes( //
+                        hasDate("2019-02-22T00:00"), //
+                        hasSource("Umtausch03.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 0.27), //
+                        /* hasForexGrossValue("USD", 0.30), */
+                        hasFees("EUR", 0.00))));
     }
 
     @Test

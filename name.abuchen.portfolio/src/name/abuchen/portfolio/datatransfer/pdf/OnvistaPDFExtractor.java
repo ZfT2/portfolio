@@ -1433,6 +1433,30 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                             t.setDateTime(asDate(v.get("date")));
                         })
                         
+//                        // @formatter:off
+//                        //Wert Konto-Nr. Devisenkurs Betrag zu Ihren Lasten
+//                        //22.02.2019 356238049 EUR/USD 1,13375 EUR 0,27
+//                        // @formatter:on
+                        // .section("baseCurrency", "termCurrency",
+                        // "exchangeRate").optional() //
+                        // .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\d]+
+                        // (?<baseCurrency>[\\w]{3})\\/(?<termCurrency>[\\w]{3})
+                        // (?<exchangeRate>[\\.,\\d]+) [\\w]{3} [\\.,\\d]+$") //
+                        // .assign((t, v) -> {
+                        // ExtrExchangeRate rate = asExchangeRate(v);
+                        // type.getCurrentContext().putType(rate);
+                        //
+                        // t.getSecurity().setCurrencyCode(rate.getTermCurrency());
+                        //
+                        // Money fxGross = Money.of(rate.getTermCurrency(),
+                        // t.getAmount());
+                        // Money gross = Money.of(rate.getBaseCurrency(),
+                        // t.getAmount());
+                        //
+                        // checkAndSetGrossUnit(gross, fxGross, t,
+                        // type.getCurrentContext());
+                        // })
+                        
                         .wrap((t, ctx) -> {
                             TransactionItem item = new TransactionItem(t);
 
@@ -1440,6 +1464,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         });
         
         addTaxesSectionsTransaction(pdfTransaction, type);
+        addTaxesBlock(type);
         addTaxReturnBlock(type);
     }
 
@@ -1690,6 +1715,97 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         .match("^.* (?<note1>Abrechnungs\\-Nr\\.).*$") //
                         .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\d]+ (?<note2>[\\d]+) [\\w]{3} [\\.,\\d]+$") //
                         .assign((t, v) -> t.setNote(v.get("note1") + " " + v.get("note2")))
+
+                        .wrap(t -> {
+                            if (t.getCurrencyCode() != null && t.getAmount() != 0)
+                                return new TransactionItem(t);
+                            return null;
+                        });
+    }
+
+    private void addTaxesBlock(DocumentType type)
+    {
+        Transaction<AccountTransaction> pdfTransaction = new Transaction<>();
+
+        Block firstRelevantLine = new Block("^(Umtausch) .*$");
+        type.addBlock(firstRelevantLine);
+        firstRelevantLine.set(pdfTransaction);
+
+        pdfTransaction //
+
+                        .subject(() -> {
+                            AccountTransaction accountTransaction = new AccountTransaction();
+                            accountTransaction.setType(AccountTransaction.Type.TAXES);
+                            return accountTransaction;
+                        })
+                        
+                        // @formatter:off
+                        // Gattungsbezeichnung ISIN
+                        // Lyxor MSCI AC As.Pa.x Ja.U.ETF Act. au Port. Acc o.N. FR0010312124
+                        // Nominal Schlusstag Wert
+                        // @formatter:on
+                        .section("name", "isin", "name1") //
+                        .find("Gattungsbezeichnung ISIN") //
+                        .match("^(?<name>.*) (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9])$") //
+                        .match("^(?<name1>.*)") //
+                        .assign((t, v) -> {
+                            if (!v.get("name1").startsWith("Nominal"))
+                                v.put("name", trim(v.get("name")) + " " + trim(v.get("name1")));
+
+                            t.setSecurity(getOrCreateSecurity(v));
+                        })
+                        
+                        // @formatter:off
+                        // Kapitalertragsteuer EUR 11,23-
+                        //Solidaritätszuschlag EUR 0,62-
+                        //Kirchensteuer EUR 1,01-
+                        // @formatter:on
+                        .section("currency", "tax").optional() //
+                        .match("^.*Kapitalertragsteuer (?<currency>[\\w]{3}) (?<tax>[\\.,\\d]+)\\-$") //
+                        .documentContext("date") //
+                        .assign((t, v) -> {
+                            t.setDateTime(asDate(v.get("date")));
+                            t.setCurrencyCode(asCurrencyCode(v.get("currency")));
+                            t.setAmount(asAmount(v.get("tax")));
+                        })
+                        .section("currency", "tax").optional() //
+                        .match("^.*Solidaritätszuschlag (?<currency>[\\w]{3}) (?<tax>[\\.,\\d]+)\\-$") //
+                        .assign((t, v) -> {
+                            t.setCurrencyCode(asCurrencyCode(v.get("currency")));
+                            t.setAmount(t.getAmount() + asAmount(v.get("tax")));
+                        })
+                        .section("currency", "tax").optional() //
+                        .match("^.*Kirchensteuer (?<currency>[\\w]{3}) (?<tax>[\\.,\\d]+)\\-$") //
+                        .assign((t, v) -> {
+                            t.setCurrencyCode(asCurrencyCode(v.get("currency")));
+                            t.setAmount(t.getAmount() + asAmount(v.get("tax")));
+                        })
+
+                        // @formatter:off
+                        //Kapitalertragsteuer USD 0,29-
+                        //Solidaritätszuschlag USD 0,01-
+                        //Ausmachender Betrag USD 0,30-
+                        //Wert Konto-Nr. Devisenkurs Betrag zu Ihren Lasten
+                        //22.02.2019 356238049 EUR/USD 1,13375 EUR 0,27
+                        // @formatter:on
+                        .section("baseCurrency", "termCurrency", "exchangeRate", "gross").optional() //
+                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\d]+ (?<baseCurrency>[\\w]{3})\\/(?<termCurrency>[\\w]{3}) (?<exchangeRate>[\\.,\\d]+) [\\w]{3} (?<gross>[\\.,\\d]+)$") //
+                        .assign((t, v) -> {
+                            ExtrExchangeRate rate = asExchangeRate(v);
+                            type.getCurrentContext().putType(rate);
+
+                            Money fxGross = Money.of(t.getCurrencyCode(), t.getAmount());
+
+                            t.setAmount(asAmount(v.get("gross")));
+                            t.setCurrencyCode(rate.getBaseCurrency());
+
+                            Money gross = Money.of(rate.getBaseCurrency(), asAmount(v.get("gross")));
+
+                            // t.getSecurity().setCurrencyCode(rate.getTermCurrency());
+                            checkAndSetGrossUnit(gross, fxGross, t, type.getCurrentContext());
+                            //t.getSecurity().setCurrencyCode(rate.getBaseCurrency());
+
+                        })
 
                         .wrap(t -> {
                             if (t.getCurrencyCode() != null && t.getAmount() != 0)
