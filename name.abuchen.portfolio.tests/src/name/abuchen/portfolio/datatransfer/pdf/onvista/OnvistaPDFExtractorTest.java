@@ -1,7 +1,10 @@
 package name.abuchen.portfolio.datatransfer.pdf.onvista;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.check;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.fee;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.feeRefund;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
@@ -17,8 +20,10 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasTaxes;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasTicker;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasWkn;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.inboundDelivery;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.interestCharge;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.outboundDelivery;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.purchase;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.removal;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.sale;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.security;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.taxRefund;
@@ -4138,13 +4143,43 @@ public class OnvistaPDFExtractorTest
                         hasName("Commerzbank AG Inhaber-Aktien o.N."), //
                         hasCurrencyCode("EUR"))));
 
-        // check unsupported transaction
+        // check transaction
         assertThat(results, hasItem(purchase( //
                         hasDate("2011-06-06T00:00"), hasShares(30), //
                         hasSource("Umtausch05.txt"), //
                         hasNote("Abrechnungs-Nr. 36678912"), //
                         hasAmount("EUR", 75.40), hasGrossValue("EUR", 65.40), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 10.00))));
+    }
+
+    @Test
+    public void testUmtausch06()
+    {
+        OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Umtausch06.txt"), errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(1L));
+        assertThat(countBuySell(results), is(0L));
+        assertThat(countAccountTransactions(results), is(1L));
+        assertThat(results.size(), is(2));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("LU0140355917"), hasWkn(null), hasTicker(null), //
+                        hasName("Allianz Euro Bond Fund Inhaber-Anteile A (EUR) o.N."), //
+                        hasCurrencyCode("EUR"))));
+
+        // check transaction
+        assertThat(results, hasItem(taxRefund( //
+                        hasDate("2015-11-23T00:00"), hasShares(30), //
+                        hasSource("Umtausch06.txt"), //
+                        hasNote("Abrechnungs-Nr. 76685514"), //
+                        hasAmount("EUR", 12.86), hasFees("EUR", 0.00))));
     }
 
     @Test
@@ -5029,5 +5064,63 @@ public class OnvistaPDFExtractorTest
         assertThat(transaction.getAmount(), is(Values.Amount.factorize(50.00)));
         assertThat(transaction.getSource(), is("Kontoauszug12.txt"));
         assertThat(transaction.getNote(), is("Überweisungseingang SEPA"));
+    }
+
+    @Test
+    public void testKontoauszug13()
+    {
+        OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Kontoauszug13.txt"), errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(0L));
+        assertThat(countBuySell(results), is(0L));
+        assertThat(countAccountTransactions(results), is(4L));
+        assertThat(results.size(), is(4));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check transaction
+        assertThat(results, hasItem(removal(hasDate("2016-07-15"), hasAmount("EUR", 5.00), //
+                        hasSource("Kontoauszug13.txt"), hasNote("Überweisungausgang SEPA"))));
+
+        assertThat(results, hasItem(deposit(hasDate("2016-07-19"), hasAmount("EUR", 5.00), //
+                        hasSource("Kontoauszug13.txt"), hasNote("Überweisungseingang SEPA"))));
+
+        assertThat(results, hasItem(interestCharge(hasDate("2016-08-31"), hasAmount("EUR", 0.03), //
+                        hasSource("Kontoauszug13.txt"), hasNote("Überziehungszinsen"))));
+
+        assertThat(results, hasItem(interestCharge(hasDate("2016-09-30"), hasAmount("EUR", 0.03), //
+                        hasSource("Kontoauszug13.txt"), hasNote("Überziehungszinsen"))));
+
+    }
+
+    @Test
+    public void testKontoauszug14()
+    {
+        OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Kontoauszug14.txt"), errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(0L));
+        assertThat(countBuySell(results), is(0L));
+        assertThat(countAccountTransactions(results), is(3L));
+        assertThat(results.size(), is(3));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check transaction
+        assertThat(results, hasItem(fee(hasDate("2018-04-04"), hasAmount("EUR", 0.70), //
+                        hasSource("Kontoauszug14.txt"), hasNote("Portogebühren 03/18"))));
+
+        assertThat(results, hasItem(fee(hasDate("2018-05-03"), hasAmount("EUR", 0.70), //
+                        hasSource("Kontoauszug14.txt"), hasNote("Portogebühren 04/18"))));
+
+        assertThat(results, hasItem(feeRefund(hasDate("2018-05-11"), hasAmount("EUR", 0.70), //
+                        hasSource("Kontoauszug14.txt"), hasNote("Storno: Portogebühren 04/18"))));
     }
 }

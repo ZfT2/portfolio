@@ -1226,7 +1226,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         // @formatter:on
                         .section("date", "amount", "note", "sign").optional() //
                         .documentContext("year", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. .* (?<amount>[\\.,\\d]+)(?<sign>([\\+|\\-]))$") //
+                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. .* (?<amount>[\\.,\\d]+)(?<sign>(.{0,1}))$") //
                         .match("^(?<note>.berweisung(seingang|ausgang) SEPA).*$") //
                         .assign((t, v) -> {
                             // Is sign is negative change to REMOVAL
@@ -1260,12 +1260,15 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         // Portogebuehren 03/15
                         // 24.03. 23.03. REF: 000137060674 42,42+
                         // Erst. BGH-Urteil Sonstige
+                        // 11.05. 03.05. REF: 000057140531 0,70+
+                        // Storno: Portogebühren
+                        // Portogebuehren 04/18
                         // @formatter:on
                         .section("date", "amount", "sign", "note1", "note2").optional() //
                         .documentContext("year", "currency") //
                         .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. REF: [\\d]+ (?<amount>[\\.,\\d]+)(?<sign>([\\+|\\-]))$") //
-                        .match("^(?<note1>(Portogeb.hren|Erst\\. BGH\\-Urteil Sonstige))$") //
-                        .match("^(Portogebuehren )?(?<note2>([\\d]{2}\\/[\\d]{2}|[\\d]{1}\\. Quartal [\\d]{4}))$") //
+                        .match("^(?<note1>(Storno: Portogeb.hren|Portogeb.hren|Erst\\. BGH\\-Urteil Sonstige))$") //
+                        .match("^(Storno: Portogeb.hren|Portogebuehren )?(?<note2>([\\d]{2}\\/[\\d]{2}|[\\d]{1}\\. Quartal [\\d]{4}))$") //
                         .assign((t, v) -> {
                             // Is sign is positiv change to FEES_REFUND
                             if ("-".equals(v.get("sign")))
