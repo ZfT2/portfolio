@@ -1398,21 +1398,39 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         })
 
 
-                        // @formatter:off
-                        // Gattungsbezeichnung ISIN
-                        // Allianz PIMCO Euro Bd Tot.Ret. Inhaber-Anteile A (EUR) o.N. LU0140355917
-                        // Nominal Schlusstag Wert
-                        // @formatter:on
-                        .section("name", "isin", "name1") //
-                        .find("Gattungsbezeichnung ISIN") //
-                        .match("^(?<name>.*) (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9])$") //
-                        .match("^(?<name1>.*)") //
-                        .assign((t, v) -> {
-                            if (!v.get("name1").startsWith("Nominal"))
-                                v.put("name", trim(v.get("name")) + " " + trim(v.get("name1")));
+                        .oneOf(
+                            // @formatter:off
+                            // Gattungsbezeichnung ISIN
+                            // Allianz PIMCO Euro Bd Tot.Ret. Inhaber-Anteile A (EUR) o.N. LU0140355917
+                            // Nominal Schlusstag Wert
+                            // @formatter:on
+                                        section -> section.attributes("name", "isin", "name1") //
+                                                        .find("Gattungsbezeichnung ISIN") //
+                                                        .match("^(?<name>.*) (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9])$") //
+                                                        .match("^(?<name1>.*)") //
+                                                        .assign((t, v) -> {
+                                                            if (!v.get("name1").startsWith("Nominal"))
+                                                                v.put("name", trim(v.get("name")) + " "
+                                                                                + trim(v.get("name1")));
 
-                            t.setSecurity(getOrCreateSecurity(v));
-                        })
+                                                            t.setSecurity(getOrCreateSecurity(v));
+                                                        }),
+                            // @formatter:off
+                            // Gattungsbezeichnung Fälligkeit näch. Zinstermin ISIN
+                            // TUI AG Inhaber-Teilrechte 09.03.2023 DE000TUAG1T2
+                            // Nominal
+                            // @formatter:on
+                                        section -> section.attributes("name", "isin", "name1") //
+                                                        .find("Gattungsbezeichnung F.lligkeit n.ch\\. Zinstermin ISIN") //
+                                                        .match("^(?<name>.*) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9])$") //
+                                                        .match("^(?<name1>.*)") //
+                                                        .assign((t, v) -> {
+                                                            if (!v.get("name1").startsWith("Nominal"))
+                                                                v.put("name", trim(v.get("name")) + " "
+                                                                                + trim(v.get("name1")));
+
+                                                            t.setSecurity(getOrCreateSecurity(v));
+                                                        }))
 
                         // @formatter:off
                         // STK 50,000 07.02.2024 08.02.2024
@@ -1690,6 +1708,22 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         })
 
                         // @formatter:off
+                        // Kapitalertragsteuer EUR 11,23
+                        // Solidaritätszuschlag EUR 0,62
+                        // Kirchensteuer EUR 1,01
+                        // Wert Konto-Nr. Betrag zu Ihren Gunsten
+                        // 23.11.2015 194507065 EUR 12,86
+                        // @formatter:on
+                        .section("currency", "amount").optional() //
+                        .match("^.*(Kapitalertragsteuer|Solidarit.tszuschlag|Kirchensteuer) [\\w]{3} [\\.,\\d]+$") //
+                        .match("^Wert Konto\\-Nr\\. Betrag zu Ihren Gunsten")
+                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\d]+ (?<currency>[\\w]{3}) (?<amount>[\\.,\\d]+)$") //
+                        .assign((t, v) -> {
+                            t.setCurrencyCode(asCurrencyCode(v.get("currency")));
+                            t.setAmount(asAmount(v.get("amount")));
+                        })
+
+                        // @formatter:off
                         // 17.12.2020 241462046 EUR/USD 1,2239 EUR 3.965,72
                         // zu versteuern (negativ) EUR 53,43
                         // 16.12.2020 241462046 59592727 EUR 14,10
@@ -1792,6 +1826,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         //22.02.2019 356238049 EUR/USD 1,13375 EUR 0,27
                         // @formatter:on
                         .section("baseCurrency", "termCurrency", "exchangeRate", "gross").optional() //
+                        .find("^Wert Konto\\-Nr\\. Devisenkurs Betrag zu Ihren Lasten")
                         .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\d]+ (?<baseCurrency>[\\w]{3})\\/(?<termCurrency>[\\w]{3}) (?<exchangeRate>[\\.,\\d]+) [\\w]{3} (?<gross>[\\.,\\d]+)$") //
                         .assign((t, v) -> {
                             ExtrExchangeRate rate = asExchangeRate(v);

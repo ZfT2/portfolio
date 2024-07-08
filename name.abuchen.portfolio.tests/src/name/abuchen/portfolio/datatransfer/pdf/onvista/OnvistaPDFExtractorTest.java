@@ -3578,6 +3578,50 @@ public class OnvistaPDFExtractorTest
     }
 
     @Test
+    public void testKapitalherabsetzung02()
+    {
+        OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
+
+        List<Exception> errors = new ArrayList<>();
+
+        List<Item> results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Kapitalherabsetzung02.txt"),
+                        errors);
+
+        assertThat(errors, empty());
+        assertThat(countSecurities(results), is(2L));
+        assertThat(countBuySell(results), is(0L));
+        assertThat(countAccountTransactions(results), is(2L));
+        assertThat(results.size(), is(4));
+        new AssertImportActions().check(results, CurrencyUnit.EUR);
+
+        // check security
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000TUAG000"), hasWkn(null), hasTicker(null), //
+                        hasName("TUI AG Namens-Aktien o.N."), //
+                        hasCurrencyCode("EUR"))));
+
+        assertThat(results, hasItem(security( //
+                        hasIsin("DE000TUAG1T2"), hasWkn(null), hasTicker(null), //
+                        hasName("TUI AG Inhaber-Teilrechte"), //
+                        hasCurrencyCode("EUR"))));
+
+        // check transaction
+        assertThat(results, hasItem(outboundDelivery( //
+                        hasDate("2023-02-24T00:00"), hasShares(50), //
+                        hasSource("Kapitalherabsetzung02.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+
+        assertThat(results, hasItem(inboundDelivery( //
+                        hasDate("2023-02-24T00:00"), hasShares(5), //
+                        hasSource("Kapitalherabsetzung02.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+    }
+
+    @Test
     public void testWertloseAusbuchung01()
     {
         OnvistaPDFExtractor extractor = new OnvistaPDFExtractor(new Client());
@@ -4102,7 +4146,7 @@ public class OnvistaPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
 
-        // check unsupported transaction
+        // check transaction
         assertThat(results, hasItem(
                         outboundDelivery( //
                                         hasDate("2020-09-04T00:00"), hasShares(14.0369), //
@@ -4111,7 +4155,7 @@ public class OnvistaPDFExtractorTest
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
                                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
-        // check unsupported transaction
+        // checktransaction
         assertThat(results, hasItem(
                         inboundDelivery( //
                                         hasDate("2020-09-04T00:00"), hasShares(154.018), //
@@ -4164,8 +4208,8 @@ public class OnvistaPDFExtractorTest
         assertThat(errors, empty());
         assertThat(countSecurities(results), is(1L));
         assertThat(countBuySell(results), is(0L));
-        assertThat(countAccountTransactions(results), is(1L));
-        assertThat(results.size(), is(2));
+        assertThat(countAccountTransactions(results), is(2L));
+        assertThat(results.size(), is(3));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
         // check security
@@ -4174,11 +4218,18 @@ public class OnvistaPDFExtractorTest
                         hasName("Allianz Euro Bond Fund Inhaber-Anteile A (EUR) o.N."), //
                         hasCurrencyCode("EUR"))));
 
+        assertThat(results, hasItem(outboundDelivery( //
+                        hasDate("2015-11-23T00:00"), hasShares(28), //
+                        hasSource("Umtausch06.txt"), //
+                        hasNote(null), //
+                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
+                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
+
         // check transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2015-11-23T00:00"), hasShares(30), //
+                        hasDate("2015-11-23T00:00"), hasShares(28), //
                         hasSource("Umtausch06.txt"), //
-                        hasNote("Abrechnungs-Nr. 76685514"), //
+                        hasNote(null), //
                         hasAmount("EUR", 12.86), hasFees("EUR", 0.00))));
     }
 
