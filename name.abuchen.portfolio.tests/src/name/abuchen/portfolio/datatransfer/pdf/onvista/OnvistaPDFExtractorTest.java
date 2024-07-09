@@ -4208,8 +4208,8 @@ public class OnvistaPDFExtractorTest
         assertThat(errors, empty());
         assertThat(countSecurities(results), is(1L));
         assertThat(countBuySell(results), is(0L));
-        assertThat(countAccountTransactions(results), is(2L));
-        assertThat(results.size(), is(3));
+        assertThat(countAccountTransactions(results), is(1L));
+        assertThat(results.size(), is(2));
         new AssertImportActions().check(results, CurrencyUnit.EUR);
 
         // check security
@@ -4217,13 +4217,6 @@ public class OnvistaPDFExtractorTest
                         hasIsin("LU0140355917"), hasWkn(null), hasTicker(null), //
                         hasName("Allianz Euro Bond Fund Inhaber-Anteile A (EUR) o.N."), //
                         hasCurrencyCode("EUR"))));
-
-        assertThat(results, hasItem(outboundDelivery( //
-                        hasDate("2015-11-23T00:00"), hasShares(28), //
-                        hasSource("Umtausch06.txt"), //
-                        hasNote(null), //
-                        hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
-                        hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check transaction
         assertThat(results, hasItem(taxRefund( //

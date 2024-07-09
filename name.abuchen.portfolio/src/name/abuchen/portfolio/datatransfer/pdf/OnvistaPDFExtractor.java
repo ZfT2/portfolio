@@ -1323,8 +1323,22 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         + "|Im Zuge der Geldzahlung erfolgt die Ausbuchung der Rechte)", //
                         "(Kontoauszug|KONTOAUSZUG) Nr\\.", //
                                         documentContext -> documentContext //
-                                        .oneOf( //
+
+                                        // If "Storno", skip the delivery
+                                        // in/outbond transaction, only use the
+                                        // (corrected) tax transaction.
+
                                         // @formatter:off
+                                        //Storno Frankfurt am Main, 01.07.2019
+                                        // @formatter:on
+                                        .section("cancel").optional()
+                                        .match("^(?<cancel>Storno).*, [\\d]{2}\\.[\\d]{2}\\.[\\d]{4}.*$") //
+                                        .assign((ctx, v) -> {
+                                            ctx.putBoolean("noTransfer", true);
+                                        })
+
+                                        .oneOf( //
+                                                        // @formatter:off
                                                         //Wert Konto-Nr. Abrechnungs-Nr. Betrag zu Ihren Gunsten
                                                         //26.11.2015 172306238 68366911 EUR 7,90
                                                         // @formatter:on
@@ -1454,34 +1468,10 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                             t.setDateTime(asDate(v.get("date")));
                         })
                         
-//                        // @formatter:off
-//                        //Wert Konto-Nr. Devisenkurs Betrag zu Ihren Lasten
-//                        //22.02.2019 356238049 EUR/USD 1,13375 EUR 0,27
-//                        // @formatter:on
-                        // .section("baseCurrency", "termCurrency",
-                        // "exchangeRate").optional() //
-                        // .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\d]+
-                        // (?<baseCurrency>[\\w]{3})\\/(?<termCurrency>[\\w]{3})
-                        // (?<exchangeRate>[\\.,\\d]+) [\\w]{3} [\\.,\\d]+$") //
-                        // .assign((t, v) -> {
-                        // ExtrExchangeRate rate = asExchangeRate(v);
-                        // type.getCurrentContext().putType(rate);
-                        //
-                        // t.getSecurity().setCurrencyCode(rate.getTermCurrency());
-                        //
-                        // Money fxGross = Money.of(rate.getTermCurrency(),
-                        // t.getAmount());
-                        // Money gross = Money.of(rate.getBaseCurrency(),
-                        // t.getAmount());
-                        //
-                        // checkAndSetGrossUnit(gross, fxGross, t,
-                        // type.getCurrentContext());
-                        // })
-                        
                         .wrap((t, ctx) -> {
-                            TransactionItem item = new TransactionItem(t);
-
-                            return item;
+                            if (type.getCurrentContext().getBoolean("noTransfer"))                                
+                                return null;
+                            return new TransactionItem(t);
                         });
         
         addTaxesSectionsTransaction(pdfTransaction, type);
