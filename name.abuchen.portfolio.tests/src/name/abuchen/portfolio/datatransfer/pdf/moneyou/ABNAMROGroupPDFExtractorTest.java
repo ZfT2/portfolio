@@ -23,19 +23,19 @@ import org.junit.Test;
 
 import name.abuchen.portfolio.datatransfer.Extractor.Item;
 import name.abuchen.portfolio.datatransfer.actions.AssertImportActions;
-import name.abuchen.portfolio.datatransfer.pdf.MoneyouPDFExtractor;
+import name.abuchen.portfolio.datatransfer.pdf.ABNAMROGroupPDFExtractor;
 import name.abuchen.portfolio.datatransfer.pdf.PDFInputFile;
 import name.abuchen.portfolio.model.Client;
 import name.abuchen.portfolio.money.CurrencyUnit;
 
 @SuppressWarnings("nls")
-public class MoneyouPDFExtractorTest
+public class ABNAMROGroupPDFExtractorTest
 {
 
     @Test
     public void testKontoauszug01()
     {
-        MoneyouPDFExtractor extractor = new MoneyouPDFExtractor(new Client());
+        ABNAMROGroupPDFExtractor extractor = new ABNAMROGroupPDFExtractor(new Client());
 
         List<Exception> errors = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public class MoneyouPDFExtractorTest
     @Test
     public void testKontoauszug02()
     {
-        MoneyouPDFExtractor extractor = new MoneyouPDFExtractor(new Client());
+        ABNAMROGroupPDFExtractor extractor = new ABNAMROGroupPDFExtractor(new Client());
 
         List<Exception> errors = new ArrayList<>();
 
@@ -165,7 +165,7 @@ public class MoneyouPDFExtractorTest
     @Test
     public void testKontoauszug03()
     {
-        MoneyouPDFExtractor extractor = new MoneyouPDFExtractor(new Client());
+        ABNAMROGroupPDFExtractor extractor = new ABNAMROGroupPDFExtractor(new Client());
 
         List<Exception> errors = new ArrayList<>();
 

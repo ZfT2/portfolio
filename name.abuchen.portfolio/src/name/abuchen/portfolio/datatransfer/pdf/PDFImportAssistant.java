@@ -84,7 +84,7 @@ public class PDFImportAssistant
         extractors.add(new LiechtensteinischeLandesbankAGPDFExtractor(client));
         extractors.add(new LimeTradingCorpPDFExtractor(client));
         extractors.add(new MerkurPrivatBankPDFExtractor(client));
-        extractors.add(new MoneyouPDFExtractor(client));
+        extractors.add(new ABNAMROGroupPDFExtractor(client));
         extractors.add(new OnvistaPDFExtractor(client));
         extractors.add(new OpenBankSAPDFExtractor(client));
         extractors.add(new PictetCieGruppeSAPDFExtractor(client));
