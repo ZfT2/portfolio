@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,12 @@ import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.typed.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.validation.MultiValidator;
+import org.eclipse.core.databinding.validation.ValidationStatus;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.e4.core.di.extensions.Preference;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.services.IStylingEngine;
@@ -51,11 +56,13 @@ import name.abuchen.portfolio.ui.Messages;
 import name.abuchen.portfolio.ui.UIConstants;
 import name.abuchen.portfolio.ui.dialogs.transactions.AccountTransactionModel.Properties;
 import name.abuchen.portfolio.ui.util.DatePicker;
+import name.abuchen.portfolio.ui.util.DateTimeToDateConverter;
+import name.abuchen.portfolio.ui.util.DateToDateTimeConverter;
 import name.abuchen.portfolio.ui.util.FormDataFactory;
 import name.abuchen.portfolio.ui.util.LabelOnly;
+import name.abuchen.portfolio.ui.util.NullableDateTimeDateSelectionProperty;
 import name.abuchen.portfolio.ui.util.SWTHelper;
 import name.abuchen.portfolio.ui.util.SecurityNameLabelProvider;
-import name.abuchen.portfolio.ui.util.SimpleDateTimeDateSelectionProperty;
 
 public class AccountTransactionDialog extends AbstractTransactionDialog // NOSONAR
 {
@@ -123,17 +130,8 @@ public class AccountTransactionDialog extends AbstractTransactionDialog // NOSON
         dateTime.bindTime(Properties.time.name());
         dateTime.bindButton(() -> model().getTime(), time -> model().setTime(time));
 
-        Label lblExDate = null;
-        DatePicker exDate = null;
-        if (model().supportsShares())
-        {
-            lblExDate = new Label(editArea, SWT.RIGHT);
-            lblExDate.setText(Messages.ColumnExDate);
-            exDate = new DatePicker(editArea);
-            IObservableValue<?> targetDate = new SimpleDateTimeDateSelectionProperty().observe(exDate.getControl());
-            IObservableValue<?> modelDate = BeanProperties.value(Properties.exDate.name()).observe(model);
-            context.bindValue(targetDate, modelDate);
-        }
+        Button checkBoxExDate = new Button(editArea, SWT.CHECK);
+        DatePicker exDate = new DatePicker(editArea);
 
         // shares
 
@@ -267,8 +265,38 @@ public class AccountTransactionDialog extends AbstractTransactionDialog // NOSON
 
         if (model().supportsShares())
         {
-            startingWith(dateTime.button).thenRight(lblExDate).thenRight(exDate.getControl());
+            UpdateValueStrategy<LocalDate, LocalDateTime> targetToModel = new UpdateValueStrategy<>();
+            targetToModel.setConverter(new DateToDateTimeConverter());
+
+            UpdateValueStrategy<LocalDateTime, LocalDate> modelToTarget = new UpdateValueStrategy<>();
+            modelToTarget.setConverter(new DateTimeToDateConverter());
+
+            IObservableValue<LocalDate> targetObservable = new NullableDateTimeDateSelectionProperty()
+                            .observe(exDate.getControl());
+            IObservableValue<LocalDateTime> modelObservable = BeanProperties
+                            .value(Properties.exDate.name(), LocalDateTime.class).observe(model);
+            context.bindValue(targetObservable, modelObservable, targetToModel, modelToTarget);
+
+            startingWith(dateTime.button).thenRight(checkBoxExDate);
+
+            // boolean hasExDate = exDate.getSelection() != null
+            // && !exDate.getSelection().isEqual(dateTime.date.getSelection());
+
+            boolean hasExDate = model().getExDate() != null;
+
+            toggleExDatePicker(checkBoxExDate, exDate, dateTime, hasExDate);
         }
+
+        checkBoxExDate.addSelectionListener(new SelectionAdapter()
+        {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                Button button = (Button) event.widget;
+                toggleExDatePicker(checkBoxExDate, exDate, dateTime, button.getSelection());
+                editArea.layout();
+            }
+        });
 
         // shares [- amount per share]
         forms.thenBelow(shares.value).width(amountWidth).label(shares.label).suffix(btnShares) //
@@ -326,6 +354,13 @@ public class AccountTransactionDialog extends AbstractTransactionDialog // NOSON
         forms.thenBelow(valueNote).height(SWTHelper.lineHeight(valueNote) * 3).left(accounts.value.getControl())
                         .right(grossAmount.value).label(lblNote);
 
+        // update Ex-Date if set and transaction date is updated
+
+        model.addPropertyChangeListener(Properties.date.name(), event -> { // NOSONAR
+            if (isExDateAfterTransactionDate())
+                model().setExDate(model.getDate().atStartOfDay());
+        });
+
         //
         // hide / show exchange rate if necessary
         //
@@ -368,7 +403,54 @@ public class AccountTransactionDialog extends AbstractTransactionDialog // NOSON
         warnings.add(() -> model().getDate().isAfter(LocalDate.now()) ? Messages.MsgDateIsInTheFuture : null);
         model.addPropertyChangeListener(Properties.date.name(), e -> warnings.check());
 
+        // warning? works good.
+        
+        warnings.add(() -> isExDateAfterTransactionDate()
+                        ? Messages.MsgDateExIsAfterTheDate
+                        : null);
+        model.addPropertyChangeListener(Properties.exDate.name(), e -> warnings.check());
+
+        // ...or error? but seems not to work on the fly...
+        
+        this.context.addValidationStatusProvider(new MultiValidator()
+        {
+            @Override
+            protected IStatus validate()
+            {
+                if (isExDateAfterTransactionDate())
+                    return ValidationStatus.error(Messages.MsgDateExIsAfterTheDate);
+                return null;
+            }
+        });
+
         model.firePropertyChange(Properties.exchangeRateCurrencies.name(), "", model().getExchangeRateCurrencies()); //$NON-NLS-1$
+    }
+
+    private boolean isExDateAfterTransactionDate()
+    {
+        return model().getExDate() != null && model().getExDate().toLocalDate().isAfter(model().getDate());
+    }
+
+    private void toggleExDatePicker(Button checkBoxExDate, DatePicker exDate, DateTimeInput elementBefore,
+                    boolean enable)
+    {
+        checkBoxExDate.setSelection(enable);
+        if (enable)
+        {
+            checkBoxExDate.setText(Messages.ColumnExDate);
+            exDate.getControl().setVisible(true);
+
+            startingWith(checkBoxExDate).thenRight(exDate.getControl());
+        }
+        else
+        {
+            checkBoxExDate.setText(Messages.ColumnExDate + "?"); //$NON-NLS-1$
+            model().setExDate(null);
+            exDate.setSelection(model.getDate());
+            exDate.getControl().setVisible(false);
+            
+            startingWith(elementBefore.button).thenRight(checkBoxExDate);
+        }
     }
 
     private ComboInput setupSecurities(Composite editArea)
