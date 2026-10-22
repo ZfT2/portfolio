@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.directasim;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.check;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
@@ -74,7 +75,7 @@ public class DirectaSimPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-05T14:02:36"), hasShares(29.00), //
+                        hasDate("2024-01-09T00:00"), hasBookingDate("2024-01-05T14:02:36"), hasShares(29.00), //
                         hasSource("Buy01.txt"), //
                         hasNote("Ordine T1673620593440"), //
                         hasAmount("EUR", 3079.29), hasGrossValue("EUR", 3074.29), //
@@ -108,7 +109,7 @@ public class DirectaSimPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-09T11:57:34"), hasShares(2900.00), //
+                        hasDate("2024-01-11T00:00"), hasBookingDate("2024-01-09T11:57:34"), hasShares(2900.00), //
                         hasSource("Buy02.txt"), //
                         hasNote("Ordine X4171246514720"), //
                         hasAmount("EUR", 1511.58), hasGrossValue("EUR", 1502.08), //
@@ -142,7 +143,7 @@ public class DirectaSimPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-04-12T09:04:21"), hasShares(7.00), //
+                        hasDate("2024-04-16T00:00"), hasBookingDate("2024-04-12T09:04:21"), hasShares(7.00), //
                         hasSource("Buy03.txt"), //
                         hasNote("Ordine P9417565891845"), //
                         hasAmount("EUR", 829.15), hasGrossValue("EUR", 829.15), //
@@ -177,7 +178,7 @@ public class DirectaSimPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-09-25T15:30:14"), hasShares(9.00), //
+                        hasDate("2023-09-27T00:00"), hasBookingDate("2023-09-25T15:30:14"), hasShares(9.00), //
                         hasSource("Buy04.txt"), //
                         hasNote("Ordine c6954896449059"), //
                         hasAmount("EUR", 731.44), hasGrossValue("EUR", 722.99), //
@@ -213,7 +214,7 @@ public class DirectaSimPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-09-25T15:30:14"), hasShares(9.00), //
+                        hasDate("2023-09-27T00:00"), hasBookingDate("2023-09-25T15:30:14"), hasShares(9.00), //
                         hasSource("Buy04.txt"), //
                         hasNote("Ordine c6954896449059"), //
                         hasAmount("EUR", 731.44), hasGrossValue("EUR", 722.99), //
@@ -252,7 +253,7 @@ public class DirectaSimPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-11-18T10:10:45"), hasShares(2000.00), //
+                        hasDate("2025-11-20T00:00"), hasBookingDate("2025-11-18T10:10:45"), hasShares(2000.00), //
                         hasSource("Sell01.txt"), //
                         hasNote("Ordine B6023301689031"), //
                         hasAmount("EUR", 10910.19), hasGrossValue("EUR", 11021.20), //

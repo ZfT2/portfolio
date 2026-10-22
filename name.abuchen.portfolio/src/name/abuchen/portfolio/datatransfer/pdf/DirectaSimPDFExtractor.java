@@ -111,9 +111,31 @@ public class DirectaSimPDFExtractor extends AbstractPDFExtractor
                         //  5.01.2024  14:02:36  Eseguito                           29             3.074,29             106,0100  09.01.2024
                         // 12.04.2024  09:03:49  Richiesta Immissione                7                                  118,5000
                         // @formatter:on
-                        .section("date", "time") //
-                        .match("^[\\s]*(?<date>[\\d]{1,2}\\.[\\d]{2}\\.[\\d]{4})[\\s]{1,}(?<time>[\\d]{2}\\:[\\d]{2}\\:[\\d]{2})[\\s]{1,}Eseguito.*$") //
-                        .assign((t, v) -> t.setDate(asDate(v.get("date"), v.get("time"))))
+                        .oneOf( //
+                                        // @formatter:off
+                                        //                                                  Quantita'                USD              Euro     Prezzo         Valuta
+                                        // 25.09.2023 15:30:14 Eseguito   (09:30:14)             9           769,7700           722,99*      85,53     27.09.2023
+                                        // @formatter:on
+                                        section -> section //
+                                                        .attributes("date", "time", "settlementDate") //
+                                                        .match("^[\\s]*(?<date>[\\d]{1,2}\\.[\\d]{2}\\.[\\d]{4})[\\s]{1,}(?<time>[\\d]{2}\\:[\\d]{2}\\:[\\d]{2})[\\s]{1,}Eseguito.*[\\s]{1,}(?<settlementDate>[\\d]{1,2}\\.[\\d]{2}\\.[\\d]{4})$") //
+                                                        .assign((t, v) -> {
+                                                            // The settlement date (Valuta) is the
+                                                            // transaction date, the execution date
+                                                            // is the booking date.
+                                                            t.setDate(asDate(v.get("settlementDate")));
+                                                            t.setBookingDate(asDate(v.get("date"), v.get("time")));
+                                                        }),
+                                        // @formatter:off
+                                        //  5.01.2024  14:02:36  Eseguito                           29             3.074,29             106,0100
+                                        // @formatter:on
+                                        section -> section //
+                                                        .attributes("date", "time") //
+                                                        .match("^[\\s]*(?<date>[\\d]{1,2}\\.[\\d]{2}\\.[\\d]{4})[\\s]{1,}(?<time>[\\d]{2}\\:[\\d]{2}\\:[\\d]{2})[\\s]{1,}Eseguito.*$") //
+                                                        .assign((t, v) -> {
+                                                            t.setDate(asDate(v.get("date"), v.get("time")));
+                                                            t.setBookingDate(asDate(v.get("date"), v.get("time")));
+                                                        }))
 
                         .oneOf( //
                                         // @formatter:off
