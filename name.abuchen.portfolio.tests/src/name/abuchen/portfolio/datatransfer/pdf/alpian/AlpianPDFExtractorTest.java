@@ -5,6 +5,7 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.fee;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -354,15 +355,15 @@ public class AlpianPDFExtractorTest
         new AssertImportActions().check(results, "CHF");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-05-15"), hasAmount("CHF", 1.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-05-15"), hasBookingDate("2023-05-15"), hasAmount("CHF", 1.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Domestic Clearing (DD)"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-05-23"), hasAmount("CHF", 29999.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-05-23"), hasBookingDate("2023-05-23"), hasAmount("CHF", 29999.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Domestic Clearing (DD)"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-05-23"), hasAmount("CHF", 30000.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-05-23"), hasBookingDate("2023-05-23"), hasAmount("CHF", 30000.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Debit Internal Transfer"))));
     }
 
@@ -389,7 +390,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         dividend( //
-                                        hasDate("2026-07-23T00:00"), hasExDate(null), //
+                                        hasDate("2026-07-23T00:00"), hasBookingDate("2026-07-24T00:00"), hasExDate(null), //
                                         hasShares(4.00), //
                                         hasSource("Depotauszug01.txt"), //
                                         hasNote("iShares Swiss Dom Govt Bd 3-7"), //
@@ -400,7 +401,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         dividend( //
-                                        hasDate("2026-07-23T00:00"), hasExDate(null), //
+                                        hasDate("2026-07-23T00:00"), hasBookingDate("2026-07-27T00:00"), hasExDate(null), //
                                         hasShares(3.00), //
                                         hasSource("Depotauszug01.txt"), //
                                         hasNote("iShares Core CHF Corporate Bond"), //
@@ -411,7 +412,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         dividend( //
-                                        hasDate("2026-07-23T00:00"), hasExDate(null), //
+                                        hasDate("2026-07-23T00:00"), hasBookingDate("2026-07-27T00:00"), hasExDate(null), //
                                         hasShares(5.00), //
                                         hasSource("Depotauszug01.txt"), //
                                         hasNote("iShares Swiss Dom Govt Bd 0-3"), //
@@ -422,7 +423,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         taxes( //
-                                        hasDate("2026-07-23T00:00"), //
+                                        hasDate("2026-07-23T00:00"), hasBookingDate("2026-07-24T00:00"), //
                                         hasSource("Depotauszug01.txt"), //
                                         hasNote("iShares Swiss Dom Govt Bd 3-7"), //
                                         hasAmount("CHF", 0.90), hasGrossValue("CHF", 0.90), //
@@ -432,7 +433,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         taxes( //
-                                        hasDate("2026-07-23T00:00"), //
+                                        hasDate("2026-07-23T00:00"), hasBookingDate("2026-07-27T00:00"), //
                                         hasSource("Depotauszug01.txt"), //
                                         hasNote("iShares Core CHF Corporate Bond"), //
                                         hasAmount("CHF", 0.61), hasGrossValue("CHF", 0.61), //
@@ -442,7 +443,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         taxes( //
-                                        hasDate("2026-07-23T00:00"), //
+                                        hasDate("2026-07-23T00:00"), hasBookingDate("2026-07-27T00:00"), //
                                         hasSource("Depotauszug01.txt"), //
                                         hasNote("iShares Swiss Dom Govt Bd 0-3"), //
                                         hasAmount("CHF", 1.51), hasGrossValue("CHF", 1.51), //
@@ -452,7 +453,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         fee( //
-                                        hasDate("2026-07-01T00:00"), //
+                                        hasDate("2026-07-01T00:00"), hasBookingDate("2026-07-01T00:00"), //
                                         hasSource("Depotauszug01.txt"), //
                                         hasNote("Fees posted from 202604 to 202606"), //
                                         hasAmount("CHF", 91.72), hasGrossValue("CHF", 91.72), //
@@ -482,7 +483,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         purchase( //
-                                        hasDate("2026-08-04T00:00"), hasShares(31.00), //
+                                        hasDate("2026-08-06T00:00"), hasBookingDate("2026-08-04T00:00"), hasShares(31.00), //
                                         hasSource("Depotauszug02.txt"), //
                                         hasNote("21Shares Crypto Basket Index-ETP"), //
                                         hasAmount("CHF", 293.16), hasGrossValue("CHF", 293.16), //
@@ -492,7 +493,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         sale( //
-                                        hasDate("2026-08-04T00:00"), hasShares(5.00), //
+                                        hasDate("2026-08-06T00:00"), hasBookingDate("2026-08-04T00:00"), hasShares(5.00), //
                                         hasSource("Depotauszug02.txt"), //
                                         hasNote("Xtrackers Glb Infl-Lnkd Bd"), //
                                         hasAmount("CHF", 433.95), hasGrossValue("CHF", 433.95), //
@@ -502,7 +503,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         purchase( //
-                                        hasDate("2026-08-04T00:00"), hasShares(5.00), //
+                                        hasDate("2026-08-06T00:00"), hasBookingDate("2026-08-04T00:00"), hasShares(5.00), //
                                         hasSource("Depotauszug02.txt"), //
                                         hasNote("iShares Core CHF Corporate-Bond"), //
                                         hasAmount("CHF", 483.68), hasGrossValue("CHF", 483.68), //
@@ -512,7 +513,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         sale( //
-                                        hasDate("2026-08-04T00:00"), hasShares(88.00), //
+                                        hasDate("2026-08-06T00:00"), hasBookingDate("2026-08-04T00:00"), hasShares(88.00), //
                                         hasSource("Depotauszug02.txt"), //
                                         hasNote("iShares USD Corp Bond"), //
                                         hasAmount("CHF", 381.74), hasGrossValue("CHF", 381.74), //
@@ -522,7 +523,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         sale( //
-                                        hasDate("2026-08-27T00:00"), hasShares(12.00), //
+                                        hasDate("2026-08-31T00:00"), hasBookingDate("2026-08-27T00:00"), hasShares(12.00), //
                                         hasSource("Depotauszug02.txt"), //
                                         hasNote("Xtrackers MSCI Emerging-Markets"), //
                                         hasAmount("CHF", 909.43), hasGrossValue("CHF", 909.43), //
@@ -532,7 +533,7 @@ public class AlpianPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         purchase( //
-                                        hasDate("2026-08-27T00:00"), hasShares(18.00), //
+                                        hasDate("2026-09-01T00:00"), hasBookingDate("2026-08-27T00:00"), hasShares(18.00), //
                                         hasSource("Depotauszug02.txt"), //
                                         hasNote("Vanguard FTSE Dev-AsiaPacexJpn"), //
                                         hasAmount("CHF", 853.88), hasGrossValue("CHF", 853.88), //

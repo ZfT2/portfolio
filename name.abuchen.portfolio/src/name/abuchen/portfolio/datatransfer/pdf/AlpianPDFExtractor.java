@@ -56,7 +56,7 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
     // CASH - 4/2.56-iShares Swiss Dom Govt Bd 2026-07-24 2026-07-23 0.90 0.00
     // Booking date: 2026-07-24 | Value date (= pay date): 2026-07-23
     // @formatter:on
-    private static final String CASH_LINE = "^CASH \\- (?<shares>[\\.,'’\\d]+)\\/[\\.,'’\\d]+\\-(?<name>.*) [\\d]{4}\\-[\\d]{2}\\-[\\d]{2} (?<date>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) (\\-[\\s]*)?(?<debit>[\\.,'’\\d]+) (\\-[\\s]*)?(?<credit>[\\.,'’\\d]+)$";
+    private static final String CASH_LINE = "^CASH \\- (?<shares>[\\.,'’\\d]+)\\/[\\.,'’\\d]+\\-(?<name>.*) (?<bookingDate>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) (?<date>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) (\\-[\\s]*)?(?<debit>[\\.,'’\\d]+) (\\-[\\s]*)?(?<credit>[\\.,'’\\d]+)$";
 
     // Continuation of a security name on the next line, e.g. "3-7" or "Bond",
     // but neither the next booking nor the page footer.
@@ -362,11 +362,12 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("note", "date", "currency", "amount") //
+                        .section("note", "bookingDate", "date", "currency", "amount") //
                         .documentContext("periodStart", "periodEnd") //
-                        .match("^(?<note>Domestic Clearing.*) [\\d]{1,2} [\\p{L}]{3,4} (?<date>[\\d]{1,2} [\\p{L}]{3,4}) (?<currency>[A-Z]{3}) (\\-[\\s]*)?(?<amount>[\\.,'’\\d]+)$") //
+                        .match("^(?<note>Domestic Clearing.*?) (?<bookingDate>[\\d]{1,2} [\\p{L}]{3,4}) (?<date>[\\d]{1,2} [\\p{L}]{3,4}) (?<currency>[A-Z]{3}) (\\-[\\s]*)?(?<amount>[\\.,'’\\d]+)$") //
                         .assign((t, v) -> {
-                            t.setDateTime(asDateWithinPeriod(v));
+                            t.setDateTime(asDateWithinPeriod(v, "date"));
+                            t.setBookingDate(asDateWithinPeriod(v, "bookingDate"));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(trim(v.get("note")));
@@ -383,11 +384,12 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("note", "date", "currency", "amount") //
+                        .section("note", "bookingDate", "date", "currency", "amount") //
                         .documentContext("periodStart", "periodEnd") //
-                        .match("^(?<note>Debit Internal Transfer) [\\d]{1,2} [\\p{L}]{3,4} (?<date>[\\d]{1,2} [\\p{L}]{3,4}) (?<currency>[A-Z]{3}) (\\-[\\s]*)?(?<amount>[\\.,'’\\d]+)$") //
+                        .match("^(?<note>Debit Internal Transfer.*?) (?<bookingDate>[\\d]{1,2} [\\p{L}]{3,4}) (?<date>[\\d]{1,2} [\\p{L}]{3,4}) (?<currency>[A-Z]{3}) (\\-[\\s]*)?(?<amount>[\\.,'’\\d]+)$") //
                         .assign((t, v) -> {
-                            t.setDateTime(asDateWithinPeriod(v));
+                            t.setDateTime(asDateWithinPeriod(v, "date"));
+                            t.setBookingDate(asDateWithinPeriod(v, "bookingDate"));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(trim(v.get("note")));
@@ -440,11 +442,12 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
                                 t.setType(PortfolioTransaction.Type.SELL);
                         })
 
-                        .section("shares", "name", "date", "debit", "credit") //
+                        .section("shares", "name", "bookingDate", "date", "debit", "credit") //
                         .documentContext("currency") //
-                        .match("^(?<shares>[\\.,'’\\d]+) \\- (?<name>.*) (?<date>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) [\\d]{4}\\-[\\d]{2}\\-[\\d]{2} (\\-[\\s]*)?(?<debit>[\\.,'’\\d]+) (\\-[\\s]*)?(?<credit>[\\.,'’\\d]+)$") //
+                        .match("^(?<shares>[\\.,'’\\d]+) \\- (?<name>.*) (?<bookingDate>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) (?<date>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) (\\-[\\s]*)?(?<debit>[\\.,'’\\d]+) (\\-[\\s]*)?(?<credit>[\\.,'’\\d]+)$") //
                         .assign((t, v) -> {
                             t.setDate(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setShares(asShares(v.get("shares")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asDebitOrCreditAmount(v));
@@ -473,11 +476,12 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DIVIDENDS))
 
-                        .section("shares", "name", "date", "debit", "credit") //
+                        .section("shares", "name", "bookingDate", "date", "debit", "credit") //
                         .documentContext("currency") //
                         .match(CASH_LINE) //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setShares(asShares(v.get("shares")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asDebitOrCreditAmount(v));
@@ -505,11 +509,12 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.TAXES))
 
-                        .section("shares", "name", "date", "debit", "credit") //
+                        .section("shares", "name", "bookingDate", "date", "debit", "credit") //
                         .documentContext("currency") //
                         .match(CASH_LINE) //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setShares(asShares(v.get("shares")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asDebitOrCreditAmount(v));
@@ -536,15 +541,16 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES))
 
-                        .section("note", "date", "debit", "credit") //
+                        .section("note", "bookingDate", "date", "debit", "credit") //
                         .documentContext("currency") //
-                        .match("^(?<note>Fees posted from [\\d]{6} to [\\d]{6}) [\\d]{4}\\-[\\d]{2}\\-[\\d]{2} (?<date>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) (\\-[\\s]*)?(?<debit>[\\.,'’\\d]+) (\\-[\\s]*)?(?<credit>[\\.,'’\\d]+)$") //
+                        .match("^(?<note>Fees posted from [\\d]{6} to [\\d]{6}) (?<bookingDate>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) (?<date>[\\d]{4}\\-[\\d]{2}\\-[\\d]{2}) (\\-[\\s]*)?(?<debit>[\\.,'’\\d]+) (\\-[\\s]*)?(?<credit>[\\.,'’\\d]+)$") //
                         .assign((t, v) -> {
                             // Is credit --> change from FEES to FEES_REFUND
                             if (asAmount(v.get("debit")) == 0 && asAmount(v.get("credit")) != 0)
                                 t.setType(AccountTransaction.Type.FEES_REFUND);
 
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asDebitOrCreditAmount(v));
                             t.setNote(trim(v.get("note")));
@@ -562,13 +568,16 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
      * covers periods spanning a year end as well as value dates shortly before
      * or after the period.
      *
+     * @param attribute
+     *            the attribute holding the date (booking date or value date)
+     *
      * @formatter:off
      * 01.12.2023 - 31.01.2024: 15 Jan --> 15.01.2024 | 30 Nov --> 30.11.2023
      * 01.01.2024 - 31.01.2024: 31 Dec --> 31.12.2023 (1 day before)
      * 01.12.2023 - 31.12.2023: 02 Jan --> 02.01.2024 (2 days after)
      * @formatter:on
      */
-    private LocalDateTime asDateWithinPeriod(Map<String, String> v)
+    private LocalDateTime asDateWithinPeriod(Map<String, String> v, String attribute)
     {
         var periodStart = asDate(v.get("periodStart"));
         var periodEnd = asDate(v.get("periodEnd"));
@@ -578,7 +587,7 @@ public class AlpianPDFExtractor extends AbstractPDFExtractor
 
         for (var year = periodStart.getYear() - 1; year <= periodEnd.getYear() + 1; year++)
         {
-            var candidate = asDate(v.get("date") + " " + year);
+            var candidate = asDate(v.get(attribute) + " " + year);
             var distance = distanceToPeriod(candidate, periodStart, periodEnd);
 
             if (distance < bestDistance)
