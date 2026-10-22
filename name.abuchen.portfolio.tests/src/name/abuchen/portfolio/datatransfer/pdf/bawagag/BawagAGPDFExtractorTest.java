@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.bawagag;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasNote;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasSource;
@@ -50,11 +51,13 @@ public class BawagAGPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-02-07"), hasAmount("EUR", 38.32), //
+        assertThat(results, hasItem(deposit(hasDate("2025-02-07"), hasBookingDate("2025-02-07"), //
+                        hasAmount("EUR", 38.32), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("Per Lastschrift dankend erhalten"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-01-22"), hasAmount("EUR", 52.99), //
+        assertThat(results, hasItem(removal(hasDate("2025-01-22"), hasBookingDate("2025-01-22"), //
+                        hasAmount("EUR", 52.99), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("PAYPAL *DOCMORRIS 59BA 00000000000"))));
     }
 }

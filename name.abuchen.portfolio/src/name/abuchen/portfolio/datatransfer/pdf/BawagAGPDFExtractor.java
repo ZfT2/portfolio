@@ -37,11 +37,24 @@ public class BawagAGPDFExtractor extends AbstractPDFExtractor
                                         // @formatter:on
                                         .section("currency") //
                                         .match("^.* \\((?<currency>[A-Z]{3})\\)$") //
-                                        .assign((ctx, v) -> ctx.put("currency", asCurrencyCode(v.get("currency")))));
+                                        .assign((ctx, v) -> ctx.put("currency", asCurrencyCode(v.get("currency")))) //
+
+                                        // In the first variant of the statement the first
+                                        // column is the receipt date (Belegdatum) and the
+                                        // booking date is the second column
+                                        // (Buchungs-/Valutadatum). Only in the second
+                                        // variant the first column is the booking date.
+                                        // @formatter:off
+                                        // Gebucht am Wertstellung am Verwendungszweck Betrag (EUR)
+                                        // @formatter:on
+                                        .section("bookedOnFirstDate").optional() //
+                                        .match("^Gebucht am Wertstellung am .*$") //
+                                        .assign((ctx, v) -> ctx.put("bookedOnFirstDate", "true")));
 
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Beleg- Buchungs-/ Beschreibung Karte Betrag (EUR)
         // 23.12.2023 25.12.2023 Lidl sagt Danke        Ort           DE Visa B A             60,78-
         // 23.12.2023 28.12.2023 Lidl sagt Danke        Ort           DE Visa B A             60,78+
         // @formatter:on
@@ -52,9 +65,10 @@ public class BawagAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "amount", "type") //
+                        .section("date1", "date", "note", "amount", "type") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                        .documentContextOptionally("bookedOnFirstDate") //
+                        .match("^(?<date1>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note>.{1,36})" //
                                         + ".* " //
@@ -66,6 +80,15 @@ public class BawagAGPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
                             t.setDateTime(asDate(v.get("date")));
+
+                            // The booking date is the first column only in the second
+                            // variant of the statement. Otherwise it is the second
+                            // column (Buchungs-/Valutadatum).
+                            if (v.get("bookedOnFirstDate") != null)
+                                t.setBookingDate(asDate(v.get("date1")));
+                            else
+                                t.setBookingDate(asDate(v.get("date")));
+
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(trim(replaceMultipleBlanks(v.get("note"))));
