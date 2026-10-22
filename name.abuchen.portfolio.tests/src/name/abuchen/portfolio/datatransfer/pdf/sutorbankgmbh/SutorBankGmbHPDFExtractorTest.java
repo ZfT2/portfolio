@@ -5,6 +5,7 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.fee;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.feeRefund;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -92,7 +93,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-01-02T10:49:34"), hasShares(53.00), //
+                        hasDate("2020-01-02T10:49:34"), hasBookingDate(null), hasShares(53.00), //
                         hasSource("Kauf01.txt"), hasNote(null), //
                         hasAmount("EUR", 1340.64), hasGrossValue("EUR", 1340.64), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
@@ -125,7 +126,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-06-03T09:27:01"), hasShares(29.00), //
+                        hasDate("2020-06-03T09:27:01"), hasBookingDate(null), hasShares(29.00), //
                         hasSource("Kauf02.txt"), hasNote("Handelsreferenz: [0123456789abcdef01234567]"), //
                         hasAmount("EUR", 2083.94), hasGrossValue("EUR", 2083.94), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
@@ -158,7 +159,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-03-01T18:23:36"), hasShares(30.00), //
+                        hasDate("2021-03-01T18:23:36"), hasBookingDate(null), hasShares(30.00), //
                         hasSource("Kauf03.txt"), hasNote("Handelsreferenz: 603d2318e971a90019a6053b"), //
                         hasAmount("EUR", 2292.00), hasGrossValue("EUR", 2292.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
@@ -191,7 +192,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-06-01T20:37:32"), hasShares(300.00), //
+                        hasDate("2023-06-01T20:37:32"), hasBookingDate(null), hasShares(300.00), //
                         hasSource("Kauf04.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1902.40), hasGrossValue("EUR", 1901.40), //
@@ -225,7 +226,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-06-26T21:11:58"), hasShares(5.00), //
+                        hasDate("2024-06-26T21:11:58"), hasBookingDate(null), hasShares(5.00), //
                         hasSource("Kauf05.txt"), //
                         hasNote("Handelsreferenz: 547l78QW0n57EA12598N8822"), //
                         hasAmount("EUR", 234.22), hasGrossValue("EUR", 233.22), //
@@ -259,7 +260,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-31T21:00:15"), hasShares(58), //
+                        hasDate("2020-07-31T21:00:15"), hasBookingDate(null), hasShares(58), //
                         hasSource("Verkauf01.txt"), hasNote("Handelsreferenz: 5f245de9567c6400199b6ba9"), //
                         hasAmount("EUR", 2232.23), hasGrossValue("EUR", 2233.00), //
                         hasTaxes("EUR", 0.77), hasFees("EUR", 0.00))));
@@ -292,7 +293,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-06-25"), hasShares(9), //
+                        hasDate("2021-06-25"), hasBookingDate(null), hasShares(9), //
                         hasSource("Verkauf02.txt"), hasNote("Referenz 6709"), //
                         hasAmount("EUR", 2070.00), hasGrossValue("EUR", 2070.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
@@ -325,7 +326,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2023-06-01T21:20:42"), hasShares(300), //
+                        hasDate("2023-06-01T21:20:42"), hasBookingDate(null), hasShares(300), //
                         hasSource("Verkauf03.txt"), hasNote(null), //
                         hasAmount("EUR", 1964.00), hasGrossValue("EUR", 1965.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 12.83 - 11.83))));
@@ -358,7 +359,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2023-06-13T11:10:52"), hasShares(0.4000), //
+                        hasDate("2023-06-13T11:10:52"), hasBookingDate(null), hasShares(0.4000), //
                         hasSource("Verkauf04.txt"), //
                         hasNote("Handelsreferenz: 11111111"), //
                         hasAmount("EUR", 1.26), hasGrossValue("EUR", 1.26), //
@@ -392,56 +393,56 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-08-10T14:31:04"), hasShares(100), //
+                        hasDate("2020-08-10T14:31:04"), hasBookingDate(null), hasShares(100), //
                         hasSource("Sammelabrechnung01.txt"), hasNote("Handelsreferenz: 5f313e083e83d00019d6835e"), //
                         hasAmount("EUR", 1228.00), hasGrossValue("EUR", 1228.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-08-10T15:48:16"), hasShares(125), //
+                        hasDate("2020-08-10T15:48:16"), hasBookingDate(null), hasShares(125), //
                         hasSource("Sammelabrechnung01.txt"), hasNote("Handelsreferenz: 5f315020567c6400199c4044"), //
                         hasAmount("EUR", 1575.00), hasGrossValue("EUR", 1575.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-08-10T15:51:21"), hasShares(125), //
+                        hasDate("2020-08-10T15:51:21"), hasBookingDate(null), hasShares(125), //
                         hasSource("Sammelabrechnung01.txt"), hasNote("Handelsreferenz: 5f3150d93e83d00019d68628"), //
                         hasAmount("EUR", 1573.75), hasGrossValue("EUR", 1573.75), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 4th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-08-10T16:51:20"), hasShares(150), //
+                        hasDate("2020-08-10T16:51:20"), hasBookingDate(null), hasShares(150), //
                         hasSource("Sammelabrechnung01.txt"), hasNote("Handelsreferenz: 5f315ee83e83d00019d6885a"), //
                         hasAmount("EUR", 1830.00), hasGrossValue("EUR", 1830.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 5th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-08-10T15:33:52"), hasShares(100), //
+                        hasDate("2020-08-10T15:33:52"), hasBookingDate(null), hasShares(100), //
                         hasSource("Sammelabrechnung01.txt"), hasNote("Handelsreferenz: 5f314b9f567c6400199c3fb1"), //
                         hasAmount("EUR", 1262.00), hasGrossValue("EUR", 1262.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 6th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-08-10T15:50:52"), hasShares(125), //
+                        hasDate("2020-08-10T15:50:52"), hasBookingDate(null), hasShares(125), //
                         hasSource("Sammelabrechnung01.txt"), hasNote("Handelsreferenz: 5f31509a3e83d00019d6861b"), //
                         hasAmount("EUR", 1576.25), hasGrossValue("EUR", 1576.25), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 7th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-08-10T16:19:50"), hasShares(125), //
+                        hasDate("2020-08-10T16:19:50"), hasBookingDate(null), hasShares(125), //
                         hasSource("Sammelabrechnung01.txt"), hasNote("Handelsreferenz: 5f3156b43e83d00019d686fa"), //
                         hasAmount("EUR", 1575.00), hasGrossValue("EUR", 1575.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 8th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-08-10T17:07:12"), hasShares(150), //
+                        hasDate("2020-08-10T17:07:12"), hasBookingDate(null), hasShares(150), //
                         hasSource("Sammelabrechnung01.txt"), hasNote("Handelsreferenz: 5f3162a03e83d00019d68929"), //
                         hasAmount("EUR", 1833.00), hasGrossValue("EUR", 1833.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
@@ -474,7 +475,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-03-15T00:00"), hasExDate("2021-03-01T00:00"), //
+                        hasDate("2021-03-15T00:00"), hasBookingDate(null), hasExDate("2021-03-01T00:00"), //
                         hasShares(30.00), //
                         hasSource("Dividende01.txt"), //
                         hasNote("Vierteljährlich"), //
@@ -509,7 +510,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-04-15T00:00"), hasExDate("2021-03-30T00:00"), //
+                        hasDate("2021-04-15T00:00"), hasBookingDate(null), hasExDate("2021-03-30T00:00"), //
                         hasShares(20.00), //
                         hasSource("Dividende02.txt"), //
                         hasNote("Vierteljährlich"), //
@@ -544,7 +545,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-09-23T00:00"), hasExDate("2021-08-12T00:00"), //
+                        hasDate("2021-09-23T00:00"), hasBookingDate(null), hasExDate("2021-08-12T00:00"), //
                         hasShares(30.00), //
                         hasSource("Dividende03.txt"), //
                         hasNote("Interim"), //
@@ -579,7 +580,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-09-23T00:00"), hasExDate("2021-09-08T00:00"), //
+                        hasDate("2021-09-23T00:00"), hasBookingDate(null), hasExDate("2021-09-08T00:00"), //
                         hasShares(40.00), //
                         hasSource("Dividende04.txt"), //
                         hasNote("Vierteljährlich"), //
@@ -614,7 +615,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-11-01T00:00"), hasExDate("2021-10-07T00:00"), //
+                        hasDate("2021-11-01T00:00"), hasBookingDate(null), hasExDate("2021-10-07T00:00"), //
                         hasShares(31.00), //
                         hasSource("Dividende05.txt"), //
                         hasNote("Vierteljährlich"), //
@@ -649,7 +650,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2024-01-02T00:00"), hasShares(150), //
+                        hasDate("2024-01-02T00:00"), hasBookingDate(null), hasShares(150), //
                         hasSource("Vorabpauschale01.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 34.25), hasGrossValue("EUR", 34.25), //
@@ -683,7 +684,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02T00:00"), hasShares(22.00), //
+                        hasDate("2026-01-02T00:00"), hasBookingDate(null), hasShares(22.00), //
                         hasSource("Vorabpauschale02.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 8.65), hasGrossValue("EUR", 8.65), //
@@ -711,7 +712,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2026-01-19T00:00"), hasShares(0.00), //
+                        hasDate("2026-01-19T00:00"), hasBookingDate(null), hasShares(0.00), //
                         hasSource("Steuerausgleich01.txt"), //
                         hasNote("Steuerausgleich nach §43a EstG"), //
                         hasAmount("EUR", 8.65), hasGrossValue("EUR", 8.65), //
@@ -747,7 +748,7 @@ public class SutorBankGmbHPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         outboundDelivery( //
-                                        hasDate("2023-05-25T00:00"), hasShares(500.00), //
+                                        hasDate("2023-05-25T00:00"), hasBookingDate(null), hasShares(500.00), //
                                         hasSource("Kapitalveraenderung01.txt"), //
                                         hasNote("Verhältnis Neu/ Alt 1 : 3,00"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -783,7 +784,7 @@ public class SutorBankGmbHPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         outboundDelivery( //
-                                        hasDate("2023-12-14T00:00"), hasShares(50.00), //
+                                        hasDate("2023-12-14T00:00"), hasBookingDate(null), hasShares(50.00), //
                                         hasSource("Uebernahme01.txt"), //
                                         hasNote("Verhältnis Neu/ Alt 1,00 : 1,00"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -829,50 +830,50 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2019-07-04"), hasShares(0.3308), //
+                        hasDate("2019-07-04"), hasBookingDate("2019-07-05"), hasShares(0.3308), //
                         hasSource("Depotauszug01.txt"), hasNote(null), //
                         hasAmount("EUR", 8.35), hasGrossValue("EUR", 8.35), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2019-07-03"), hasShares(1.5264), //
+                        hasDate("2019-07-03"), hasBookingDate("2019-07-04"), hasShares(1.5264), //
                         hasSource("Depotauszug01.txt"), hasNote(null), //
                         hasAmount("EUR", 242.09), hasGrossValue("EUR", 242.09), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2019-07-05"), hasShares(0.0387), //
+                        hasDate("2019-07-05"), hasBookingDate("2019-07-08"), hasShares(0.0387), //
                         hasSource("Depotauszug01.txt"), hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 0.98), hasGrossValue("EUR", 0.98), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 4th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2019-07-06"), hasShares(0.0299), //
+                        hasDate("2019-07-06"), hasBookingDate("2019-07-09"), hasShares(0.0299), //
                         hasSource("Depotauszug01.txt"), hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 4.78), hasGrossValue("EUR", 4.78), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 5th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2019-07-02"), hasShares(6.2631), //
+                        hasDate("2019-07-02"), hasBookingDate("2019-07-04"), hasShares(6.2631), //
                         hasSource("Depotauszug01.txt"), hasNote(null), //
                         hasAmount("EUR", 75.22), hasGrossValue("EUR", 75.22), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 1st deposit transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-02-01"), hasAmount("EUR", 160.42), //
+        assertThat(results, hasItem(deposit(hasDate("2019-02-01"), hasBookingDate("2019-02-01"), hasAmount("EUR", 160.42), //
                         hasSource("Depotauszug01.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check 2nd deposit transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-02-01"), hasAmount("EUR", 222.00), //
+        assertThat(results, hasItem(deposit(hasDate("2019-02-01"), hasBookingDate("2019-02-01"), hasAmount("EUR", 222.00), //
                         hasSource("Depotauszug01.txt"), hasNote("Zulage 2018"))));
 
         // check 1st fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2019-07-10"), //
+                        hasDate("2019-07-10"), hasBookingDate("2019-07-10"), //
                         hasSource("Depotauszug01.txt"), //
                         hasNote("Verwaltungsgebühr/Vertriebskosten"), //
                         hasAmount("EUR", 19.83), hasGrossValue("EUR", 19.83), //
@@ -880,7 +881,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 2nd fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2019-01-10"), //
+                        hasDate("2019-01-10"), hasBookingDate("2019-01-10"), //
                         hasSource("Depotauszug01.txt"), //
                         hasNote("Verwaltgebühr/Vertriebskosten"), //
                         hasAmount("EUR", 2.12), hasGrossValue("EUR", 2.12), //
@@ -888,7 +889,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 3rd fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2019-01-10"), //
+                        hasDate("2019-01-10"), hasBookingDate("2019-01-10"), //
                         hasSource("Depotauszug01.txt"), //
                         hasNote("Kontoführungs-u.Depotgebühren"), //
                         hasAmount("EUR", 13.50), hasGrossValue("EUR", 13.50), //
@@ -940,46 +941,46 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-01T12:46"), hasShares(26.7524), //
+                        hasDate("2020-07-01T12:46"), hasBookingDate("2020-07-01"), hasShares(26.7524), //
                         hasSource("Depotauszug02.txt"), hasNote(null), //
                         hasAmount("EUR", 719.05), hasGrossValue("EUR", 719.05), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-01T12:53"), hasShares(1.4517), //
+                        hasDate("2020-07-01T12:53"), hasBookingDate("2020-07-01"), hasShares(1.4517), //
                         hasSource("Depotauszug02.txt"), hasNote(null), //
                         hasAmount("EUR", 145.32), hasGrossValue("EUR", 145.32), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-01T12:56"), hasShares(1.9784), //
+                        hasDate("2020-07-01T12:56"), hasBookingDate("2020-07-01"), hasShares(1.9784), //
                         hasSource("Depotauszug02.txt"), hasNote(null), //
                         hasAmount("EUR", 48.44), hasGrossValue("EUR", 48.44), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 4th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-01T13:20"), hasShares(34.7017), //
+                        hasDate("2020-07-01T13:20"), hasBookingDate("2020-07-01"), hasShares(34.7017), //
                         hasSource("Depotauszug02.txt"), hasNote(null), //
                         hasAmount("EUR", 1000.97), hasGrossValue("EUR", 1000.97), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 5th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-02T15:20"), hasShares(25.3618), //
+                        hasDate("2020-07-02T15:20"), hasBookingDate("2020-07-02"), hasShares(25.3618), //
                         hasSource("Depotauszug02.txt"), hasNote(null), //
                         hasAmount("EUR", 683.50), hasGrossValue("EUR", 683.50), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 1st deposit transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-03-02"), hasAmount("EUR", 175.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-03-02"), hasBookingDate("2020-03-02"), hasAmount("EUR", 175.00), //
                         hasSource("Depotauszug02.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check 1st fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2020-06-11"), //
+                        hasDate("2020-06-11"), hasBookingDate("2020-06-11"), //
                         hasSource("Depotauszug02.txt"), //
                         hasNote("Kontoführungs-u.Depotgebühren"), //
                         hasAmount("EUR", 18.00), hasGrossValue("EUR", 18.00), //
@@ -987,7 +988,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 2nd fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2020-01-08"), //
+                        hasDate("2020-01-08"), hasBookingDate("2020-01-08"), //
                         hasSource("Depotauszug02.txt"), //
                         hasNote("Verwaltgebühr/Vertriebskosten"), //
                         hasAmount("EUR", 0.92), hasGrossValue("EUR", 0.92), //
@@ -1045,425 +1046,425 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-10-01T14:14"), hasShares(0.0405), //
+                        hasDate("2020-10-01T14:14"), hasBookingDate("2020-10-01"), hasShares(0.0405), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 5.83), hasGrossValue("EUR", 5.83), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-10-01T14:19"), hasShares(0.0014), //
+                        hasDate("2020-10-01T14:19"), hasBookingDate("2020-10-01"), hasShares(0.0014), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.14), hasGrossValue("EUR", 0.14), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-10-01T14:24"), hasShares(0.0012), //
+                        hasDate("2020-10-01T14:24"), hasBookingDate("2020-10-01"), hasShares(0.0012), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.03), hasGrossValue("EUR", 0.03), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 4th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-10-01T14:29"), hasShares(0.0347), //
+                        hasDate("2020-10-01T14:29"), hasBookingDate("2020-10-01"), hasShares(0.0347), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 1.01), hasGrossValue("EUR", 1.01), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 5th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-02T15:50"), hasShares(0.0272), //
+                        hasDate("2020-11-02T15:50"), hasBookingDate("2020-11-02"), hasShares(0.0272), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 3.92), hasGrossValue("EUR", 3.92), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 6th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-02T15:53"), hasShares(0.0490), //
+                        hasDate("2020-11-02T15:53"), hasBookingDate("2020-11-02"), hasShares(0.0490), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 4.82), hasGrossValue("EUR", 4.82), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 7th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-02T15:56"), hasShares(0.0076), //
+                        hasDate("2020-11-02T15:56"), hasBookingDate("2020-11-02"), hasShares(0.0076), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.19), hasGrossValue("EUR", 0.19), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 8th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-02T15:58"), hasShares(0.1492), //
+                        hasDate("2020-11-02T15:58"), hasBookingDate("2020-11-02"), hasShares(0.1492), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 4.29), hasGrossValue("EUR", 4.29), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 9th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-04T13:30"), hasShares(0.1962), //
+                        hasDate("2020-11-04T13:30"), hasBookingDate("2020-11-04"), hasShares(0.1962), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 28.33), hasGrossValue("EUR", 28.33), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 10th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-04T13:34"), hasShares(0.0281), //
+                        hasDate("2020-11-04T13:34"), hasBookingDate("2020-11-04"), hasShares(0.0281), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 2.84), hasGrossValue("EUR", 2.84), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 11th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-04T13:36"), hasShares(0.0122), //
+                        hasDate("2020-11-04T13:36"), hasBookingDate("2020-11-04"), hasShares(0.0122), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.31), hasGrossValue("EUR", 0.31), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 12th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-04T13:42"), hasShares(0.1058), //
+                        hasDate("2020-11-04T13:42"), hasBookingDate("2020-11-04"), hasShares(0.1058), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 3.09), hasGrossValue("EUR", 3.09), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 13th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-10T16:54"), hasShares(29.2219), //
+                        hasDate("2020-11-10T16:54"), hasBookingDate("2020-11-10"), hasShares(29.2219), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 4217.89), hasGrossValue("EUR", 4217.89), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 14th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-10T17:05"), hasShares(2.7701), //
+                        hasDate("2020-11-10T17:05"), hasBookingDate("2020-11-10"), hasShares(2.7701), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 1308.16), hasGrossValue("EUR", 1308.16), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 15th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-10T17:10"), hasShares(0.0437), //
+                        hasDate("2020-11-10T17:10"), hasBookingDate("2020-11-10"), hasShares(0.0437), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 4.58), hasGrossValue("EUR", 4.58), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 16th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-10T17:16"), hasShares(0.0470), //
+                        hasDate("2020-11-10T17:16"), hasBookingDate("2020-11-10"), hasShares(0.0470), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 1.22), hasGrossValue("EUR", 1.22), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 17th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-10T17:20"), hasShares(0.1881), //
+                        hasDate("2020-11-10T17:20"), hasBookingDate("2020-11-10"), hasShares(0.1881), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 5.61), hasGrossValue("EUR", 5.61), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 18th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-11T12:50"), hasShares(29.2750), //
+                        hasDate("2020-11-11T12:50"), hasBookingDate("2020-11-11"), hasShares(29.2750), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 4227.89), hasGrossValue("EUR", 4227.89), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 19th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-11T13:01"), hasShares(2.7541), //
+                        hasDate("2020-11-11T13:01"), hasBookingDate("2020-11-11"), hasShares(2.7541), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 1308.59), hasGrossValue("EUR", 1308.59), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 20th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-11T13:08"), hasShares(0.0133), //
+                        hasDate("2020-11-11T13:08"), hasBookingDate("2020-11-11"), hasShares(0.0133), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 1.41), hasGrossValue("EUR", 1.41), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 21th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-11T13:12"), hasShares(0.0076), //
+                        hasDate("2020-11-11T13:12"), hasBookingDate("2020-11-11"), hasShares(0.0076), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.20), hasGrossValue("EUR", 0.20), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 22th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-11T13:17"), hasShares(0.0999), //
+                        hasDate("2020-11-11T13:17"), hasBookingDate("2020-11-11"), hasShares(0.0999), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 3.02), hasGrossValue("EUR", 3.02), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 23th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-12T16:43"), hasShares(29.2993), //
+                        hasDate("2020-11-12T16:43"), hasBookingDate("2020-11-12"), hasShares(29.2993), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 4231.40), hasGrossValue("EUR", 4231.40), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 24th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-12T16:53"), hasShares(4.9197), //
+                        hasDate("2020-11-12T16:53"), hasBookingDate("2020-11-12"), hasShares(4.9197), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 2360.50), hasGrossValue("EUR", 2360.50), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 25th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-12T16:56"), hasShares(0.0001), //
+                        hasDate("2020-11-12T16:56"), hasBookingDate("2020-11-12"), hasShares(0.0001), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.01), hasGrossValue("EUR", 0.01), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 26th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-12T16:59"), hasShares(0.0023), //
+                        hasDate("2020-11-12T16:59"), hasBookingDate("2020-11-12"), hasShares(0.0023), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.06), hasGrossValue("EUR", 0.06), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 27th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-12T17:01"), hasShares(0.0090), //
+                        hasDate("2020-11-12T17:01"), hasBookingDate("2020-11-12"), hasShares(0.0090), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.27), hasGrossValue("EUR", 0.27), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 28th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-13T13:35"), hasShares(4.8888), //
+                        hasDate("2020-11-13T13:35"), hasBookingDate("2020-11-13"), hasShares(4.8888), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 2363.26), hasGrossValue("EUR", 2363.26), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 29th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-13T13:44"), hasShares(0.0021), //
+                        hasDate("2020-11-13T13:44"), hasBookingDate("2020-11-13"), hasShares(0.0021), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.22), hasGrossValue("EUR", 0.22), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 30th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-13T13:46"), hasShares(0.0023), //
+                        hasDate("2020-11-13T13:46"), hasBookingDate("2020-11-13"), hasShares(0.0023), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.06), hasGrossValue("EUR", 0.06), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 31th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-13T13:54"), hasShares(0.0184), //
+                        hasDate("2020-11-13T13:54"), hasBookingDate("2020-11-13"), hasShares(0.0184), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.55), hasGrossValue("EUR", 0.55), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 32th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-16T13:43"), hasShares(4.9354), //
+                        hasDate("2020-11-16T13:43"), hasBookingDate("2020-11-16"), hasShares(4.9354), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 2372.02), hasGrossValue("EUR", 2372.02), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 33th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-16T13:50"), hasShares(0.0023), //
+                        hasDate("2020-11-16T13:50"), hasBookingDate("2020-11-16"), hasShares(0.0023), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.24), hasGrossValue("EUR", 0.24), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 34th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-16T13:56"), hasShares(0.0026), //
+                        hasDate("2020-11-16T13:56"), hasBookingDate("2020-11-16"), hasShares(0.0026), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.07), hasGrossValue("EUR", 0.07), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 35th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-16T14:08"), hasShares(0.0007), //
+                        hasDate("2020-11-16T14:08"), hasBookingDate("2020-11-16"), hasShares(0.0007), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.02), hasGrossValue("EUR", 0.02), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 36th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-17T14:47"), hasShares(4.8809), //
+                        hasDate("2020-11-17T14:47"), hasBookingDate("2020-11-17"), hasShares(4.8809), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 2372.62), hasGrossValue("EUR", 2372.62), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 37th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-17T14:53"), hasShares(0.0054), //
+                        hasDate("2020-11-17T14:53"), hasBookingDate("2020-11-17"), hasShares(0.0054), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.57), hasGrossValue("EUR", 0.57), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 38th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-17T14:55"), hasShares(0.0088), //
+                        hasDate("2020-11-17T14:55"), hasBookingDate("2020-11-17"), hasShares(0.0088), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.23), hasGrossValue("EUR", 0.23), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 39th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-17T14:59"), hasShares(0.0420), //
+                        hasDate("2020-11-17T14:59"), hasBookingDate("2020-11-17"), hasShares(0.0420), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 1.26), hasGrossValue("EUR", 1.26), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 40th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-18T12:55"), hasShares(1.2364), //
+                        hasDate("2020-11-18T12:55"), hasBookingDate("2020-11-19"), hasShares(1.2364), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 602.49), hasGrossValue("EUR", 602.49), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 41th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-18T12:58"), hasShares(0.0015), //
+                        hasDate("2020-11-18T12:58"), hasBookingDate("2020-11-19"), hasShares(0.0015), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.04), hasGrossValue("EUR", 0.04), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 42th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-18T13:06"), hasShares(0.0044), //
+                        hasDate("2020-11-18T13:06"), hasBookingDate("2020-11-19"), hasShares(0.0044), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.47), hasGrossValue("EUR", 0.47), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 43th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-18T13:11"), hasShares(0.0601), //
+                        hasDate("2020-11-18T13:11"), hasBookingDate("2020-11-19"), hasShares(0.0601), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 1.81), hasGrossValue("EUR", 1.81), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 44th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-26T13:34"), hasShares(0.0633), //
+                        hasDate("2020-11-26T13:34"), hasBookingDate("2020-11-26"), hasShares(0.0633), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 30.87), hasGrossValue("EUR", 30.87), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 45th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-26T13:44"), hasShares(0.0092), //
+                        hasDate("2020-11-26T13:44"), hasBookingDate("2020-11-26"), hasShares(0.0092), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.96), hasGrossValue("EUR", 0.96), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 46th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-26T13:53"), hasShares(0.0922), //
+                        hasDate("2020-11-26T13:53"), hasBookingDate("2020-11-26"), hasShares(0.0922), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 2.74), hasGrossValue("EUR", 2.74), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 47th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-12-01T15:07"), hasShares(0.0137), //
+                        hasDate("2020-12-01T15:07"), hasBookingDate("2020-12-01"), hasShares(0.0137), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 6.62), hasGrossValue("EUR", 6.62), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 48th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-12-01T15:20"), hasShares(0.0087), //
+                        hasDate("2020-12-01T15:20"), hasBookingDate("2020-12-01"), hasShares(0.0087), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.91), hasGrossValue("EUR", 0.91), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 49th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-12-01T15:24"), hasShares(0.0027), //
+                        hasDate("2020-12-01T15:24"), hasBookingDate("2020-12-01"), hasShares(0.0027), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.07), hasGrossValue("EUR", 0.07), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 50th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-12-01T15:30"), hasShares(0.0264), //
+                        hasDate("2020-12-01T15:30"), hasBookingDate("2020-12-01"), hasShares(0.0264), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.78), hasGrossValue("EUR", 0.78), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 51th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-12-04T13:41"), hasShares(0.0132), //
+                        hasDate("2020-12-04T13:41"), hasBookingDate("2020-12-04"), hasShares(0.0132), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 1.37), hasGrossValue("EUR", 1.37), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 52th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-12-04T13:49"), hasShares(0.0004), //
+                        hasDate("2020-12-04T13:49"), hasBookingDate("2020-12-04"), hasShares(0.0004), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.01), hasGrossValue("EUR", 0.01), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 53th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-12-04T13:55"), hasShares(0.1367), //
+                        hasDate("2020-12-04T13:55"), hasBookingDate("2020-12-04"), hasShares(0.1367), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 3.99), hasGrossValue("EUR", 3.99), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 54th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-12-04T14:04"), hasShares(0.0819), //
+                        hasDate("2020-12-04T14:04"), hasBookingDate("2020-12-04"), hasShares(0.0819), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 39.74), hasGrossValue("EUR", 39.74), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 55th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-12-16T13:21"), hasShares(0.0061), //
+                        hasDate("2020-12-16T13:21"), hasBookingDate("2020-12-16"), hasShares(0.0061), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.16), hasGrossValue("EUR", 0.16), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 56th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-12-16T13:29"), hasShares(0.0375), //
+                        hasDate("2020-12-16T13:29"), hasBookingDate("2020-12-16"), hasShares(0.0375), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 18.25), hasGrossValue("EUR", 18.25), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 57th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-12-16T13:33"), hasShares(0.0030), //
+                        hasDate("2020-12-16T13:33"), hasBookingDate("2020-12-16"), hasShares(0.0030), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.31), hasGrossValue("EUR", 0.31), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 58th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-12-16T13:36"), hasShares(0.0136), //
+                        hasDate("2020-12-16T13:36"), hasBookingDate("2020-12-16"), hasShares(0.0136), //
                         hasSource("Depotauszug03.txt"), hasNote(null), //
                         hasAmount("EUR", 0.40), hasGrossValue("EUR", 0.40), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 1st deposit transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-10-01"), hasAmount("EUR", 5.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-10-01"), hasBookingDate("2020-10-01"), hasAmount("EUR", 5.00), //
                         hasSource("Depotauszug03.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check 2nd deposit transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasAmount("EUR", 5.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasBookingDate("2020-11-02"), hasAmount("EUR", 5.00), //
                         hasSource("Depotauszug03.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check 3rd deposit transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-12-01"), hasAmount("EUR", 5.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-12-01"), hasBookingDate("2020-12-01"), hasAmount("EUR", 5.00), //
                         hasSource("Depotauszug03.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check 1th fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2020-11-04"), //
+                        hasDate("2020-11-04"), hasBookingDate("2020-11-04"), //
                         hasSource("Depotauszug03.txt"), //
                         hasNote("Verwaltungsgebühr/Vertriebskosten"), //
                         hasAmount("EUR", 34.57), hasGrossValue("EUR", 34.57), //
@@ -1471,7 +1472,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 1st fee refund (Storno) transaction
         assertThat(results, hasItem(feeRefund( //
-                        hasDate("2020-11-25"), //
+                        hasDate("2020-11-25"), hasBookingDate("2020-11-25"), //
                         hasSource("Depotauszug03.txt"), //
                         hasNote("Storno Verwaltungsgebühr/Vertriebskosten vom 04.11.2020"), //
                         hasAmount("EUR", 34.57), hasGrossValue("EUR", 34.57), //
@@ -1479,7 +1480,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 2nd fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2020-12-03"), //
+                        hasDate("2020-12-03"), hasBookingDate("2020-12-03"), //
                         hasSource("Depotauszug03.txt"), //
                         hasNote("Verwaltungsgebühr/Vertriebskosten"), //
                         hasAmount("EUR", 34.39), hasGrossValue("EUR", 34.39), //
@@ -1487,7 +1488,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 3nd fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2020-12-16"), //
+                        hasDate("2020-12-16"), hasBookingDate("2020-12-16"), //
                         hasSource("Depotauszug03.txt"), //
                         hasNote("Kontoführungs-u.Depotgebühren"), //
                         hasAmount("EUR", 18.00), hasGrossValue("EUR", 18.00), //
@@ -1533,95 +1534,95 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-04-01T12:05"), hasShares(6.0208), //
+                        hasDate("2021-04-01T12:05"), hasBookingDate("2021-04-06"), hasShares(6.0208), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 156.00), hasGrossValue("EUR", 156.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-04-01T12:16"), hasShares(0.9470), //
+                        hasDate("2021-04-01T12:16"), hasBookingDate("2021-04-06"), hasShares(0.9470), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 52.00), hasGrossValue("EUR", 52.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-04-01T12:45"), hasShares(7.1448), //
+                        hasDate("2021-04-01T12:45"), hasBookingDate("2021-04-06"), hasShares(7.1448), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 52.00), hasGrossValue("EUR", 52.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 4rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-04-12T12:08"), hasShares(0.0994), //
+                        hasDate("2021-04-12T12:08"), hasBookingDate("2021-04-15"), hasShares(0.0994), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 5.54), hasGrossValue("EUR", 5.54), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 5th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-04-12T12:59"), hasShares(5.8650), //
+                        hasDate("2021-04-12T12:59"), hasBookingDate("2021-04-15"), hasShares(5.8650), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 41.46), hasGrossValue("EUR", 41.46), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 6th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-04-12T13:18"), hasShares(1.7870), //
+                        hasDate("2021-04-12T13:18"), hasBookingDate("2021-04-15"), hasShares(1.7870), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 47.00), hasGrossValue("EUR", 47.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 7th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-05-10T10:50"), hasShares(0.7947), //
+                        hasDate("2021-05-10T10:50"), hasBookingDate("2021-05-14"), hasShares(0.7947), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 21.04), hasGrossValue("EUR", 21.04), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 8th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-05-10T11:31"), hasShares(1.0382), //
+                        hasDate("2021-05-10T11:31"), hasBookingDate("2021-05-14"), hasShares(1.0382), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 7.48), hasGrossValue("EUR", 7.48), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 9th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-05-10T11:42"), hasShares(0.5025), //
+                        hasDate("2021-05-10T11:42"), hasBookingDate("2021-05-14"), hasShares(0.5025), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 28.52), hasGrossValue("EUR", 28.52), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 10th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-05-13T08:00"), hasShares(0.4634), //
+                        hasDate("2021-05-13T08:00"), hasBookingDate("2021-05-17"), hasShares(0.4634), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 11.82), hasGrossValue("EUR", 11.82), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 11th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-05-13T08:00"), hasShares(0.3840), //
+                        hasDate("2021-05-13T08:00"), hasBookingDate("2021-05-17"), hasShares(0.3840), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 21.39), hasGrossValue("EUR", 21.39), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 12th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-05-13T08:26"), hasShares(1.7624), //
+                        hasDate("2021-05-13T08:26"), hasBookingDate("2021-05-17"), hasShares(1.7624), //
                         hasSource("Depotauszug04.txt"), hasNote(null), //
                         hasAmount("EUR", 12.11), hasGrossValue("EUR", 12.11), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 1st deposit transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-04-01"), hasAmount("EUR", 260.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-04-01"), hasBookingDate("2021-04-01"), hasAmount("EUR", 260.00), //
                         hasSource("Depotauszug04.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check 1th fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2021-05-17"), //
+                        hasDate("2021-05-17"), hasBookingDate("2021-05-17"), //
                         hasSource("Depotauszug04.txt"), //
                         hasNote("Depot- u. Verwaltgebühr"), //
                         hasAmount("EUR", 6.55), hasGrossValue("EUR", 6.55), //
@@ -1629,7 +1630,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 2nd fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2021-05-17"), //
+                        hasDate("2021-05-17"), hasBookingDate("2021-05-17"), //
                         hasSource("Depotauszug04.txt"), //
                         hasNote("Kontoführungsgebühr"), //
                         hasAmount("EUR", 15.00), hasGrossValue("EUR", 15.00), //
@@ -1637,7 +1638,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check 3rd fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2021-06-15"), //
+                        hasDate("2021-06-15"), hasBookingDate("2021-06-15"), //
                         hasSource("Depotauszug04.txt"), //
                         hasNote("Umbuchung Geld"), //
                         hasAmount("EUR", 23.77), hasGrossValue("EUR", 23.77), //
@@ -1647,7 +1648,7 @@ public class SutorBankGmbHPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         outboundDelivery( //
-                                        hasDate("2021-06-01T00:00"), hasShares(241), //
+                                        hasDate("2021-06-01T00:00"), hasBookingDate("2021-06-15"), hasShares(241), //
                                         hasSource("Depotauszug04.txt"), //
                                         hasNote("Übertrag"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -1657,7 +1658,7 @@ public class SutorBankGmbHPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         outboundDelivery( //
-                                        hasDate("2021-06-01T00:00"), hasShares(37), //
+                                        hasDate("2021-06-01T00:00"), hasBookingDate("2021-06-15"), hasShares(37), //
                                         hasSource("Depotauszug04.txt"), //
                                         hasNote("Übertrag"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -1667,7 +1668,7 @@ public class SutorBankGmbHPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         outboundDelivery( //
-                                        hasDate("2021-06-01T00:00"), hasShares(295), //
+                                        hasDate("2021-06-01T00:00"), hasBookingDate("2021-06-15"), hasShares(295), //
                                         hasSource("Depotauszug04.txt"), //
                                         hasNote("Übertrag"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -1721,357 +1722,357 @@ public class SutorBankGmbHPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionOrderCancellationUnsupported, //
                         purchase( //
-                                        hasDate("2020-06-22T13:31"), hasShares(3.9988), //
+                                        hasDate("2020-06-22T13:31"), hasBookingDate("2020-06-23"), hasShares(3.9988), //
                                         hasSource("Depotauszug05.txt"), hasNote(null), //
                                         hasAmount("EUR", 130.57), hasGrossValue("EUR", 130.57), //
                                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00)))));
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-01T12:46"), hasShares(26.7524), //
+                        hasDate("2020-07-01T12:46"), hasBookingDate("2020-07-01"), hasShares(26.7524), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 719.05), hasGrossValue("EUR", 719.05), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-01T12:53"), hasShares(1.4517), //
+                        hasDate("2020-07-01T12:53"), hasBookingDate("2020-07-01"), hasShares(1.4517), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 145.32), hasGrossValue("EUR", 145.32), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-01T12:56"), hasShares(1.9784), //
+                        hasDate("2020-07-01T12:56"), hasBookingDate("2020-07-01"), hasShares(1.9784), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 48.44), hasGrossValue("EUR", 48.44), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 4th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-01T13:20"), hasShares(34.7017), //
+                        hasDate("2020-07-01T13:20"), hasBookingDate("2020-07-01"), hasShares(34.7017), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 1000.97), hasGrossValue("EUR", 1000.97), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 5th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-02T15:20"), hasShares(25.3618), //
+                        hasDate("2020-07-02T15:20"), hasBookingDate("2020-07-02"), hasShares(25.3618), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 683.50), hasGrossValue("EUR", 683.50), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 6th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-02T15:24"), hasShares(1.5282), //
+                        hasDate("2020-07-02T15:24"), hasBookingDate("2020-07-02"), hasShares(1.5282), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 155.66), hasGrossValue("EUR", 155.66), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 7th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-02T15:36"), hasShares(2.0802), //
+                        hasDate("2020-07-02T15:36"), hasBookingDate("2020-07-02"), hasShares(2.0802), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 51.89), hasGrossValue("EUR", 51.89), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 8th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-02T15:38"), hasShares(0.7334), //
+                        hasDate("2020-07-02T15:38"), hasBookingDate("2020-07-02"), hasShares(0.7334), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 21.47), hasGrossValue("EUR", 21.47), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 9th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-03T13:43"), hasShares(24.2090), //
+                        hasDate("2020-07-03T13:43"), hasBookingDate("2020-07-03"), hasShares(24.2090), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 653.40), hasGrossValue("EUR", 653.40), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 10th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-03T13:45"), hasShares(1.6319), //
+                        hasDate("2020-07-03T13:45"), hasBookingDate("2020-07-03"), hasShares(1.6319), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 165.93), hasGrossValue("EUR", 165.93), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 11th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-03T13:48"), hasShares(2.2017), //
+                        hasDate("2020-07-03T13:48"), hasBookingDate("2020-07-03"), hasShares(2.2017), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 55.24), hasGrossValue("EUR", 55.24), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 12th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-03T13:50"), hasShares(1.3694), //
+                        hasDate("2020-07-03T13:50"), hasBookingDate("2020-07-03"), hasShares(1.3694), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 39.89), hasGrossValue("EUR", 39.89), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 13th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-06T14:15"), hasShares(4.2697), //
+                        hasDate("2020-07-06T14:15"), hasBookingDate("2020-07-06"), hasShares(4.2697), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 115.11), hasGrossValue("EUR", 115.11), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 14th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-06T14:19"), hasShares(3.3863), //
+                        hasDate("2020-07-06T14:19"), hasBookingDate("2020-07-06"), hasShares(3.3863), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 346.82), hasGrossValue("EUR", 346.82), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 15th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-06T14:21"), hasShares(4.5074), //
+                        hasDate("2020-07-06T14:21"), hasBookingDate("2020-07-06"), hasShares(4.5074), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 115.03), hasGrossValue("EUR", 115.03), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 16th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-06T14:24"), hasShares(13.1368), //
+                        hasDate("2020-07-06T14:24"), hasBookingDate("2020-07-06"), hasShares(13.1368), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 385.17), hasGrossValue("EUR", 385.17), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 17th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-07T15:51"), hasShares(29.6770), //
+                        hasDate("2020-07-07T15:51"), hasBookingDate("2020-07-07"), hasShares(29.6770), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 801.28), hasGrossValue("EUR", 801.28), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 18th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-07T15:59"), hasShares(0.8213), //
+                        hasDate("2020-07-07T15:59"), hasBookingDate("2020-07-07"), hasShares(0.8213), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 83.69), hasGrossValue("EUR", 83.69), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 19th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-07T16:11"), hasShares(1.0785), //
+                        hasDate("2020-07-07T16:11"), hasBookingDate("2020-07-07"), hasShares(1.0785), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 27.49), hasGrossValue("EUR", 27.49), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 20th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-07T18:47"), hasShares(12.0853), //
+                        hasDate("2020-07-07T18:47"), hasBookingDate("2020-07-07"), hasShares(12.0853), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 351.56), hasGrossValue("EUR", 351.56), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 21th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-08T14:37"), hasShares(29.0525), //
+                        hasDate("2020-07-08T14:37"), hasBookingDate("2020-07-08"), hasShares(29.0525), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 786.16), hasGrossValue("EUR", 786.16), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 22th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-08T14:44"), hasShares(0.8713), //
+                        hasDate("2020-07-08T14:44"), hasBookingDate("2020-07-08"), hasShares(0.8713), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 88.84), hasGrossValue("EUR", 88.84), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 23th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-08T14:49"), hasShares(1.1278), //
+                        hasDate("2020-07-08T14:49"), hasBookingDate("2020-07-08"), hasShares(1.1278), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 28.72), hasGrossValue("EUR", 28.72), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 24th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-08T14:58"), hasShares(0.3485), //
+                        hasDate("2020-07-08T14:58"), hasBookingDate("2020-07-08"), hasShares(0.3485), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 10.12), hasGrossValue("EUR", 10.12), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 25th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-09T13:24"), hasShares(26.7793), //
+                        hasDate("2020-07-09T13:24"), hasBookingDate("2020-07-09"), hasShares(26.7793), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 724.30), hasGrossValue("EUR", 724.30), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 26th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-09T13:30"), hasShares(1.0562), //
+                        hasDate("2020-07-09T13:30"), hasBookingDate("2020-07-09"), hasShares(1.0562), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 107.58), hasGrossValue("EUR", 107.58), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 27th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-09T13:34"), hasShares(1.3355), //
+                        hasDate("2020-07-09T13:34"), hasBookingDate("2020-07-09"), hasShares(1.3355), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 34.17), hasGrossValue("EUR", 34.17), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 28th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-09T13:38"), hasShares(1.6494), //
+                        hasDate("2020-07-09T13:38"), hasBookingDate("2020-07-09"), hasShares(1.6494), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 47.85), hasGrossValue("EUR", 47.85), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 29th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-10T14:28"), hasShares(31.6526), //
+                        hasDate("2020-07-10T14:28"), hasBookingDate("2020-07-11"), hasShares(31.6526), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 858.07), hasGrossValue("EUR", 858.07), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 30th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-10T15:01"), hasShares(0.1321), //
+                        hasDate("2020-07-10T15:01"), hasBookingDate("2020-07-11"), hasShares(0.1321), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 13.45), hasGrossValue("EUR", 13.45), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 31th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-10T15:06"), hasShares(0.2016), //
+                        hasDate("2020-07-10T15:06"), hasBookingDate("2020-07-11"), hasShares(0.2016), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 5.13), hasGrossValue("EUR", 5.13), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 32th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-10T15:13"), hasShares(3.7348), //
+                        hasDate("2020-07-10T15:13"), hasBookingDate("2020-07-11"), hasShares(3.7348), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 108.14), hasGrossValue("EUR", 108.14), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 33th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-13T15:19"), hasShares(10.2897), //
+                        hasDate("2020-07-13T15:19"), hasBookingDate("2020-07-13"), hasShares(10.2897), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 277.41), hasGrossValue("EUR", 277.41), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 34th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-13T15:34"), hasShares(5.5625), //
+                        hasDate("2020-07-13T15:34"), hasBookingDate("2020-07-13"), hasShares(5.5625), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 162.12), hasGrossValue("EUR", 162.12), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 35th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-13T15:43"), hasShares(0.8336), //
+                        hasDate("2020-07-13T15:43"), hasBookingDate("2020-07-13"), hasShares(0.8336), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 85.23), hasGrossValue("EUR", 85.23), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 36th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-13T15:49"), hasShares(1.1798), //
+                        hasDate("2020-07-13T15:49"), hasBookingDate("2020-07-13"), hasShares(1.1798), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 30.08), hasGrossValue("EUR", 30.08), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 37th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-14T15:01"), hasShares(15.9700), //
+                        hasDate("2020-07-14T15:01"), hasBookingDate("2020-07-14"), hasShares(15.9700), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 431.83), hasGrossValue("EUR", 431.83), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 38th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-14T15:11"), hasShares(1.3164), //
+                        hasDate("2020-07-14T15:11"), hasBookingDate("2020-07-14"), hasShares(1.3164), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 133.75), hasGrossValue("EUR", 133.75), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 39th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-14T15:23"), hasShares(1.7908), //
+                        hasDate("2020-07-14T15:23"), hasBookingDate("2020-07-14"), hasShares(1.7908), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 44.59), hasGrossValue("EUR", 44.59), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 40th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-14T15:36"), hasShares(8.8113), //
+                        hasDate("2020-07-14T15:36"), hasBookingDate("2020-07-14"), hasShares(8.8113), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 253.50), hasGrossValue("EUR", 253.50), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 41th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-15T14:15"), hasShares(13.0631), //
+                        hasDate("2020-07-15T14:15"), hasBookingDate("2020-07-15"), hasShares(13.0631), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 352.86), hasGrossValue("EUR", 352.86), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 42th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-15T14:22"), hasShares(0.9939), //
+                        hasDate("2020-07-15T14:22"), hasBookingDate("2020-07-15"), hasShares(0.9939), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 102.85), hasGrossValue("EUR", 102.85), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 43th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-15T14:28"), hasShares(1.6946), //
+                        hasDate("2020-07-15T14:28"), hasBookingDate("2020-07-15"), hasShares(1.6946), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 42.61), hasGrossValue("EUR", 42.61), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 44th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-15T14:35"), hasShares(7.0652), //
+                        hasDate("2020-07-15T14:35"), hasBookingDate("2020-07-15"), hasShares(7.0652), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 207.40), hasGrossValue("EUR", 207.40), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 45th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-17T13:46"), hasShares(9.7407), //
+                        hasDate("2020-07-17T13:46"), hasBookingDate("2020-07-17"), hasShares(9.7407), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 263.68), hasGrossValue("EUR", 263.68), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 46th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-17T13:53"), hasShares(0.7338), //
+                        hasDate("2020-07-17T13:53"), hasBookingDate("2020-07-17"), hasShares(0.7338), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 75.92), hasGrossValue("EUR", 75.92), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 47th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-17T14:00"), hasShares(1.1513), //
+                        hasDate("2020-07-17T14:00"), hasBookingDate("2020-07-17"), hasShares(1.1513), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 28.76), hasGrossValue("EUR", 28.76), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 48th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-17T14:07"), hasShares(5.4242), //
+                        hasDate("2020-07-17T14:07"), hasBookingDate("2020-07-17"), hasShares(5.4242), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 159.01), hasGrossValue("EUR", 159.01), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 49th buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-21T14:37"), hasShares(33.7619), //
+                        hasDate("2020-07-21T14:37"), hasBookingDate("2020-07-21"), hasShares(33.7619), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 915.96), hasGrossValue("EUR", 915.96), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // check 50th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-07-21T14:47"), hasShares(2.6196), //
+                        hasDate("2020-07-21T14:47"), hasBookingDate("2020-07-21"), hasShares(2.6196), //
                         hasSource("Depotauszug05.txt"), hasNote(null), //
                         hasAmount("EUR", 274.53), hasGrossValue("EUR", 274.53), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
@@ -2139,7 +2140,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-02T11:47"), hasShares(0.1953), //
+                        hasDate("2024-01-02T11:47"), hasBookingDate("2024-01-03"), hasShares(0.1953), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 24.74), hasGrossValue("EUR", 24.74), //
@@ -2147,7 +2148,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-02T12:00"), hasShares(0.0457), //
+                        hasDate("2024-01-02T12:00"), hasBookingDate("2024-01-03"), hasShares(0.0457), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1.10), hasGrossValue("EUR", 1.10), //
@@ -2155,7 +2156,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-02T12:02"), hasShares(0.0997), //
+                        hasDate("2024-01-02T12:02"), hasBookingDate("2024-01-03"), hasShares(0.0997), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4.04), hasGrossValue("EUR", 4.04), //
@@ -2163,7 +2164,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-02T12:36"), hasShares(0.1104), //
+                        hasDate("2024-01-02T12:36"), hasBookingDate("2024-01-03"), hasShares(0.1104), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 5.30), hasGrossValue("EUR", 5.30), //
@@ -2171,7 +2172,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-02T13:18"), hasShares(0.0128), //
+                        hasDate("2024-01-02T13:18"), hasBookingDate("2024-01-03"), hasShares(0.0128), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 0.87), hasGrossValue("EUR", 0.87), //
@@ -2179,7 +2180,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-02T13:44"), hasShares(0.4957), //
+                        hasDate("2024-01-02T13:44"), hasBookingDate("2024-01-03"), hasShares(0.4957), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 3.14), hasGrossValue("EUR", 3.14), //
@@ -2187,7 +2188,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-02T13:51"), hasShares(0.0919), //
+                        hasDate("2024-01-02T13:51"), hasBookingDate("2024-01-03"), hasShares(0.0919), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 10.48), hasGrossValue("EUR", 10.48), //
@@ -2195,59 +2196,59 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-02T14:12"), hasShares(0.0021), //
+                        hasDate("2024-01-02T14:12"), hasBookingDate("2024-01-03"), hasShares(0.0021), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 0.33), hasGrossValue("EUR", 0.33), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.26), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.26), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale AIS-Amundi I.S.Stoxx"))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.06), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.06), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale Amundi Prime Japan -"))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.05), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.05), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale X-trackers MSCI CANAD"))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.68), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.68), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale X-trackers MSCI USA I"))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.07), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.07), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale iShares Core MSCI Pac"))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.20), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.20), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale iShares MSCI World Sm"))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.01), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.01), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale AIS-Amundi I.S.Stoxx E"))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.04), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.04), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale X-trackers MSCI USA In"))));
 
         // assert transaction
-        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasAmount("EUR", 0.01), //
+        assertThat(results, hasItem(taxes(hasDate("2024-01-20"), hasBookingDate("2024-01-20"), hasAmount("EUR", 0.01), //
                         hasSource("Depotauszug06.txt"), hasNote("Vorabpauschale iShares MSCI World Sma"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-01-02"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-01-02"), hasBookingDate("2024-01-02"), hasAmount("EUR", 50.00), //
                         hasSource("Depotauszug06.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-02-01"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-02-01"), hasBookingDate("2024-02-01"), hasAmount("EUR", 50.00), //
                         hasSource("Depotauszug06.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2024-02-01"), //
+                        hasDate("2024-02-01"), hasBookingDate("2024-02-01"), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote("Servicegebühr"), //
                         hasAmount("EUR", 1.54), hasGrossValue("EUR", 1.54), //
@@ -2255,7 +2256,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2024-02-01"), //
+                        hasDate("2024-02-01"), hasBookingDate("2024-02-01"), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote("Vermögensverwaltungsgebühr"), //
                         hasAmount("EUR", 1.45), hasGrossValue("EUR", 1.45), //
@@ -2263,7 +2264,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-02-02T11:07"), hasShares(0.0333), //
+                        hasDate("2024-02-02T11:07"), hasBookingDate("2024-02-05"), hasShares(0.0333), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1.64), hasGrossValue("EUR", 1.64), //
@@ -2271,7 +2272,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-02-02T11:12"), hasShares(0.0125), //
+                        hasDate("2024-02-02T11:12"), hasBookingDate("2024-02-05"), hasShares(0.0125), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 0.87), hasGrossValue("EUR", 0.87), //
@@ -2279,7 +2280,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-02-02T12:35"), hasShares(0.0244), //
+                        hasDate("2024-02-02T12:35"), hasBookingDate("2024-02-05"), hasShares(0.0244), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 3.77), hasGrossValue("EUR", 3.77), //
@@ -2287,7 +2288,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-02-02T12:39"), hasShares(1.3640), //
+                        hasDate("2024-02-02T12:39"), hasBookingDate("2024-02-05"), hasShares(1.3640), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 8.60), hasGrossValue("EUR", 8.60), //
@@ -2295,7 +2296,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-02-02T13:20"), hasShares(0.0413), //
+                        hasDate("2024-02-02T13:20"), hasBookingDate("2024-02-05"), hasShares(0.0413), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4.84), hasGrossValue("EUR", 4.84), //
@@ -2303,19 +2304,19 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-02-02T14:28"), hasShares(0.6456), //
+                        hasDate("2024-02-02T14:28"), hasBookingDate("2024-02-05"), hasShares(0.6456), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 25.91), hasGrossValue("EUR", 25.91), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-03-01"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-03-01"), hasBookingDate("2024-03-01"), hasAmount("EUR", 50.00), //
                         hasSource("Depotauszug06.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-01T11:31"), hasShares(0.0399), //
+                        hasDate("2024-03-01T11:31"), hasBookingDate("2024-03-04"), hasShares(0.0399), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 5.49), hasGrossValue("EUR", 5.49), //
@@ -2323,7 +2324,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-01T11:52"), hasShares(0.0729), //
+                        hasDate("2024-03-01T11:52"), hasBookingDate("2024-03-04"), hasShares(0.0729), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 3.69), hasGrossValue("EUR", 3.69), //
@@ -2331,7 +2332,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-01T12:01"), hasShares(0.0568), //
+                        hasDate("2024-03-01T12:01"), hasBookingDate("2024-03-04"), hasShares(0.0568), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 3.94), hasGrossValue("EUR", 3.94), //
@@ -2339,7 +2340,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-01T13:44"), hasShares(0.2818), //
+                        hasDate("2024-03-01T13:44"), hasBookingDate("2024-03-04"), hasShares(0.2818), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 11.73), hasGrossValue("EUR", 11.73), //
@@ -2347,7 +2348,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-01T14:34"), hasShares(0.0254), //
+                        hasDate("2024-03-01T14:34"), hasBookingDate("2024-03-04"), hasShares(0.0254), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 3.96), hasGrossValue("EUR", 3.96), //
@@ -2355,7 +2356,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-01T14:42"), hasShares(1.5247), //
+                        hasDate("2024-03-01T14:42"), hasBookingDate("2024-03-04"), hasShares(1.5247), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 9.92), hasGrossValue("EUR", 9.92), //
@@ -2363,7 +2364,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-01T15:02"), hasShares(0.0943), //
+                        hasDate("2024-03-01T15:02"), hasBookingDate("2024-03-04"), hasShares(0.0943), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 11.27), hasGrossValue("EUR", 11.27), //
@@ -2371,7 +2372,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transactions
         assertThat(results, hasItem(dividend( //
-                        hasDate("2024-03-07T00:00"), hasExDate(null), //
+                        hasDate("2024-03-07T00:00"), hasBookingDate("2024-03-13"), hasExDate(null), //
                         hasShares(0.00), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
@@ -2380,7 +2381,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-14T10:39"), hasShares(0.0044), //
+                        hasDate("2024-03-14T10:39"), hasBookingDate("2024-03-15"), hasShares(0.0044), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 0.61), hasGrossValue("EUR", 0.61), //
@@ -2388,7 +2389,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-03-14T11:25"), hasShares(0.0046), //
+                        hasDate("2024-03-14T11:25"), hasBookingDate("2024-03-15"), hasShares(0.0046), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 0.03), hasGrossValue("EUR", 0.03), //
@@ -2396,7 +2397,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-22T10:41"), hasShares(8.2731), //
+                        hasDate("2024-03-22T10:41"), hasBookingDate("2024-03-25"), hasShares(8.2731), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1139.97), hasGrossValue("EUR", 1173.40), //
@@ -2404,7 +2405,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-22T10:47"), hasShares(3.3986), //
+                        hasDate("2024-03-22T10:47"), hasBookingDate("2024-03-25"), hasShares(3.3986), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 172.65), hasGrossValue("EUR", 177.47), //
@@ -2412,7 +2413,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-22T11:03"), hasShares(1.0288), //
+                        hasDate("2024-03-22T11:03"), hasBookingDate("2024-03-25"), hasShares(1.0288), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 72.27), hasGrossValue("EUR", 73.70), //
@@ -2420,7 +2421,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-22T11:47"), hasShares(0.5101), //
+                        hasDate("2024-03-22T11:47"), hasBookingDate("2024-03-25"), hasShares(0.5101), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 79.56), hasGrossValue("EUR", 80.26), //
@@ -2428,7 +2429,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-22T11:49"), hasShares(41.4252), //
+                        hasDate("2024-03-22T11:49"), hasBookingDate("2024-03-25"), hasShares(41.4252), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 270.98), hasGrossValue("EUR", 276.97), //
@@ -2436,7 +2437,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-22T11:52"), hasShares(4.8891), //
+                        hasDate("2024-03-22T11:52"), hasBookingDate("2024-03-25"), hasShares(4.8891), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 130.70), hasGrossValue("EUR", 134.57), //
@@ -2444,7 +2445,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-22T11:54"), hasShares(14.6442), //
+                        hasDate("2024-03-22T11:54"), hasBookingDate("2024-03-25"), hasShares(14.6442), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 615.34), hasGrossValue("EUR", 619.23), //
@@ -2452,14 +2453,14 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-22T11:57"), hasShares(3.1475), //
+                        hasDate("2024-03-22T11:57"), hasBookingDate("2024-03-25"), hasShares(3.1475), //
                         hasSource("Depotauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 377.48), hasGrossValue("EUR", 386.01), //
                         hasTaxes("EUR", 8.09 + 0.44), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-03-25"), hasAmount("EUR", 2858.95), //
+        assertThat(results, hasItem(removal(hasDate("2024-03-25"), hasBookingDate("2024-03-25"), hasAmount("EUR", 2858.95), //
                         hasSource("Depotauszug06.txt"), hasNote("Überweisung bei Kündigung"))));
     }
 
@@ -2490,7 +2491,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transactions
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-09-27T00:00"), hasExDate(null), //
+                        hasDate("2023-09-27T00:00"), hasBookingDate("2023-10-11"), hasExDate(null), //
                         hasShares(0.00), //
                         hasSource("Depotauszug07.txt"), //
                         hasNote(null), //
@@ -2498,19 +2499,19 @@ public class SutorBankGmbHPDFExtractorTest
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-11-07"), hasAmount("EUR", 0.11), //
+        assertThat(results, hasItem(removal(hasDate("2023-11-07"), hasBookingDate("2023-11-09"), hasAmount("EUR", 0.11), //
                         hasSource("Depotauszug07.txt"), hasNote("Umbuchung Verrechnung Nachlasskapitale"))));
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2023-12-19"), //
+                        hasDate("2023-12-19"), hasBookingDate("2023-12-19"), //
                         hasSource("Depotauszug07.txt"), //
                         hasNote("Kontoführungs-u.Depotgebühren"), //
                         hasAmount("EUR", 19.93), hasGrossValue("EUR", 19.93), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-12-19"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-12-19"), hasBookingDate("2023-12-19"), hasAmount("EUR", 500.00), //
                         hasSource("Depotauszug07.txt"), hasNote("DTA von rLXKpwaxL rLXKpwaxL, rLXKpwaxL rLXKpwaxL"))));
     }
 
@@ -2541,7 +2542,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-04-15T00:00"), hasShares(3.2387), //
+                        hasDate("2025-04-15T00:00"), hasBookingDate("2025-04-22"), hasShares(3.2387), //
                         hasSource("Depotauszug08.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 65.00), hasGrossValue("EUR", 65.00), //
@@ -2609,12 +2610,12 @@ public class SutorBankGmbHPDFExtractorTest
                         hasCurrencyCode("EUR"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-07-15"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-07-15"), hasBookingDate("2024-07-15"), hasAmount("EUR", 200.00), //
                         hasSource("Depotauszug09.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-07-15T13:21"), hasShares(10.3781), //
+                        hasDate("2024-07-15T13:21"), hasBookingDate("2024-07-16"), hasShares(10.3781), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 70.00), hasGrossValue("EUR", 70.00), //
@@ -2622,7 +2623,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-07-15T00:00"), hasShares(1.2481), //
+                        hasDate("2024-07-15T00:00"), hasBookingDate("2024-07-17"), hasShares(1.2481), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 65.00), hasGrossValue("EUR", 65.00), //
@@ -2630,7 +2631,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-07-15T00:00"), hasShares(3.3960), //
+                        hasDate("2024-07-15T00:00"), hasBookingDate("2024-07-17"), hasShares(3.3960), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 65.00), hasGrossValue("EUR", 65.00), //
@@ -2638,7 +2639,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-07-24T10:43"), hasShares(33.0014), //
+                        hasDate("2024-07-24T10:43"), hasBookingDate("2024-07-25"), hasShares(33.0014), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 9588.54), hasGrossValue("EUR", 9588.54), //
@@ -2646,7 +2647,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-07-24T11:07"), hasShares(93.3271), //
+                        hasDate("2024-07-24T11:07"), hasBookingDate("2024-07-25"), hasShares(93.3271), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 9588.54), hasGrossValue("EUR", 9588.54), //
@@ -2654,7 +2655,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-07-29T10:39"), hasShares(8.7136), //
+                        hasDate("2024-07-29T10:39"), hasBookingDate("2024-08-02"), hasShares(8.7136), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 2527.87), hasGrossValue("EUR", 2527.87), //
@@ -2662,7 +2663,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-07-29T11:00"), hasShares(42.3428), //
+                        hasDate("2024-07-29T11:00"), hasBookingDate("2024-08-02"), hasShares(42.3428), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 10111.46), hasGrossValue("EUR", 10111.46), //
@@ -2670,7 +2671,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-07-29T11:16"), hasShares(319.8967), //
+                        hasDate("2024-07-29T11:16"), hasBookingDate("2024-08-02"), hasShares(319.8967), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 10083.69), hasGrossValue("EUR", 10083.69), //
@@ -2678,7 +2679,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-07-29T11:24"), hasShares(71.0274), //
+                        hasDate("2024-07-29T11:24"), hasBookingDate("2024-08-02"), hasShares(71.0274), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 5055.73), hasGrossValue("EUR", 5055.73), //
@@ -2686,19 +2687,19 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-07-29T11:29"), hasShares(4214.6388), //
+                        hasDate("2024-07-29T11:29"), hasBookingDate("2024-08-02"), hasShares(4214.6388), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 27778.74), hasGrossValue("EUR", 27778.74), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-08-15"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-08-15"), hasBookingDate("2024-08-15"), hasAmount("EUR", 200.00), //
                         hasSource("Depotauszug09.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-08-15T11:52"), hasShares(10.6968), //
+                        hasDate("2024-08-15T11:52"), hasBookingDate("2024-08-16"), hasShares(10.6968), //
                         hasSource("Depotauszug09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 70.00), hasGrossValue("EUR", 70.00), //
@@ -2767,7 +2768,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transactions
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-06-26T00:00"), hasExDate(null), //
+                        hasDate("2025-06-26T00:00"), hasBookingDate("2025-07-14"), hasExDate(null), //
                         hasShares(0.00), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
@@ -2775,12 +2776,12 @@ public class SutorBankGmbHPDFExtractorTest
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-07-15"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-07-15"), hasBookingDate("2025-07-15"), hasAmount("EUR", 200.00), //
                         hasSource("Depotauszug10.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2025-07-15"), //
+                        hasDate("2025-07-15"), hasBookingDate("2025-07-15"), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Kontoführungs-u.Depotgeb.1.Hj. 2025"), //
                         hasAmount("EUR", 43.12), hasGrossValue("EUR", 43.12), //
@@ -2788,7 +2789,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-07-15T11:46"), hasShares(3.8356), //
+                        hasDate("2025-07-15T11:46"), hasBookingDate("2025-07-16"), hasShares(3.8356), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 50.99), hasGrossValue("EUR", 50.99), //
@@ -2796,7 +2797,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-07-15T12:44"), hasShares(19.0518), //
+                        hasDate("2025-07-15T12:44"), hasBookingDate("2025-07-16"), hasShares(19.0518), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 408.28), hasGrossValue("EUR", 408.28), //
@@ -2804,7 +2805,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-07-15T00:00"), hasShares(2.2622), //
+                        hasDate("2025-07-15T00:00"), hasBookingDate("2025-07-17"), hasShares(2.2622), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 50.99), hasGrossValue("EUR", 50.99), //
@@ -2812,7 +2813,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-16T10:56"), hasShares(0.07), //
+                        hasDate("2025-07-16T10:56"), hasBookingDate("2025-07-17"), hasShares(0.07), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 21.24), hasGrossValue("EUR", 21.24), //
@@ -2820,7 +2821,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-16T11:49"), hasShares(2.2309), //
+                        hasDate("2025-07-16T11:49"), hasBookingDate("2025-07-17"), hasShares(2.2309), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 29.56), hasGrossValue("EUR", 29.56), //
@@ -2828,7 +2829,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-16T12:44"), hasShares(0.3221), //
+                        hasDate("2025-07-16T12:44"), hasBookingDate("2025-07-17"), hasShares(0.3221), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 25.66), hasGrossValue("EUR", 25.66), //
@@ -2836,7 +2837,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-16T13:17"), hasShares(0.0685), //
+                        hasDate("2025-07-16T13:17"), hasBookingDate("2025-07-17"), hasShares(0.0685), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 0.50), hasGrossValue("EUR", 0.50), //
@@ -2844,7 +2845,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-16T13:19"), hasShares(1.259), //
+                        hasDate("2025-07-16T13:19"), hasBookingDate("2025-07-17"), hasShares(1.259), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 27.00), hasGrossValue("EUR", 27.00), //
@@ -2852,7 +2853,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-16T13:43"), hasShares(1.0364), //
+                        hasDate("2025-07-16T13:43"), hasBookingDate("2025-07-17"), hasShares(1.0364), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 35.50), hasGrossValue("EUR", 35.50), //
@@ -2860,7 +2861,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-16T00:00"), hasShares(0.7039), //
+                        hasDate("2025-07-16T00:00"), hasBookingDate("2025-07-18"), hasShares(0.7039), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 40.75), hasGrossValue("EUR", 40.75), //
@@ -2868,7 +2869,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-17T00:00"), hasShares(1.3326), //
+                        hasDate("2025-07-17T00:00"), hasBookingDate("2025-07-22"), hasShares(1.3326), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Gebührentilgung"), //
                         hasAmount("EUR", 30.21), hasGrossValue("EUR", 30.21), //
@@ -2876,19 +2877,19 @@ public class SutorBankGmbHPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2025-07-23"), //
+                        hasDate("2025-07-23"), hasBookingDate("2025-07-23"), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote("Kontoführungs-u.Depotgebühren"), //
                         hasAmount("EUR", 210.42), hasGrossValue("EUR", 210.42), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-08-15"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-08-15"), hasBookingDate("2025-08-15"), hasAmount("EUR", 200.00), //
                         hasSource("Depotauszug10.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-08-15T12:00"), hasShares(3.1306), //
+                        hasDate("2025-08-15T12:00"), hasBookingDate("2025-08-18"), hasShares(3.1306), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 70.00), hasGrossValue("EUR", 70.00), //
@@ -2896,7 +2897,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-08-15T12:38"), hasShares(4.7095), //
+                        hasDate("2025-08-15T12:38"), hasBookingDate("2025-08-18"), hasShares(4.7095), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 65.00), hasGrossValue("EUR", 65.00), //
@@ -2904,19 +2905,19 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-08-15T00:00"), hasShares(2.7554), //
+                        hasDate("2025-08-15T00:00"), hasBookingDate("2025-08-19"), hasShares(2.7554), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 65.00), hasGrossValue("EUR", 65.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-09-15"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-09-15"), hasBookingDate("2025-09-15"), hasAmount("EUR", 200.00), //
                         hasSource("Depotauszug10.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-09-15T11:05"), hasShares(4.6952), //
+                        hasDate("2025-09-15T11:05"), hasBookingDate("2025-09-16"), hasShares(4.6952), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 65.00), hasGrossValue("EUR", 65.00), //
@@ -2924,7 +2925,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-09-15T11:51"), hasShares(3.0574), //
+                        hasDate("2025-09-15T11:51"), hasBookingDate("2025-09-16"), hasShares(3.0574), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 70.00), hasGrossValue("EUR", 70.00), //
@@ -2932,7 +2933,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-09-15T00:00"), hasShares(2.7507), //
+                        hasDate("2025-09-15T00:00"), hasBookingDate("2025-09-17"), hasShares(2.7507), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 65.00), hasGrossValue("EUR", 65.00), //
@@ -2940,7 +2941,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check dividends transactions
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-25T00:00"), hasExDate(null), //
+                        hasDate("2025-09-25T00:00"), hasBookingDate("2025-09-29"), hasExDate(null), //
                         hasShares(0.00), //
                         hasSource("Depotauszug10.txt"), //
                         hasNote(null), //
@@ -3035,7 +3036,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-12-30T00:00"), hasShares(185.541), //
+                        hasDate("2022-12-30T00:00"), hasBookingDate("2023-01-04"), hasShares(185.541), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4757.27), hasGrossValue("EUR", 4757.27), //
@@ -3043,7 +3044,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T00:00"), hasShares(99.5464), //
+                        hasDate("2022-12-30T00:00"), hasBookingDate("2023-01-04"), hasShares(99.5464), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 2552.37), hasGrossValue("EUR", 2552.37), //
@@ -3051,7 +3052,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T00:00"), hasShares(32.6904), //
+                        hasDate("2022-12-30T00:00"), hasBookingDate("2023-01-04"), hasShares(32.6904), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 3015.38), hasGrossValue("EUR", 3015.38), //
@@ -3059,7 +3060,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T11:32"), hasShares(202.5371), //
+                        hasDate("2022-12-30T11:32"), hasBookingDate("2023-01-04"), hasShares(202.5371), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4221.88), hasGrossValue("EUR", 4221.88), //
@@ -3067,7 +3068,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-12-30T11:37"), hasShares(19.8396), //
+                        hasDate("2022-12-30T11:37"), hasBookingDate("2023-01-04"), hasShares(19.8396), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4470.66), hasGrossValue("EUR", 4470.66), //
@@ -3075,7 +3076,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T11:57"), hasShares(14.4865), //
+                        hasDate("2022-12-30T11:57"), hasBookingDate("2023-01-04"), hasShares(14.4865), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 2946.12), hasGrossValue("EUR", 2946.12), //
@@ -3083,7 +3084,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-12-30T12:10"), hasShares(116.1478), //
+                        hasDate("2022-12-30T12:10"), hasBookingDate("2023-01-04"), hasShares(116.1478), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 9344.10), hasGrossValue("EUR", 9344.10), //
@@ -3091,7 +3092,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T12:11"), hasShares(120.3699), //
+                        hasDate("2022-12-30T12:11"), hasBookingDate("2023-01-04"), hasShares(120.3699), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 9670.52), hasGrossValue("EUR", 9670.52), //
@@ -3099,7 +3100,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-12-30T12:26"), hasShares(45.2757), //
+                        hasDate("2022-12-30T12:26"), hasBookingDate("2023-01-04"), hasShares(45.2757), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1846.57), hasGrossValue("EUR", 1846.57), //
@@ -3107,7 +3108,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T12:27"), hasShares(76.3133), //
+                        hasDate("2022-12-30T12:27"), hasBookingDate("2023-01-04"), hasShares(76.3133), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 3110.91), hasGrossValue("EUR", 3110.91), //
@@ -3115,7 +3116,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T12:34"), hasShares(517.5462), //
+                        hasDate("2022-12-30T12:34"), hasBookingDate("2023-01-04"), hasShares(517.5462), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 2090.95), hasGrossValue("EUR", 2090.95), //
@@ -3123,7 +3124,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-12-30T12:35"), hasShares(2842.6072), //
+                        hasDate("2022-12-30T12:35"), hasBookingDate("2023-01-04"), hasShares(2842.6072), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 18255.21), hasGrossValue("EUR", 18255.21), //
@@ -3131,7 +3132,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T12:35"), hasShares(1028.385), //
+                        hasDate("2022-12-30T12:35"), hasBookingDate("2023-01-04"), hasShares(1028.385), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 6604.28), hasGrossValue("EUR", 6604.28), //
@@ -3139,7 +3140,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-12-30T12:36"), hasShares(41.9621), //
+                        hasDate("2022-12-30T12:36"), hasBookingDate("2023-01-04"), hasShares(41.9621), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 2166.93), hasGrossValue("EUR", 2166.93), //
@@ -3147,7 +3148,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T12:36"), hasShares(76.5027), //
+                        hasDate("2022-12-30T12:36"), hasBookingDate("2023-01-04"), hasShares(76.5027), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 3949.06), hasGrossValue("EUR", 3949.06), //
@@ -3155,7 +3156,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-12-30T12:45"), hasShares(64.12), //
+                        hasDate("2022-12-30T12:45"), hasBookingDate("2023-01-04"), hasShares(64.12), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 5029.61), hasGrossValue("EUR", 5029.61), //
@@ -3163,7 +3164,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T12:46"), hasShares(54.2402), //
+                        hasDate("2022-12-30T12:46"), hasBookingDate("2023-01-04"), hasShares(54.2402), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4245.55), hasGrossValue("EUR", 4245.55), //
@@ -3171,7 +3172,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T13:03"), hasShares(12.1896), //
+                        hasDate("2022-12-30T13:03"), hasBookingDate("2023-01-04"), hasShares(12.1896), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1402.78), hasGrossValue("EUR", 1402.78), //
@@ -3179,19 +3180,19 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-12-30T13:11"), hasShares(19.8285), //
+                        hasDate("2022-12-30T13:11"), hasBookingDate("2023-01-04"), hasShares(19.8285), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 2060.55), hasGrossValue("EUR", 2060.55), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-01-16"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-01-16"), hasBookingDate("2023-01-16"), hasAmount("EUR", 200.00), //
                         hasSource("Depotauszug11.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-01-16T11:16"), hasShares(0.5331), //
+                        hasDate("2023-01-16T11:16"), hasBookingDate("2023-01-17"), hasShares(0.5331), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 45.00), hasGrossValue("EUR", 45.00), //
@@ -3199,7 +3200,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-01-16T13:41"), hasShares(0.5532), //
+                        hasDate("2023-01-16T13:41"), hasBookingDate("2023-01-17"), hasShares(0.5532), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 44.00), hasGrossValue("EUR", 44.00), //
@@ -3207,7 +3208,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-01-16T14:18"), hasShares(0.3875), //
+                        hasDate("2023-01-16T14:18"), hasBookingDate("2023-01-17"), hasShares(0.3875), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 20.00), hasGrossValue("EUR", 20.00), //
@@ -3215,7 +3216,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-01-16T14:19"), hasShares(7.3779), //
+                        hasDate("2023-01-16T14:19"), hasBookingDate("2023-01-17"), hasShares(7.3779), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 50.00), hasGrossValue("EUR", 50.00), //
@@ -3223,7 +3224,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-01-16T14:27"), hasShares(0.3524), //
+                        hasDate("2023-01-16T14:27"), hasBookingDate("2023-01-17"), hasShares(0.3524), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 15.00), hasGrossValue("EUR", 15.00), //
@@ -3231,19 +3232,19 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-01-17T00:00"), hasShares(0.9687), //
+                        hasDate("2023-01-17T00:00"), hasBookingDate("2023-01-19"), hasShares(0.9687), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 26.00), hasGrossValue("EUR", 26.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-02-15"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-02-15"), hasBookingDate("2023-02-15"), hasAmount("EUR", 200.00), //
                         hasSource("Depotauszug11.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-02-15T10:52"), hasShares(0.515), //
+                        hasDate("2023-02-15T10:52"), hasBookingDate("2023-02-16"), hasShares(0.515), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 45.00), hasGrossValue("EUR", 45.00), //
@@ -3251,7 +3252,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-02-15T12:01"), hasShares(0.3206), //
+                        hasDate("2023-02-15T12:01"), hasBookingDate("2023-02-16"), hasShares(0.3206), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 15.00), hasGrossValue("EUR", 15.00), //
@@ -3259,7 +3260,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-02-15T12:09"), hasShares(7.6266), //
+                        hasDate("2023-02-15T12:09"), hasBookingDate("2023-02-16"), hasShares(7.6266), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 50.00), hasGrossValue("EUR", 50.00), //
@@ -3267,7 +3268,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-02-15T12:11"), hasShares(0.3853), //
+                        hasDate("2023-02-15T12:11"), hasBookingDate("2023-02-16"), hasShares(0.3853), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 20.00), hasGrossValue("EUR", 20.00), //
@@ -3275,7 +3276,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-02-15T12:23"), hasShares(0.554), //
+                        hasDate("2023-02-15T12:23"), hasBookingDate("2023-02-16"), hasShares(0.554), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 44.00), hasGrossValue("EUR", 44.00), //
@@ -3283,19 +3284,19 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-02-15T00:00"), hasShares(0.9269), //
+                        hasDate("2023-02-15T00:00"), hasBookingDate("2023-02-20"), hasShares(0.9269), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 26.00), hasGrossValue("EUR", 26.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-03-15"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-03-15"), hasBookingDate("2023-03-15"), hasAmount("EUR", 200.00), //
                         hasSource("Depotauszug11.txt"), hasNote("automatischer Lastschrifteinzug"))));
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-03-15T11:17"), hasShares(0.3311), //
+                        hasDate("2023-03-15T11:17"), hasBookingDate("2023-03-16"), hasShares(0.3311), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 15.00), hasGrossValue("EUR", 15.00), //
@@ -3303,7 +3304,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-03-15T11:24"), hasShares(8.1726), //
+                        hasDate("2023-03-15T11:24"), hasBookingDate("2023-03-16"), hasShares(8.1726), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 50.00), hasGrossValue("EUR", 50.00), //
@@ -3311,7 +3312,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-03-15T11:25"), hasShares(0.4077), //
+                        hasDate("2023-03-15T11:25"), hasBookingDate("2023-03-16"), hasShares(0.4077), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 20.00), hasGrossValue("EUR", 20.00), //
@@ -3319,7 +3320,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-03-15T11:32"), hasShares(0.5545), //
+                        hasDate("2023-03-15T11:32"), hasBookingDate("2023-03-16"), hasShares(0.5545), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 44.00), hasGrossValue("EUR", 44.00), //
@@ -3327,7 +3328,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-03-15T11:38"), hasShares(0.5578), //
+                        hasDate("2023-03-15T11:38"), hasBookingDate("2023-03-16"), hasShares(0.5578), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 45.00), hasGrossValue("EUR", 45.00), //
@@ -3335,7 +3336,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-03-15T00:00"), hasShares(0.9912), //
+                        hasDate("2023-03-15T00:00"), hasBookingDate("2023-03-17"), hasShares(0.9912), //
                         hasSource("Depotauszug11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 26.00), hasGrossValue("EUR", 26.00), //
@@ -3369,7 +3370,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-12-30T01:03:19"), hasShares(1200), //
+                        hasDate("2021-12-30T01:03:19"), hasBookingDate(null), hasShares(1200), //
                         hasSource("CryptoKauf01.txt"), hasNote("Handelsreferenz: 61ccf74741c06f001232ead6"), //
                         hasAmount("EUR", 282.23), hasGrossValue("EUR", 282.23), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
@@ -3402,7 +3403,7 @@ public class SutorBankGmbHPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-02-13T04:21:59"), hasShares(0.031), //
+                        hasDate("2021-02-13T04:21:59"), hasBookingDate(null), hasShares(0.031), //
                         hasSource("CryptoVerkauf01.txt"), hasNote("Handelsreferenz: 602745d566400f001a9eea76"), //
                         hasAmount("EUR", 1220.89), hasGrossValue("EUR", 1220.89), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));

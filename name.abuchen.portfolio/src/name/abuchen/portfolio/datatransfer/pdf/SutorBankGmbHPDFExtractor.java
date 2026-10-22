@@ -571,8 +571,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 13:31 OTC IE00BL25JN58 32,6523 US$
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "name", "shares", "time", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "name", "shares", "time", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "Storno Kauf Storno Kauf " //
                                                                         + "(?<name>.*) " //
@@ -587,6 +587,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), v.get("time")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -602,8 +603,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 10:47 Tradegate LU0846194776 52,2200 EUR -0,25
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "shares", "amount", "tax1", "time", "isin", "tax2") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} "
+                                                        .attributes("bookingDate", "date", "shares", "amount", "tax1", "time", "isin", "tax2") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) "
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) "
                                                                         + "Verkauf Verkauf " + "(?<name>.*) "
                                                                         + "\\-(?<shares>[\\.,\\d]+) "
@@ -619,6 +620,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), v.get("time")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -635,8 +637,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 12:56 OTC IE00B8KGV557 27,4228 US$
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "name", "shares", "time", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "name", "shares", "time", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(Kauf Kauf|Verkauf Verkauf) " //
                                                                         + "(?<name>.*) " //
@@ -652,6 +654,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), v.get("time")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -662,8 +665,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 11:16 Tradegate IE00BKM4GZ66 34,0970 US$
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "name", "shares", "time", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "name", "shares", "time", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(Kauf Kauf|Verkauf Verkauf|Kauf Switch|Verkauf Switch)( (in|ex))? " //
                                                                         + "(?<name>.*) " //
@@ -679,6 +682,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), v.get("time")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -695,8 +699,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 11:07 Tradegate LU2082999306 102,7412 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "name", "shares", "time", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "name", "shares", "time", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(Kauf Kauf|Verkauf Verkauf|Kauf Switch|Verkauf Switch)( (in|ex))? " //
                                                                         + "(?<name>.*) " //
@@ -711,6 +715,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), v.get("time")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -724,8 +729,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // außerbörslich IE00B7T1D258 25,6400 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "name", "shares", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "name", "shares", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(Kauf Kauf|Verkauf Verkauf|Kauf Switch|Verkauf Switch)( (in|ex))? " //
                                                                         + "(?<name>.*) " //
@@ -739,6 +744,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -749,8 +755,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 13:17 Tradegate IE00BYVJRP78 8,4729 US$
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "note", "name", "shares", "amount", "time", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "note", "name", "shares", "amount", "time", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "Verkauf (?<note>Geb.hrentilgung) " //
                                                                         + "(?<name>.*) " //
@@ -766,6 +772,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), v.get("time")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -778,8 +785,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 10:56 Tradegate LU0397221945 303,3501 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "note", "name", "shares", "amount", "time", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "note", "name", "shares", "amount", "time", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "Verkauf (?<note>Geb.hrentilgung) " //
                                                                         + "(?<name>.*) " //
@@ -794,6 +801,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), v.get("time")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -806,8 +814,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // außerbörslich IE0032769055 57,8900 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "note", "name", "shares", "amount", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "note", "name", "shares", "amount", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "Verkauf (?<note>Geb.hrentilgung) " //
                                                                         + "(?<name>.*) " //
@@ -821,6 +829,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -832,8 +841,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 05.07.2019 04.07.2019 -8,35 Kauf iShares Core MSCI Emerging Markets 1,1288 28,50 US$ 0,3308
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "name", "shares") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "name", "shares") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(\\-)?(?<amount>[\\.,\\d]+) " //
                                                                         + "(Kauf|Verkauf) " //
@@ -846,6 +855,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -855,8 +865,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 04.07.2019 02.07.2019 -75,22 Kauf Dimensional European Value Fund 12,01 EUR 6,2631
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "name", "shares") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "name", "shares") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(\\-)?(?<amount>[\\.,\\d]+) " //
                                                                         + "(Kauf|Verkauf) " //
@@ -868,6 +878,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -877,8 +888,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 04.07.2019 03.07.2019 -242,09 Kauf Lyxor Core Stoxx Europe 600 acc 158,60 1,5264
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "name", "shares") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "name", "shares") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(\\-)?(?<amount>[\\.,\\d]+) " //
                                                                         + "(Kauf|Verkauf) " //
@@ -889,6 +900,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -898,8 +910,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 08.07.2019 05.07.2019 0,98 Gebührentilgung iShares Core MSCI Emerging Markets 1,1260 28,48 US$ -0,0387
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "note", "name", "shares") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "note", "name", "shares") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(\\-)?(?<amount>[\\.,\\d]+) " //
                                                                         + "(?<note>Geb.hrentilgung) (?<name>.*) " //
@@ -911,6 +923,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -922,8 +935,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 09.07.2019 06.07.2019 4,78 Gebührentilgung Lyxor Core Stoxx Europe 600 acc 159,78 EUR -0,0299
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "note", "name", "shares") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "note", "name", "shares") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(\\-)?(?<amount>[\\.,\\d]+) " //
                                                                         + "(?<note>Geb.hrentilgung) (?<name>.*) " //
@@ -934,6 +947,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -960,8 +974,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // LU0846194776 EUR -0,01
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "name", "amount", "tax1", "isin", "tax2") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "name", "amount", "tax1", "isin", "tax2") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "Aussch.ttung Betrag der Aussch.ttung " //
                                                                         + "(?<name>.*) " //
@@ -976,6 +990,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(0L);
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -992,8 +1007,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // IE00B6YX5D40 US$
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "name", "amount", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "name", "amount", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "Aussch.ttung Betrag der Aussch.ttung " //
                                                                         + "(?<name>.*) " //
@@ -1005,6 +1020,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(0L);
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
@@ -1033,8 +1049,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 09.11.2023 07.11.2023 Umbuchung Verrechnung Nachlasskapitale - 0,11
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "note", "amount") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "note", "amount") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<note>Umbuchung Verrechnung Nachlasskapitale) " //
                                                                         + "\\- " //
@@ -1043,6 +1059,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setType(AccountTransaction.Type.REMOVAL);
 
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -1053,14 +1070,15 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 01.02.2019 01.02.2019 160,42 automatischer Lastschrifteinzug
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount", "note") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "note") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<amount>[\\.,\\d]+) " //
                                                                         + "(?<note>(Zulage [\\d]{4}|automatischer Lastschrifteinzug))" //
                                                                         + "(: .*)?$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -1073,8 +1091,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 19.12.2023 19.12.2023 Überweisung DTA von rLXKpwaxL rLXKpwaxL, rLXKpwaxL rLXKpwaxL - 500,00
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "type", "amount", "note") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} "
+                                                        .attributes("bookingDate", "date", "type", "amount", "note") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) "
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) "
                                                                         + "(?<type>(Einzahlung|Auszahlung|.berweisung)) "
                                                                         + "(?<note>.*) \\- "
@@ -1085,6 +1103,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                                 t.setType(AccountTransaction.Type.REMOVAL);
 
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -1108,8 +1127,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                         // 20.01.2024 20.01.2024 Steuerbuchung KapSt2023Vorabpauschale AIS-Amundi I.S.Stoxx - -0,26
                         // 20.01.2024 20.01.2024 Steuerbuchung KapSt2023Vorabpauschale Amundi Prime Japan - - -0,06
                         // @formatter:on
-                        .section("date", "note", "amount") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                        .section("bookingDate", "date", "note", "amount") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "Steuerbuchung " //
                                         + ".*[\\d]{4}(?<note>Vorabpauschale .*) "
@@ -1117,6 +1136,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         + "\\-(?<amount>[\\.,\\d]+)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                             t.setCurrencyCode(asCurrencyCode(EUR));
                             t.setAmount(asAmount(v.get("amount")));
@@ -1148,8 +1168,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
 
                         .oneOf( //
                                         section -> section //
-                                                        .attributes("date", "amount", "note") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "note") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "\\-(?<amount>[\\.,\\d]+) " //
                                                                         + "(anteil\\.|Geb.hr (anteil\\.|anteilige )?|Geb.hren (anteil\\.|anteilige )?)?" //
@@ -1161,6 +1181,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                                         + ".*$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -1168,8 +1189,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setNote(v.get("note"));
                                                         }),
                                         section -> section //
-                                                        .attributes("date", "amount", "note") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "note") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(anteil\\.|Geb.hr (anteil\\.|anteilige )?|Geb.hren (anteil\\.|anteilige )?)?" //
                                                                         + "(?<note>(Verwaltungsgeb.hr\\/Vertriebskosten" //
@@ -1183,6 +1204,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                                         + "\\- \\-(?<amount>[\\.,\\d]+)$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -1193,14 +1215,15 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                         // 15.07.2025 15.07.2025 Gebühren anteilige Kontoführungs-u.Depotgeb.1.Hj. 2025 - -43,12
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "note", "amount") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "note", "amount") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(Geb.hren (anteil\\.|anteilige )?)?" //
                                                                         + "(?<note>Kontof.hrungs\\-u\\.Depotgeb\\.[\\d]\\.[\\s]?Hj\\. [\\d]{4}) " //
                                                                         + "\\- \\-(?<amount>[\\.,\\d]+)$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -1208,14 +1231,15 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setNote(v.get("note"));
                                                         }),
                                         section -> section //
-                                                        .attributes("date", "amount", "note") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "amount", "note") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "Umbuchung " //
                                                                         + "(?<note>Umbuchung Geld) " //
                                                                         + "\\- \\-(?<amount>[\\.,\\d]+)$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -1223,8 +1247,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                             t.setNote(v.get("note"));
                                                         }),
                                         section -> section //
-                                                        .attributes("date", "stornoDate", "note1", "note2", "amount") //
-                                                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
+                                                        .attributes("bookingDate", "stornoDate", "note1", "note2", "amount") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<stornoDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<note1>Storno) Storno " //
                                                                         + "(anteil\\.|Geb.hr (anteil\\.|anteilige )?|Geb.hren (anteil\\.|anteilige )?)?" //
@@ -1240,7 +1264,11 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                         .assign((t, v) -> {
                                                             t.setType(AccountTransaction.Type.FEES_REFUND);
 
-                                                            t.setDateTime(asDate(v.get("date")));
+                                                            // the cancellation is booked on the same day, the
+                                                            // value date is the date of the original fee
+                                                            var date = asDate(v.get("bookingDate"));
+                                                            t.setDateTime(date);
+                                                            t.setBookingDate(date);
 
                                                             t.setCurrencyCode(asCurrencyCode(EUR));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -1262,8 +1290,8 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
 
                         .oneOf( //
                                         section -> section //
-                                                        .attributes("date", "note", "name", "shares", "isin") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .attributes("bookingDate", "date", "note", "name", "shares", "isin") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + ".bertrag " //
                                                                         + "(?<note>.bertrag) " //
@@ -1273,6 +1301,7 @@ public class SutorBankGmbHPDFExtractor extends AbstractPDFExtractor
                                                         .match("^(?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9]) ([\\w]{2}\\p{Sc}|[A-Z]{3})$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setShares(asShares(v.get("shares")));
                                                             t.setSecurity(getOrCreateSecurity(v));
 
