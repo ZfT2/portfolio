@@ -50,14 +50,15 @@ public class AkfBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "amount") //
+                        .section("date", "bookingDate", "note", "amount") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) \\/ [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                        .match("^[\\d]{2} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) \\/ (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note>(Gutschrift" //
                                         + "|SEPA Gutschrift( Bank)?)) " //
                                         + "(?<amount>[\\.,\\d]+)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(v.get("note"));
@@ -82,9 +83,9 @@ public class AkfBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "note", "amount", "type") //
+                        .section("date", "bookingDate", "note", "amount", "type") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) \\/ [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                        .match("^[\\d]{2} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) \\/ (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note>(Einzel)?(.*berweisung.*" //
                                         + "|Festgeld Anlage" //
                                         + "|Sparkonto K.ndigung)) " //
@@ -98,6 +99,7 @@ public class AkfBankPDFExtractor extends AbstractPDFExtractor
                                 t.setType(Type.FEES);
 
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(v.get("note"));
@@ -117,13 +119,14 @@ public class AkfBankPDFExtractor extends AbstractPDFExtractor
                         // v. 31.10.2012 b. 30.11.2012
                         // Zinsen zu 2,150
                         // @formatter:on
-                        .section("date", "amount", "note1", "note2", "note3") //
+                        .section("date", "bookingDate", "amount", "note1", "note2", "note3") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) \\/ [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} Kontoabschlu. (?<amount>[\\.,\\d]+)$") //
+                        .match("^[\\d]{2} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) \\/ (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Kontoabschlu. (?<amount>[\\.,\\d]+)$") //
                         .match("^v\\. (?<note1>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) b\\. (?<note2>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
                         .match("^Zinsen zu[\\s]{1,}(?<note3>[\\.,\\d]+).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(v.get("note1") + " - " + v.get("note2") + " (" + v.get("note3") + " %)");
