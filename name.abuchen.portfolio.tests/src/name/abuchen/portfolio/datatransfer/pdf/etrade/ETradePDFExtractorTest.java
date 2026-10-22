@@ -1,6 +1,7 @@
 package name.abuchen.portfolio.datatransfer.pdf.etrade;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
@@ -103,7 +104,7 @@ public class ETradePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-09-18T00:00"), hasShares(796.00), //
+                        hasDate("2025-09-19T00:00"), hasBookingDate("2025-09-18T00:00"), hasShares(796.00), //
                         hasSource("Sell01.txt"), //
                         hasNote(null), //
                         hasAmount("USD", 24902.94), hasGrossValue("USD", 24902.94), //

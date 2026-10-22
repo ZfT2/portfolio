@@ -130,10 +130,11 @@ public class ETradePDFExtractor extends AbstractPDFExtractor
                         // Trade Date Settlement Date Quantity Price Settlement Amount
                         // 09/18/2025 09/19/2025 796 31.2851 Principal $24,902.94
                         // @formatter:on
-                        .section("date", "shares") //
-                        .match("^(?<date>[\\d]{2}\\/[\\d]{2}\\/[\\d]{4}) [\\d]{2}\\/[\\d]{2}\\/[\\d]{4} (?<shares>[\\.,\\d]+) [\\.,\\d]+ Principal \\p{Sc}[\\.,\\d]+$") //
+                        .section("bookingDate", "date", "shares") //
+                        .match("^(?<bookingDate>[\\d]{2}\\/[\\d]{2}\\/[\\d]{4}) (?<date>[\\d]{2}\\/[\\d]{2}\\/[\\d]{4}) (?<shares>[\\.,\\d]+) [\\.,\\d]+ Principal \\p{Sc}[\\.,\\d]+$") //
                         .assign((t, v) -> {
                             t.setDate(asDate(v.get("date"), Locale.US));
+                            t.setBookingDate(asDate(v.get("bookingDate"), Locale.US));
                             t.setShares(asShares(v.get("shares")));
                         })
 
