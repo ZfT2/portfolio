@@ -39,6 +39,9 @@ public class FordMoneyPDFExtractor extends AbstractPDFExtractor
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Buchungs- Valuta- Buchungstext Betrag
+        // datum datum in EUR
+        //
         // 04.10.2024 04.10.2024 Gutschrift 1.000,00
         // 25.10.2024 25.10.2024 Überweisung -2.000,00
         // @formatter:on
@@ -48,9 +51,9 @@ public class FordMoneyPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "type", "amount") //
+                        .section("bookingDate", "date", "note", "type", "amount") //
                         .documentContext("currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<note>(Gutschrift|.berweisung))(?<type>[\\s|\\-]{1,})(?<amount>[\\.,\\d]+)$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<note>(Gutschrift|.berweisung))(?<type>[\\s|\\-]{1,})(?<amount>[\\.,\\d]+)$") //
                         .assign((t, v) -> {
                             // @formatter:off
                             // Is type --> "-" change from DEPOSIT to REMOVAL
@@ -59,6 +62,7 @@ public class FordMoneyPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));

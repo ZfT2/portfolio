@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.fordmoney;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasGrossValue;
@@ -54,19 +55,20 @@ public class FordMoneyPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-10-04"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-10-04"), hasBookingDate("2024-10-04"), hasAmount("EUR", 1000.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Gutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-10-25"), hasAmount("EUR", 2000.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-10-25"), hasBookingDate("2024-10-25"), hasAmount("EUR", 2000.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisung"))));
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2024-10-31"), //
+                        hasDate("2024-10-31"), hasBookingDate(null), //
                         hasSource("Kontoauszug01.txt"), //
                         hasNote("30.09.2024 bis 31.10.2024"), //
                         hasAmount("EUR", 109.22), hasGrossValue("EUR", 148.34), //
                         hasTaxes("EUR", 37.09 + 2.03), hasFees("EUR", 0.00))));
     }
 }
+
