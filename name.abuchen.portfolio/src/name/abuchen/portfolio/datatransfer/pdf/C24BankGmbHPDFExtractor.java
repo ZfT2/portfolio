@@ -78,11 +78,11 @@ public class C24BankGmbHPDFExtractor extends AbstractPDFExtractor
                                                         // 31.05. 31.05. Steuern -2,29 €
                                                         // @formatter:on
                                                         section -> section //
-                                                                        .attributes("year", "taxDate", "tax", "taxCurrency") //
+                                                                        .attributes("year", "taxBookingDate", "tax", "taxCurrency") //
                                                                         .match("^(Vorl.ufiger )?Kontoauszug [\\d]{2}\\/(?<year>[\\d]{4}).*$") //
-                                                                        .match("^(?<taxDate>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. Steuern [\\-|\\+][\\s]?(?<tax>[\\.,\\d]+) (?<taxCurrency>\\p{Sc}).*$") //
+                                                                        .match("^(?<taxBookingDate>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. Steuern [\\-|\\+][\\s]?(?<tax>[\\.,\\d]+) (?<taxCurrency>\\p{Sc}).*$") //
                                                                         .assign((ctx, v) -> {
-                                                                            ctx.put("taxDate", v.get("taxDate") + v.get("year"));
+                                                                            ctx.put("taxBookingDate", v.get("taxBookingDate") + v.get("year"));
                                                                             ctx.put("tax", v.get("tax"));
                                                                             ctx.put("taxCurrency", asCurrencyCode(v.get("taxCurrency")));
                                                                         })));
@@ -90,6 +90,7 @@ public class C24BankGmbHPDFExtractor extends AbstractPDFExtractor
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Buchung Valuta Transaktionsinformation Betrag
         // 17.05. 17.05. Überweisung - 1.508,42 €
         // 17.05. 17.05. Überweisung + 1.115,22 €
         // 05.08. 05.08. Echtzeitüberweisung - 2.800,00 €
@@ -109,9 +110,9 @@ public class C24BankGmbHPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "type", "amount", "currency") //
+                        .section("bookingDate", "date", "note", "type", "amount", "currency") //
                         .documentContext("year") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. " //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) " //
                                         + "(?!(Zinsen|Steuern))" //
                                         + "(?<note>.*) " //
                                         + "(?<type>[\\-|\\+])[\\s]?" //
@@ -124,6 +125,7 @@ public class C24BankGmbHPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setNote(trim(v.get("note")));
@@ -167,6 +169,7 @@ public class C24BankGmbHPDFExtractor extends AbstractPDFExtractor
                         .wrap(TransactionItem::new));
 
         // @formatter:off
+        // Buchung Valuta Transaktionsinformation Betrag
         // 31.05. 31.05. Zinsen + 1,93 €
         // 31.05. 31.05. Zinsen +1,93 €
         // @formatter:on
@@ -177,10 +180,10 @@ public class C24BankGmbHPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST))
 
-                        .section("date", "note", "type", "amount", "currency") //
+                        .section("bookingDate", "date", "note", "type", "amount", "currency") //
                         .documentContext("year") //
-                        .documentContextOptionally("taxDate", "tax", "taxCurrency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. " //
+                        .documentContextOptionally("taxBookingDate", "tax", "taxCurrency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) " //
                                         + "(?<note>Zinsen) " //
                                         + "(?<type>[\\-|\\+])[\\s]?" //
                                         + "(?<amount>[\\.,\\d]+) (?<currency>\\p{Sc}).*$") //
@@ -192,11 +195,15 @@ public class C24BankGmbHPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.INTEREST_CHARGE);
 
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setNote(v.get("note"));
 
-                            if (v.containsKey("tax") && v.containsKey("taxCurrency") && t.getDateTime().equals(asDate(v.get("taxDate"))))
+                            // The tax booking date is taken from the booking
+                            // date column and hence must be compared to the
+                            // booking date of the interest transaction.
+                            if (v.containsKey("tax") && v.containsKey("taxCurrency") && t.getBookingDate().equals(asDate(v.get("taxBookingDate"))))
                             {
                                 var tax = Money.of(v.get("taxCurrency"), asAmount(v.get("tax")));
                                 t.addUnit(new Unit(Unit.Type.TAX, tax));
