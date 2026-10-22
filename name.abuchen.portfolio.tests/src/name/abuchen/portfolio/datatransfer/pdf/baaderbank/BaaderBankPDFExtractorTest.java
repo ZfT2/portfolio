@@ -4,6 +4,7 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.fee;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -5385,6 +5386,7 @@ public class BaaderBankPDFExtractorTest
         var transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.DEPOSIT));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2018-04-12T00:00")));
+        assertThat(transaction, hasBookingDate("2018-04-12T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(10000.00))));
         assertThat(transaction.getSource(), is("Periodenauszug01.txt"));
         assertThat(transaction.getNote(), is("Lastschrift aktiv"));
@@ -5419,6 +5421,7 @@ public class BaaderBankPDFExtractorTest
         var transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.REMOVAL));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2018-07-06T00:00")));
+        assertThat(transaction, hasBookingDate("2018-07-06T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(6.97))));
         assertThat(transaction.getSource(), is("Periodenauszug02.txt"));
         assertThat(transaction.getNote(), is("Lastschrift aktiv"));
@@ -5429,6 +5432,7 @@ public class BaaderBankPDFExtractorTest
         transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.REMOVAL));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2018-08-22T00:00")));
+        assertThat(transaction, hasBookingDate("2018-08-22T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(2000.00))));
         assertThat(transaction.getSource(), is("Periodenauszug02.txt"));
         assertThat(transaction.getNote(), is("SEPA-Ueberweisung"));
@@ -5439,6 +5443,7 @@ public class BaaderBankPDFExtractorTest
         transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2018-07-10T00:00")));
+        assertThat(transaction, hasBookingDate("2018-07-06T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(2.56))));
         assertThat(transaction.getSource(), is("Periodenauszug02.txt"));
         assertThat(transaction.getNote(), is("Transaktionskostenpauschale o. MwSt."));
@@ -5473,6 +5478,7 @@ public class BaaderBankPDFExtractorTest
         var transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.DEPOSIT));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2017-05-04T00:00")));
+        assertThat(transaction, hasBookingDate("2017-05-04T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(100.00))));
         assertThat(transaction.getSource(), is("Periodenauszug03.txt"));
         assertThat(transaction.getNote(), is("Lastschrift aktiv"));
@@ -5507,6 +5513,7 @@ public class BaaderBankPDFExtractorTest
         var transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.DEPOSIT));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2022-02-02T00:00")));
+        assertThat(transaction, hasBookingDate("2022-02-02T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(1000.00))));
         assertThat(transaction.getSource(), is("Periodenauszug04.txt"));
         assertThat(transaction.getNote(), is("Credit SEPA"));
@@ -5517,6 +5524,7 @@ public class BaaderBankPDFExtractorTest
         transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.DEPOSIT));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2022-02-03T00:00")));
+        assertThat(transaction, hasBookingDate("2022-02-03T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(1.00))));
         assertThat(transaction.getSource(), is("Periodenauszug04.txt"));
         assertThat(transaction.getNote(), is("Direct Debit"));
@@ -5527,6 +5535,7 @@ public class BaaderBankPDFExtractorTest
         transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.DEPOSIT));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2022-02-28T00:00")));
+        assertThat(transaction, hasBookingDate("2022-02-28T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(1000.00))));
         assertThat(transaction.getSource(), is("Periodenauszug04.txt"));
         assertThat(transaction.getNote(), is("Credit SEPA"));
@@ -5561,6 +5570,7 @@ public class BaaderBankPDFExtractorTest
         var transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2022-05-03T00:00")));
+        assertThat(transaction, hasBookingDate("2022-05-03T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(0.99))));
         assertThat(transaction.getSource(), is("Periodenauszug05.txt"));
         assertThat(transaction.getNote(), is("Ordergebühr | Ref.-Nr.: SCAL4Pm2ZTfDF4c"));
@@ -5586,15 +5596,15 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-12-21"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-12-21"), hasBookingDate("2021-12-21"), hasAmount("EUR", 100.00), //
                         hasSource("Periodenauszug06.txt"), hasNote("Direct Debit"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-12-21"), hasAmount("EUR", 1.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-12-21"), hasBookingDate("2021-12-21"), hasAmount("EUR", 1.00), //
                         hasSource("Periodenauszug06.txt"), hasNote("Direct Debit"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-12-21"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-12-21"), hasBookingDate("2021-12-21"), hasAmount("EUR", 500.00), //
                         hasSource("Periodenauszug06.txt"), hasNote("Credit SEPA"))));
     }
 
@@ -5618,15 +5628,15 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-10-03"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-10-03"), hasBookingDate("2023-10-03"), hasAmount("EUR", 200.00), //
                         hasSource("Periodenauszug07.txt"), hasNote("Direct Debit"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-10-06"), hasAmount("EUR", 10000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-10-06"), hasBookingDate("2023-10-06"), hasAmount("EUR", 10000.00), //
                         hasSource("Periodenauszug07.txt"), hasNote("Credit SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-10-20"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-10-20"), hasBookingDate("2023-10-20"), hasAmount("EUR", 100.00), //
                         hasSource("Periodenauszug07.txt"), hasNote("Direct Debit"))));
     }
 
@@ -5650,7 +5660,7 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-10-31"), hasAmount("EUR", 356.29), //
+        assertThat(results, hasItem(deposit(hasDate("2023-10-31"), hasBookingDate("2023-10-31"), hasAmount("EUR", 356.29), //
                         hasSource("Periodenauszug08.txt"), hasNote("Lastschrift aktiv"))));
     }
 
@@ -5674,31 +5684,31 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasAmount("EUR", 25.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasBookingDate("2020-11-02"), hasAmount("EUR", 25.00), //
                         hasSource("Periodenauszug09.txt"), hasNote("Lastschrift aktiv"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasBookingDate("2020-11-02"), hasAmount("EUR", 100.00), //
                         hasSource("Periodenauszug09.txt"), hasNote("Lastschrift aktiv"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasAmount("EUR", 25.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasBookingDate("2020-11-02"), hasAmount("EUR", 25.00), //
                         hasSource("Periodenauszug09.txt"), hasNote("Lastschrift aktiv"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasAmount("EUR", 25.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasBookingDate("2020-11-02"), hasAmount("EUR", 25.00), //
                         hasSource("Periodenauszug09.txt"), hasNote("Lastschrift aktiv"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasAmount("EUR", 35.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasBookingDate("2020-11-02"), hasAmount("EUR", 35.00), //
                         hasSource("Periodenauszug09.txt"), hasNote("Lastschrift aktiv"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasAmount("EUR", 40.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasBookingDate("2020-11-02"), hasAmount("EUR", 40.00), //
                         hasSource("Periodenauszug09.txt"), hasNote("Lastschrift aktiv"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-11-02"), hasBookingDate("2020-11-02"), hasAmount("EUR", 50.00), //
                         hasSource("Periodenauszug09.txt"), hasNote("Lastschrift aktiv"))));
     }
 
@@ -5750,11 +5760,11 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-07-05"), hasAmount("EUR", 28240.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-07-05"), hasBookingDate("2024-07-05"), hasAmount("EUR", 28240.00), //
                         hasSource("Periodenauszug11.txt"), hasNote("Gutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(fee(hasDate("2024-07-15"), hasAmount("EUR", 0.99), //
+        assertThat(results, hasItem(fee(hasDate("2024-07-15"), hasBookingDate("2024-07-15"), hasAmount("EUR", 0.99), //
                         hasSource("Periodenauszug11.txt"), hasNote("Ordergebühr | Ref.-Nr.: SCALANDnkDU5Lx8"))));
     }
 
@@ -5778,7 +5788,7 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-12-27"), hasAmount("EUR", 164.78), //
+        assertThat(results, hasItem(deposit(hasDate("2023-12-27"), hasBookingDate("2023-12-27"), hasAmount("EUR", 164.78), //
                         hasSource("Periodenauszug12.txt"), hasNote("Gutschrift"))));
     }
 
@@ -5802,26 +5812,26 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-12-19"), hasAmount("EUR", 105.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-12-19"), hasBookingDate("2024-12-19"), hasAmount("EUR", 105.00), //
                         hasSource("Periodenauszug13.txt"), hasNote("Gutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-12-19"), hasAmount("EUR", 105.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-12-19"), hasBookingDate("2024-12-19"), hasAmount("EUR", 105.00), //
                         hasSource("Periodenauszug13.txt"), hasNote("Gutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-12-20"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-12-20"), hasBookingDate("2024-12-20"), hasAmount("EUR", 1000.00), //
                         hasSource("Periodenauszug13.txt"), hasNote("Gutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-12-30"), hasAmount("EUR", 250.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-12-30"), hasBookingDate("2024-12-30"), hasAmount("EUR", 250.00), //
                         hasSource("Periodenauszug13.txt"), hasNote("Gutschrift"))));
 
         // assert transaction
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         interest( //
-                                        hasDate("2024-12-31"), //
+                                        hasDate("2024-12-31"), hasBookingDate("2024-12-31"), //
                                         hasSource("Periodenauszug13.txt"), //
                                         hasNote("Rechnungsabschluss"), //
                                         hasAmount("EUR", 0.01)))));
@@ -5847,15 +5857,15 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-01-09"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-01-09"), hasBookingDate("2025-01-09"), hasAmount("EUR", 100.00), //
                         hasSource("Periodenauszug14.txt"), hasNote("Ueberweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-01-20"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-01-20"), hasBookingDate("2025-01-20"), hasAmount("EUR", 1000.00), //
                         hasSource("Periodenauszug14.txt"), hasNote("SEPA-Ueberweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-01-27"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-01-27"), hasBookingDate("2025-01-27"), hasAmount("EUR", 200.00), //
                         hasSource("Periodenauszug14.txt"), hasNote("Gutschrift"))));
     }
 
@@ -5914,18 +5924,18 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-06-12"), hasAmount("EUR", 1384.72), //
+        assertThat(results, hasItem(removal(hasDate("2025-06-12"), hasBookingDate("2025-06-12"), hasAmount("EUR", 1384.72), //
                         hasSource("Periodenauszug16.txt"), hasNote("Ueberweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-06-17"), hasAmount("EUR", 2000.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-06-17"), hasBookingDate("2025-06-17"), hasAmount("EUR", 2000.00), //
                         hasSource("Periodenauszug16.txt"), hasNote("Ueberweisung"))));
 
         // assert transaction
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         interest( //
-                                        hasDate("2025-06-30"), //
+                                        hasDate("2025-06-30"), hasBookingDate("2025-06-30"), //
                                         hasAmount("EUR", 55.40), //
                                         hasSource("Periodenauszug16.txt"), //
                                         hasNote("Rechnungsabschluss")))));
@@ -5950,7 +5960,7 @@ public class BaaderBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-09-06"), hasAmount("EUR", 2200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-09-06"), hasBookingDate("2021-09-06"), hasAmount("EUR", 2200.00), //
                         hasSource("Periodenauszug17.txt"), hasNote("Gutschrift"))));
     }
 
@@ -5983,6 +5993,7 @@ public class BaaderBankPDFExtractorTest
         var transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.DEPOSIT));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-12-11T00:00")));
+        assertThat(transaction, hasBookingDate("2020-12-11T00:00"));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(20.00))));
         assertThat(transaction.getSource(), is("Tageskontoauszug01.txt"));
         assertThat(transaction.getNote(), is("Gutschrift"));
