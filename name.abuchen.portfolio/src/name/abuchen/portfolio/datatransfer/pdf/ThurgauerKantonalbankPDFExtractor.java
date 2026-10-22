@@ -93,14 +93,17 @@ public class ThurgauerKantonalbankPDFExtractor extends AbstractPDFExtractor
                         // @formatter:on
                         .section("date", "time") //
                         .match("^Wir haben f.r Sie am (?<date>[\\d]{1,2}\\. .* [\\d]{4}), (?<time>[\\d]{1,2}\\:[\\d]{2}\\:[\\d]{2}) Uhr gekauft.*$") //
-                        .assign((t, v) -> t.setDate(asDate(v.get("date"), v.get("time"))))
+                        .assign((t, v) -> t.setBookingDate(asDate(v.get("date"), v.get("time"))))
 
                         // @formatter:off
                         // Zu Ihren Lasten Valuta 22.07.2026 CHF 23'185.11
                         // @formatter:on
-                        .section("currency", "amount") //
-                        .match("^Zu Ihren Lasten Valuta [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<currency>[A-Z]{3}) (?<amount>[\\.'\\d]+)$") //
+                        .section("date", "currency", "amount") //
+                        .match("^Zu Ihren Lasten Valuta (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<currency>[A-Z]{3}) (?<amount>[\\.'\\d]+)$") //
                         .assign((t, v) -> {
+                            // The settlement date (Valuta) is the transaction date
+                            // and therefore overrules the trade date.
+                            t.setDate(asDate(v.get("date")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                         })

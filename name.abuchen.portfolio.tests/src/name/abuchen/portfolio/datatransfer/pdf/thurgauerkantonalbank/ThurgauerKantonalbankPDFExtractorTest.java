@@ -1,6 +1,7 @@
 package name.abuchen.portfolio.datatransfer.pdf.thurgauerkantonalbank;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
@@ -68,7 +69,7 @@ public class ThurgauerKantonalbankPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-07-20T09:33:00"), hasShares(400.00), //
+                        hasDate("2026-07-22T00:00"), hasBookingDate("2026-07-20T09:33:00"), hasShares(400.00), //
                         hasSource("Kauf01.txt"), //
                         hasNote("Referenznummer 1234567890 | Marchzinsen (131 Tage): 648.00 AUD"), //
                         hasAmount("CHF", 23185.11), hasGrossValue("CHF", 23053.23), //
@@ -104,7 +105,7 @@ public class ThurgauerKantonalbankPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-07-20T09:33:00"), hasShares(400.00), //
+                        hasDate("2026-07-22T00:00"), hasBookingDate("2026-07-20T09:33:00"), hasShares(400.00), //
                         hasSource("Kauf01.txt"), //
                         hasNote("Referenznummer 1234567890 | Marchzinsen (131 Tage): 648.00 AUD"), //
                         hasAmount("CHF", 23185.11), hasGrossValue("CHF", 23053.23), //
