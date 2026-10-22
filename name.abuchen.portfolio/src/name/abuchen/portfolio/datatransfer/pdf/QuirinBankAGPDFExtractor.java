@@ -695,17 +695,18 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("note1", "note2", "date", "amount", "currency") //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency") //
                         .match("^(?<note1>(Konto.bertrag [\\d]+" //
                                         + "|Sammelgutschrift" //
                                         + "|Interne Buchung" //
                                         + "|.berweisungsgutschrift Inland)) " //
-                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                        + "(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^Ref\\.: (?<note2>.*)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -727,14 +728,15 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
                                         // Rücküberweisung Inland 23.12.2019 19.12.2019 -5.002,84 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("note1", "note2", "date", "amount") //
+                                                        .attributes("note1", "note2", "bookingDate", "date", "amount") //
                                                         .match("^(?<note1>R.ck.berweisung Inland) "
-                                                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                                        + "(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                                                         + "\\-(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                                                         .match("^Ref\\.: (?<note2>.*)$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                                                             t.setAmount(asAmount(v.get("amount")));
                                                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -744,12 +746,13 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
                                         //Überweisungsauftrag, R ef: UI-0385701357 10.03.2014 09.03.2014 -1.198,98 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("note1", "note2", "date", "amount", "currency") //
-                                                        .match("^(?<note1>.berweisungsauftrag),[\\s]{1,}.*: (?<note2>.*) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (\\- )?"
+                                                        .attributes("note1", "note2", "bookingDate", "date", "amount", "currency") //
+                                                        .match("^(?<note1>.berweisungsauftrag),[\\s]{1,}.*: (?<note2>.*) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (\\- )?"
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}"
                                                                         + "\\-(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                                                             t.setAmount(asAmount(v.get("amount")));
                                                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -772,14 +775,15 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.TAXES))
 
-                        .section("note1", "note2", "date", "amount", "currency").optional() //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency").optional() //
                         .match("^(?<note1>Steuerbuchung Abgeltungsteuer),[\\s]{1,}.*: (?<note2>.*) " //
-                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                        + "(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "\\-(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^Steuern auf Kontoabschluss.*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -802,13 +806,14 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.TAX_REFUND))
 
-                        .section("note1", "note2", "date", "amount", "currency") //
-                        .match("^(?<note1>Steueroptimierung) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency") //
+                        .match("^(?<note1>Steueroptimierung) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^Ref\\.: (?<note2>.*)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -827,14 +832,15 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.TAX_REFUND))
 
-                        .section("note1", "note2", "date", "amount", "currency").optional() //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency").optional() //
                         .match("^(?<note1>Steuerbuchung Abgeltungsteuer),[\\s]{1,}.*: (?<note2>.*) " //
-                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                        + "(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^Steuern auf Kontoabschluss.*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -857,13 +863,14 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.TAXES))
 
-                        .section("note1", "note2", "date", "amount", "currency") //
-                        .match("^(?<note1>Steueroptimierung) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency") //
+                        .match("^(?<note1>Steueroptimierung) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "\\-(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^Ref\\.: (?<note2>.*)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -882,13 +889,14 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES))
 
-                        .section("note1", "date", "amount", "currency", "note2") //
-                        .match("^(?<note1>Verm.gensverwaltungshonorar).* [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (\\- )?" //
+                        .section("note1", "date", "amount", "currency", "note2", "bookingDate") //
+                        .match("^(?<note1>Verm.gensverwaltungshonorar).* (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (\\- )?" //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "\\-(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^Ref\\.: (?<note2>.*)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -907,13 +915,14 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES))
 
-                        .section("note1", "note2", "date", "amount", "currency", "note3") //
-                        .match("^(?<note1>Flatrate),[\\s]{1,}.*: (?<note2>.*) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (\\- )?" //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency", "note3") //
+                        .match("^(?<note1>Flatrate),[\\s]{1,}.*: (?<note2>.*) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (\\- )?" //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "\\-(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3})$") //
                         .match("^(?<note3>Geb.hren [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} \\- [\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " " + trim(v.get("note3")) + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -931,13 +940,14 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES))
 
-                        .section("note1", "note2", "date", "amount", "currency", "note3", "note4") //
-                        .match("^(?<note1>Volumen Fee),[\\s]{1,}.*: (?<note2>.*) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (\\- )?" //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency", "note3", "note4") //
+                        .match("^(?<note1>Volumen Fee),[\\s]{1,}.*: (?<note2>.*) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (\\- )?" //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "\\-(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^(?<note3>Geb.hren).* (?<note4>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} \\- [\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " " + trim(v.get("note3")) + " " + trim(v.get("note4")) + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -958,16 +968,17 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES_REFUND))
 
-                        .section("note1", "note2", "date", "amount", "currency", "note3", "note4") //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency", "note3", "note4") //
                         .match("^[\\d]+ (?<note1>Bestandsprovision), "
                                         + "(?<note2>.*), "
-                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} "
+                                        + "(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) "
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]+) "
                                         + "(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^(?<note3>[A-Z]{2}[A-Z0-9]{9}[0-9]).*$") //
                         .match("^Ref\\.: (?<note4>.*)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " " + trim(v.get("note3")) + " " + trim(v.get("note2")) + " | Ref.-Nr.: " + trim(v.get("note4")));
@@ -985,13 +996,14 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES))
 
-                        .section("note1", "note2", "date", "amount", "currency", "note3") //
-                        .match("^(?<note1>Honorar),[\\s]{1,}.*: (?<note2>.*) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (\\- )?" //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency", "note3") //
+                        .match("^(?<note1>Honorar),[\\s]{1,}.*: (?<note2>.*) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (\\- )?" //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "\\-(?<amount>[\\.,\\d]+)[\\s]{1,}(?<currency>[A-Z]{3}).*$") //
                         .match("^Honorar:(?<note3>.*\\/[\\d]{4}) .*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " " + trim(v.get("note3")) + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -1011,14 +1023,15 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES_REFUND))
 
-                        .section("note1", "note2", "date", "amount", "currency", "note3") //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency", "note3") //
                         .match("^R.ckverg.tung (?<note1>Bestand.*), .*: (?<note2>.*) " //
-                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                        + "(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "(?<amount>[\\.,\\d]+)([\\s]+)?(?<currency>[A-Z]{3}).*$") //
                         .match("^Bestand (?<note3>[A-Z]{2}[A-Z0-9]{9}[0-9]).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " " + trim(v.get("note3")) + " | Ref.-Nr.: " + trim(v.get("note2")));
@@ -1035,13 +1048,14 @@ public class QuirinBankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST))
 
-                        .section("note1", "note2", "date", "amount", "currency") //
+                        .section("note1", "note2", "bookingDate", "date", "amount", "currency") //
                         .match("^(?<note1>Haben\\-Zinsen Kontoabschluss), " //
-                                        + ".*: (?<note2>.*) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (\\- )?" //
+                                        + ".*: (?<note2>.*) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (\\- )?" //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d\\s]+)[\\s]{1,}" //
                                         + "(?<amount>[\\.,\\d]+)([\\s]+)?(?<currency>[A-Z]{3}).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " | Ref.-Nr.: " + trim(v.get("note2")));
