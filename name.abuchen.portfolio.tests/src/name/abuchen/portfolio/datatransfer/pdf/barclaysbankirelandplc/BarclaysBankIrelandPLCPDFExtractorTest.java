@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.barclaysbankirelandplc;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasGrossValue;
@@ -54,31 +55,31 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-11-20"), hasAmount("EUR", 119.96), //
+        assertThat(results, hasItem(removal(hasDate("2023-11-20"), hasBookingDate("2023-11-19"), hasAmount("EUR", 119.96), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("GetYourGuide Tickets Berlin"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-11-20"), hasAmount("EUR", 21.84), //
+        assertThat(results, hasItem(removal(hasDate("2023-11-20"), hasBookingDate("2023-11-19"), hasAmount("EUR", 21.84), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("ALDI ALBUFEIRA ALBUFEIRA"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-11-20"), hasAmount("EUR", 8.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-11-20"), hasBookingDate("2023-11-18"), hasAmount("EUR", 8.00), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("GRUPO PESTANA ALCACER DO SA"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-12-01"), hasAmount("EUR", 34.99), //
+        assertThat(results, hasItem(removal(hasDate("2023-12-01"), hasBookingDate("2023-11-30"), hasAmount("EUR", 34.99), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("eBay O*00-00000-00000 Luxembourg"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-12-06"), hasAmount("EUR", 1.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-12-06"), hasBookingDate("2023-12-05"), hasAmount("EUR", 1.00), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("PAYPAL *IONOS SE 00000000000"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-12-09"), hasAmount("EUR", 8.48), //
+        assertThat(results, hasItem(removal(hasDate("2023-12-09"), hasBookingDate("2023-12-08"), hasAmount("EUR", 8.48), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("Globus Baumarkt Ort"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-12-09"), hasAmount("EUR", 1.29), //
+        assertThat(results, hasItem(removal(hasDate("2023-12-09"), hasBookingDate("2023-12-08"), hasAmount("EUR", 1.29), //
                         hasSource("KreditKontoauszug01.txt"), hasNote("Tegut Filiale 0000 LangOrtsnamen"))));
     }
 
@@ -102,43 +103,43 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-01-04"), hasAmount("EUR", 4.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-01-04"), hasBookingDate("2024-01-03"), hasAmount("EUR", 4.00), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("TooGoodToG xxxxxxxxxxx toogoodtogo.d"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-01-05"), hasAmount("EUR", 1.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-01-05"), hasBookingDate("2024-01-04"), hasAmount("EUR", 1.00), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("PAYPAL *IONOS SE 00000000000"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-12-25"), hasAmount("EUR", 60.78), //
+        assertThat(results, hasItem(removal(hasDate("2023-12-25"), hasBookingDate("2023-12-23"), hasAmount("EUR", 60.78), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("Lidl sagt Danke Ort"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-12-25"), hasAmount("EUR", 60.78), //
+        assertThat(results, hasItem(removal(hasDate("2023-12-25"), hasBookingDate("2023-12-23"), hasAmount("EUR", 60.78), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("Lidl sagt Danke Ort"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-12-28"), hasAmount("EUR", 60.78), //
+        assertThat(results, hasItem(deposit(hasDate("2023-12-28"), hasBookingDate("2023-12-23"), hasAmount("EUR", 60.78), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("Lidl sagt Danke Ort"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-01-05"), hasAmount("EUR", 5.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-01-05"), hasBookingDate("2024-01-04"), hasAmount("EUR", 5.00), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("PAYPAL *VODAFONE 0000000000"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-01-08"), hasAmount("EUR", 5.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-01-08"), hasBookingDate("2024-01-07"), hasAmount("EUR", 5.00), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("PAYPAL *VODAFONE 0000000000"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-01-06"), hasAmount("EUR", 671.99), //
+        assertThat(results, hasItem(deposit(hasDate("2024-01-06"), hasBookingDate("2024-01-06"), hasAmount("EUR", 671.99), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("Per Lastschrift dankend erhalten"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-01-08"), hasAmount("EUR", 1.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-01-08"), hasBookingDate("2024-01-08"), hasAmount("EUR", 1.00), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("Vorname Nachname"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-01-08"), hasAmount("EUR", 0.50), //
+        assertThat(results, hasItem(deposit(hasDate("2024-01-08"), hasBookingDate("2024-01-08"), hasAmount("EUR", 0.50), //
                         hasSource("KreditKontoauszug02.txt"), hasNote("Gutschrift Manuelle Lastschrift"))));
     }
 
@@ -163,7 +164,7 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2023-12-31"), //
+                        hasDate("2023-12-31"), hasBookingDate("2023-12-31"), //
                         hasSource("KreditKontoauszug03.txt"), //
                         hasNote("Habenzinsen"), //
                         hasAmount("EUR", 3.54), hasGrossValue("EUR", 4.80), //
@@ -171,7 +172,7 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2023-12-31"), //
+                        hasDate("2023-12-31"), hasBookingDate("2023-12-31"), //
                         hasSource("KreditKontoauszug03.txt"), //
                         hasNote("Habenzinsen"), //
                         hasAmount("EUR", 14.47), hasGrossValue("EUR", 19.65), //
@@ -179,7 +180,7 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2023-12-31"), //
+                        hasDate("2023-12-31"), hasBookingDate("2023-12-31"), //
                         hasSource("KreditKontoauszug03.txt"), //
                         hasNote("Habenzinsen"), //
                         hasAmount("EUR", 16.41), hasGrossValue("EUR", 22.28), //
@@ -187,7 +188,7 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2023-12-31"), //
+                        hasDate("2023-12-31"), hasBookingDate("2023-12-31"), //
                         hasSource("KreditKontoauszug03.txt"), //
                         hasNote("Habenzinsen"), //
                         hasAmount("EUR", 103.38), hasGrossValue("EUR", 140.41), //
@@ -214,82 +215,82 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transactions
-        assertThat(results, hasItem(removal(hasDate("2020-07-20"), hasAmount("EUR", 89.94), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-20"), hasBookingDate("2020-07-19"), hasAmount("EUR", 89.94), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop Umsatz 123-456-7890"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-20"), hasAmount("EUR", 45.00), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-20"), hasBookingDate("2020-07-18"), hasAmount("EUR", 45.00), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("LADEN1 MUENCHEN"))));
-        assertThat(results, hasItem(deposit(hasDate("2020-07-20"), hasAmount("EUR", 187.04), //
+        assertThat(results, hasItem(deposit(hasDate("2020-07-20"), hasBookingDate("2020-07-19"), hasAmount("EUR", 187.04), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop3 Umsatz Luxembourg"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-20"), hasAmount("EUR", 38.80), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-20"), hasBookingDate("2020-07-18"), hasAmount("EUR", 38.80), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop2 Umsatz EXAMPLE.COM"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-21"), hasAmount("EUR", 40.89), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-21"), hasBookingDate("2020-07-20"), hasAmount("EUR", 40.89), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop2 Umsatz EXAMPLE.COM"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-22"), hasAmount("EUR", 58.99), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-22"), hasBookingDate("2020-07-21"), hasAmount("EUR", 58.99), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop Umsatz 123-456-7890"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-23"), hasAmount("EUR", 7.61), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-23"), hasBookingDate("2020-07-22"), hasAmount("EUR", 7.61), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("LADEN2 MÜNCHEN"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-24"), hasAmount("EUR", 50.77), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-24"), hasBookingDate("2020-07-23"), hasAmount("EUR", 50.77), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop Umsatz 123-456-7890"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-25"), hasAmount("EUR", 32.75), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-25"), hasBookingDate("2020-07-24"), hasAmount("EUR", 32.75), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop Umsatz 123-456-7890"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-25"), hasAmount("EUR", 18.69), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-25"), hasBookingDate("2020-07-24"), hasAmount("EUR", 18.69), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("LADEN2 MÜNCHEN"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-27"), hasAmount("EUR", 17.40), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-27"), hasBookingDate("2020-07-25"), hasAmount("EUR", 17.40), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("LADEN3 MUENCHEN"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-27"), hasAmount("EUR", 18.61), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-27"), hasBookingDate("2020-07-25"), hasAmount("EUR", 18.61), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("LADEN2 MÜNCHEN"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-31"), hasAmount("EUR", 96.45), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-31"), hasBookingDate("2020-07-30"), hasAmount("EUR", 96.45), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("LADEN 3 weitweg Eching"))));
-        assertThat(results, hasItem(removal(hasDate("2020-07-31"), hasAmount("EUR", 50.95), //
+        assertThat(results, hasItem(removal(hasDate("2020-07-31"), hasBookingDate("2020-07-30"), hasAmount("EUR", 50.95), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Laden 4 ECHING"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-03"), hasAmount("EUR", 19.49), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-03"), hasBookingDate("2020-08-01"), hasAmount("EUR", 19.49), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Laden 5 Muenchen"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-03"), hasAmount("EUR", 9.80), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-03"), hasBookingDate("2020-08-01"), hasAmount("EUR", 9.80), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("LADEN2 MÜNCHEN"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-05"), hasAmount("EUR", 38.98), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-05"), hasBookingDate("2020-08-04"), hasAmount("EUR", 38.98), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop2 Umsatz EXAMPLE.COM"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-05"), hasAmount("EUR", 12.42), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-05"), hasBookingDate("2020-08-04"), hasAmount("EUR", 12.42), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop2 Umsatz EXAMPLE.COM"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-07"), hasAmount("EUR", 38.70), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-07"), hasBookingDate("2020-08-06"), hasAmount("EUR", 38.70), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop Umsatz 123-456-7890"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-10"), hasAmount("EUR", 13.21), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-10"), hasBookingDate("2020-08-08"), hasAmount("EUR", 13.21), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Laden 6 MUENCHEN"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-10"), hasAmount("EUR", 22.91), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-10"), hasBookingDate("2020-08-08"), hasAmount("EUR", 22.91), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Laden 4 ECHING"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-10"), hasAmount("EUR", 73.77), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-10"), hasBookingDate("2020-08-08"), hasAmount("EUR", 73.77), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop2 Umsatz EXAMPLE.COM"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-10"), hasAmount("EUR", 24.49), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-10"), hasBookingDate("2020-08-08"), hasAmount("EUR", 24.49), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("LADEN2 MÜNCHEN"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-12"), hasAmount("EUR", 19.99), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-12"), hasBookingDate("2020-08-11"), hasAmount("EUR", 19.99), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop Umsatz 123-456-7890"))));
-        assertThat(results, hasItem(deposit(hasDate("2020-08-12"), hasAmount("EUR", 19.98), //
+        assertThat(results, hasItem(deposit(hasDate("2020-08-12"), hasBookingDate("2020-08-11"), hasAmount("EUR", 19.98), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop Umsatz 123-456-7890"))));
-        assertThat(results, hasItem(removal(hasDate("2020-08-18"), hasAmount("EUR", 119.22), //
+        assertThat(results, hasItem(removal(hasDate("2020-08-18"), hasBookingDate("2020-08-17"), hasAmount("EUR", 119.22), //
                         hasSource("KreditKontoauszug04.txt"), //
                         hasNote("Onlineshop2 Umsatz EXAMPLE.COM"))));
     }
@@ -314,34 +315,34 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transactions
-        assertThat(results, hasItem(removal(hasDate("2015-06-27"), hasAmount("EUR", 95.91), //
+        assertThat(results, hasItem(removal(hasDate("2015-06-27"), hasBookingDate("2015-06-25"), hasAmount("EUR", 95.91), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("Shell 7730 Muenchen"))));
-        assertThat(results, hasItem(removal(hasDate("2015-06-27"), hasAmount("EUR", 454.39), //
+        assertThat(results, hasItem(removal(hasDate("2015-06-27"), hasBookingDate("2015-06-26"), hasAmount("EUR", 454.39), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("HOTELRES123123456789 11234567895"))));
-        assertThat(results, hasItem(removal(hasDate("2015-07-01"), hasAmount("EUR", 18.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-07-01"), hasBookingDate("2015-06-28"), hasAmount("EUR", 18.00), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("ASFINAG.AT VIDEOMAUT WIEN"))));
-        assertThat(results, hasItem(removal(hasDate("2015-07-02"), hasAmount("EUR", 56.60), //
+        assertThat(results, hasItem(removal(hasDate("2015-07-02"), hasBookingDate("2015-06-30"), hasAmount("EUR", 56.60), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("AUTOST BRENNERO/FROSIN TOLL WAY"))));
-        assertThat(results, hasItem(removal(hasDate("2015-07-14"), hasAmount("EUR", 18.99), //
+        assertThat(results, hasItem(removal(hasDate("2015-07-14"), hasBookingDate("2015-07-13"), hasAmount("EUR", 18.99), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("Amazon EU AMAZON.DE"))));
-        assertThat(results, hasItem(removal(hasDate("2015-07-15"), hasAmount("EUR", 5.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-07-15"), hasBookingDate("2015-07-14"), hasAmount("EUR", 5.00), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("PARCHEGGI FIUMICINO AD FIUMICINO"))));
-        assertThat(results, hasItem(removal(hasDate("2015-07-17"), hasAmount("EUR", 26.49), //
+        assertThat(results, hasItem(removal(hasDate("2015-07-17"), hasBookingDate("2015-07-16"), hasAmount("EUR", 26.49), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("Amazon EU AMAZON.DE"))));
-        assertThat(results, hasItem(removal(hasDate("2015-07-18"), hasAmount("EUR", 56.60), //
+        assertThat(results, hasItem(removal(hasDate("2015-07-18"), hasBookingDate("2015-07-16"), hasAmount("EUR", 56.60), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("A 22 BRENNERO BARRIERA VIPITENO"))));
-        assertThat(results, hasItem(removal(hasDate("2015-07-19"), hasAmount("EUR", 31.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-07-19"), hasBookingDate("2015-07-19"), hasAmount("EUR", 31.00), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("Reiseversicherung jährlicher Abschluss"))));
-        assertThat(results, hasItem(deposit(hasDate("2015-07-08"), hasAmount("EUR", 2000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2015-07-08"), hasBookingDate("2015-07-08"), hasAmount("EUR", 2000.00), //
                         hasSource("KreditKontoauszug05.txt"), //
                         hasNote("Vorname Nachname"))));
     }
@@ -366,23 +367,23 @@ public class BarclaysBankIrelandPLCPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transactions
-        assertThat(results, hasItem(removal(hasDate("2021-02-19"), hasAmount("EUR", 10.16), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-19"), hasBookingDate("2021-02-18"), hasAmount("EUR", 10.16), //
                         hasSource("KreditKontoauszug06.txt"), //
                         hasNote("Laden 1 Filiale Muenchen"))));
-        assertThat(results, hasItem(removal(hasDate("2021-02-19"), hasAmount("EUR", 25.90), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-19"), hasBookingDate("2021-02-18"), hasAmount("EUR", 25.90), //
                         hasSource("KreditKontoauszug06.txt"), //
                         hasNote("Laden 1 Filiale Muenchen"))));
-        assertThat(results, hasItem(removal(hasDate("2021-03-15"), hasAmount("EUR", 33.91), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-15"), hasBookingDate("2021-03-13"), hasAmount("EUR", 33.91), //
                         hasSource("KreditKontoauszug06.txt"), //
                         hasNote("Laden 2 Filiale Muenchen"))));
-        assertThat(results, hasItem(removal(hasDate("2021-03-17"), hasAmount("EUR", 39.45), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-17"), hasBookingDate("2021-03-16"), hasAmount("EUR", 39.45), //
                         hasSource("KreditKontoauszug06.txt"), //
                         hasNote("Laden 3 Filiale ECHING"))));
-        assertThat(results, hasItem(removal(hasDate("2021-03-18"), hasAmount("EUR", 14.92), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-18"), hasBookingDate("2021-03-17"), hasAmount("EUR", 14.92), //
                         hasSource("KreditKontoauszug06.txt"), //
                         hasNote("Laden 4 Filiale POECKING"))));
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2021-03-18"), //
+                        hasDate("2021-03-18"), hasBookingDate("2021-03-18"), //
                         hasSource("KreditKontoauszug06.txt"), //
                         hasNote("Monatl. Zinsen für Einkäufe/Überweisungen"), //
                         hasAmount("EUR", 1.68), hasGrossValue("EUR", 1.68), //

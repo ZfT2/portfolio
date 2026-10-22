@@ -69,9 +69,9 @@ public class BarclaysBankIrelandPLCPDFExtractor extends AbstractPDFExtractor
                                         // 08.07.2015 08.07.2015 Vorname Nachname /          2.000,00+
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "note", "amount", "type") //
+                                                        .attributes("bookingDate", "date", "note", "amount", "type") //
                                                         .documentContext("currency") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<note>.*?)" //
                                                                         + "\\s\\/\\s+" //
@@ -84,9 +84,9 @@ public class BarclaysBankIrelandPLCPDFExtractor extends AbstractPDFExtractor
                                         // 23.12.2023 28.12.2023 Lidl sagt Danke        Ort           DE Visa B A             60,78+
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "note", "amount", "type") //
+                                                        .attributes("bookingDate", "date", "note", "amount", "type") //
                                                         .documentContext("currency") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                                                         + "(?<note>.{1,36})" //
                                                                         + ".* " //
@@ -109,9 +109,9 @@ public class BarclaysBankIrelandPLCPDFExtractor extends AbstractPDFExtractor
                         // 31.12.2023 31.12.2023 Habenzinsen 4,80
                         // 18.03.2021 18.03.2021 Monatl. Zinsen für Einkäufe/Überweisungen              1,68-
                         // @formatter:on
-                        .section("date", "note", "amount", "negative") //
+                        .section("bookingDate", "date", "note", "amount", "negative") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note>Monatl\\. Zinsen.*|Habenzinsen) " //
                                         + "(?<amount>[\\.,\\d]+)(?<negative>\\-?)$") //
@@ -121,6 +121,7 @@ public class BarclaysBankIrelandPLCPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.INTEREST_CHARGE);
 
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(trim(v.get("note")));
@@ -162,6 +163,7 @@ public class BarclaysBankIrelandPLCPDFExtractor extends AbstractPDFExtractor
             t.setType(AccountTransaction.Type.REMOVAL);
 
         t.setDateTime(asDate(v.get("date")));
+        t.setBookingDate(asDate(v.get("bookingDate")));
         t.setAmount(asAmount(v.get("amount")));
         t.setCurrencyCode(v.get("currency"));
         t.setNote(trim(replaceMultipleBlanks(v.get("note"))));
