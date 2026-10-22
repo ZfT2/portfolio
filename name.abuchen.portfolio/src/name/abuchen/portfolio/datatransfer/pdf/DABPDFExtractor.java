@@ -1173,10 +1173,11 @@ public class DABPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "amount", "currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<note>SEPA\\-.berweisung) .* (?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
+                        .section("bookingDate", "date", "note", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<note>SEPA\\-.berweisung) .* (?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setNote(v.get("note"));
@@ -1193,11 +1194,12 @@ public class DABPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "amount") //
+                        .section("bookingDate", "date", "note", "amount") //
                         .documentContext("year", "currency") //
-                        .match("^([\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) (?<note>verm.genswirksame Leistung) (?<amount>[\\.,\\d]+)\\+$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) (?<note>verm.genswirksame Leistung) (?<amount>[\\.,\\d]+)\\+$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
@@ -1236,10 +1238,11 @@ public class DABPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "note", "amount", "currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<note>SEPA\\-.berweisung) .* -(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
+                        .section("bookingDate", "date", "note", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<note>SEPA\\-.berweisung) .* -(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setNote(v.get("note"));
@@ -1256,11 +1259,12 @@ public class DABPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("note", "date", "amount") //
+                        .section("bookingDate", "date", "note", "amount") //
                         .documentContext("year", "currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\. (?<date>[\\d]{2}\\.[\\d]{2}\\.) (?<note>SEPA\\-.berweisung) (?<amount>[\\.,\\d]+)\\-$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) (?<note>SEPA\\-.berweisung) (?<amount>[\\.,\\d]+)\\-$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
@@ -1321,12 +1325,13 @@ public class DABPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES))
 
-                        .section("amount", "date", "note") //
+                        .section("amount", "bookingDate", "date", "note") //
                         .documentContext("currency", "year") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\. (?<date>[\\d]{2}\\.[\\d]{2}\\.) Verwalterpreis (?<amount>[\\.,\\d]+)\\-$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) Verwalterpreis (?<amount>[\\.,\\d]+)\\-$") //
                         .match("^(?<note>.*) End to End\\-") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
@@ -1346,10 +1351,11 @@ public class DABPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST_CHARGE))
 
-                        .section("note", "date", "amount", "currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<note>Sollzinsen) -(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
+                        .section("bookingDate", "date", "note", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<note>Sollzinsen) -(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setNote(v.get("note"));
@@ -1370,9 +1376,9 @@ public class DABPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new BuySellEntry(PortfolioTransaction.Type.BUY))
 
-                        .section("amount", "date", "isin", "shares", "type") //
+                        .section("amount", "bookingDate", "date", "isin", "shares", "type") //
                         .documentContext("currency", "year") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\. (?<date>[\\d]{2}\\.[\\d]{2}\\.) (?<type>Wertpapierverkauf|Wertpapierkauf) (?<amount>[\\.,\\d]+)[\\+\\-]$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) (?<type>Wertpapierverkauf|Wertpapierkauf) (?<amount>[\\.,\\d]+)[\\+\\-]$") //
                         .match("^.* (?<isin>[A-Z]{2}[A-Z0-9]{9}[0-9])\\*\\s+(?<shares>[\\.,\\d]+)$") //
                         .assign((t, v) -> {
                             // @formatter:off
@@ -1384,6 +1390,7 @@ public class DABPDFExtractor extends AbstractPDFExtractor
                             t.setSecurity(getOrCreateSecurity(v));
 
                             t.setDate(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setShares(asShares(v.get("shares")));
                             t.setAmount(asAmount(v.get("amount")));

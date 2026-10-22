@@ -4,6 +4,7 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.fee;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -80,7 +81,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2015-01-06T00:00"), hasShares(0.91920), //
+                        hasDate("2015-01-06T00:00"), hasBookingDate(null), hasShares(0.91920), //
                         hasSource("Kauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 9090909090"), //
                         hasAmount("EUR", 150.00), hasGrossValue("EUR", 150.00), //
@@ -113,7 +114,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2015-05-04T09:15"), hasShares(1.42270), //
+                        hasDate("2015-05-04T09:15"), hasBookingDate(null), hasShares(1.42270), //
                         hasSource("Kauf02.txt"), //
                         hasNote("Abrechnungs-Nr. 81119025"), //
                         hasAmount("EUR", 60.00), hasGrossValue("EUR", 55.05), //
@@ -146,7 +147,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2016-01-04T09:15"), hasShares(10.9468), //
+                        hasDate("2016-01-04T09:15"), hasBookingDate(null), hasShares(10.9468), //
                         hasSource("Kauf03.txt"), //
                         hasNote("Abrechnungs-Nr. hintereinander)"), //
                         hasAmount("EUR", 325.00), hasGrossValue("EUR", 325.00), //
@@ -179,7 +180,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2015-07-29T16:30"), hasShares(100.00), //
+                        hasDate("2015-07-29T16:30"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Kauf04.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4798.86), hasGrossValue("EUR", 4786.89), //
@@ -214,7 +215,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2015-07-29T16:30"), hasShares(100.00), //
+                        hasDate("2015-07-29T16:30"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Kauf04.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4798.86), hasGrossValue("EUR", 4786.89), //
@@ -247,7 +248,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2017-03-01T13:31"), hasShares(0.0499), //
+                        hasDate("2017-03-01T13:31"), hasBookingDate(null), hasShares(0.0499), //
                         hasSource("Kauf05.txt"), //
                         hasNote("Abrechnungs-Nr. 26880356"), //
                         hasAmount("EUR", 6.46), hasGrossValue("EUR", 6.46), //
@@ -280,7 +281,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-18T14:15"), hasShares(10.00), //
+                        hasDate("2020-11-18T14:15"), hasBookingDate(null), hasShares(10.00), //
                         hasSource("Kauf06.txt"), //
                         hasNote("Abrechnungs-Nr. 987654321"), //
                         hasAmount("EUR", 1381.58), hasGrossValue("EUR", 1381.00), //
@@ -313,7 +314,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-23T12:13"), hasShares(125.00), //
+                        hasDate("2020-11-23T12:13"), hasBookingDate(null), hasShares(125.00), //
                         hasSource("Kauf07.txt"), //
                         hasNote("Abrechnungs-Nr. 93514089"), //
                         hasAmount("CHF", 6123.98), hasGrossValue("CHF", 6123.98), //
@@ -348,7 +349,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-23T12:13"), hasShares(125.00), //
+                        hasDate("2020-11-23T12:13"), hasBookingDate(null), hasShares(125.00), //
                         hasSource("Kauf07.txt"), //
                         hasNote("Abrechnungs-Nr. 93514089"), //
                         hasAmount("CHF", 6123.98), hasGrossValue("CHF", 6123.98), //
@@ -381,7 +382,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-01-05T16:52"), hasShares(20.00), //
+                        hasDate("2021-01-05T16:52"), hasBookingDate(null), hasShares(20.00), //
                         hasSource("Kauf08.txt"), //
                         hasNote("Abrechnungs-Nr. 1234567"), //
                         hasAmount("EUR", 1146.44), hasGrossValue("EUR", 1117.03), //
@@ -416,7 +417,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-01-05T16:52"), hasShares(20.00), //
+                        hasDate("2021-01-05T16:52"), hasBookingDate(null), hasShares(20.00), //
                         hasSource("Kauf08.txt"), //
                         hasNote("Abrechnungs-Nr. 1234567"), //
                         hasAmount("EUR", 1146.44), hasGrossValue("EUR", 1117.03), //
@@ -449,7 +450,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-06-18T08:56"), hasShares(10.00), //
+                        hasDate("2021-06-18T08:56"), hasBookingDate(null), hasShares(10.00), //
                         hasSource("Kauf09.txt"), //
                         hasNote("Abrechnungs-Nr. 123456"), //
                         hasAmount("EUR", 1029.55), hasGrossValue("EUR", 1022.56), //
@@ -457,7 +458,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2021-06-18T00:00"), hasShares(10.00), //
+                        hasDate("2021-06-18T00:00"), hasBookingDate(null), hasShares(10.00), //
                         hasSource("Kauf09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 5.95), hasGrossValue("EUR", 5.95), //
@@ -490,7 +491,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-07-23T12:58"), hasShares(15.00), //
+                        hasDate("2021-07-23T12:58"), hasBookingDate(null), hasShares(15.00), //
                         hasSource("Kauf10.txt"), //
                         hasNote("Abrechnungs-Nr. 99999999"), //
                         hasAmount("EUR", 2003.55), hasGrossValue("EUR", 2003.55), //
@@ -523,7 +524,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-11-02T09:26"), hasShares(1.00), //
+                        hasDate("2021-11-02T09:26"), hasBookingDate(null), hasShares(1.00), //
                         hasSource("Kauf11.txt"), //
                         hasNote("Abrechnungs-Nr. xxxxxxxx"), //
                         hasAmount("EUR", 111.11), hasGrossValue("EUR", 110.11), //
@@ -556,7 +557,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-07-26T12:59"), hasShares(38.00), //
+                        hasDate("2021-07-26T12:59"), hasBookingDate(null), hasShares(38.00), //
                         hasSource("Kauf12.txt"), //
                         hasNote("Abrechnungs-Nr. 123456789"), //
                         hasAmount("EUR", 693.70), hasGrossValue("EUR", 689.70), //
@@ -589,7 +590,7 @@ public class DABPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2011-04-07T12:34"), hasShares(449.749), //
+                        hasDate("2011-04-07T12:34"), hasBookingDate(null), hasShares(449.749), //
                         hasSource("Kauf13.txt"), //
                         hasNote("Abrechnungs-Nr. [Belegnummer]"), //
                         hasAmount("EUR", 2479.12), hasGrossValue("EUR", 2469.12), //
@@ -623,7 +624,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-08-29T12:59:00"), hasShares(0.0425), //
+                        hasDate("2024-08-29T12:59:00"), hasBookingDate(null), hasShares(0.0425), //
                         hasSource("Kauf14.txt"), //
                         hasNote("Abrechnungs-Nr. 92328727"), //
                         hasAmount("EUR", 4.13), hasGrossValue("EUR", 4.13), //
@@ -657,7 +658,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2011-06-28T08:09:00"), hasShares(20), //
+                        hasDate("2011-06-28T08:09:00"), hasBookingDate(null), hasShares(20), //
                         hasSource("AnleiheKauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 67009861"), //
                         hasAmount("EUR", 1553.80), hasGrossValue("EUR", 1540.77), //
@@ -665,7 +666,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2011-06-28T00:00:00"), hasShares(20), //
+                        hasDate("2011-06-28T00:00:00"), hasBookingDate(null), hasShares(20), //
                         hasSource("AnleiheKauf01.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 17.70 + 0.98), hasGrossValue("EUR", 17.70 + 0.98), //
@@ -699,7 +700,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2015-12-23T10:25"), hasShares(43.00), //
+                        hasDate("2015-12-23T10:25"), hasBookingDate(null), hasShares(43.00), //
                         hasSource("Verkauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 12345678"), //
                         hasAmount("EUR", 1994.12), hasGrossValue("EUR", 2056.73), //
@@ -733,7 +734,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2015-08-24T16:38"), hasShares(100.00), //
+                        hasDate("2015-08-24T16:38"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf02.txt"), //
                         hasNote("Abrechnungs-Nr. 00000000"), //
                         hasAmount("EUR", 4465.12), hasGrossValue("EUR", 4476.40), //
@@ -742,7 +743,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2015-08-24T00:00"), hasShares(100.00), //
+                        hasDate("2015-08-24T00:00"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf02.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 90.09), hasGrossValue("EUR", 90.09), //
@@ -776,7 +777,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2015-08-24T16:38"), hasShares(100.00), //
+                        hasDate("2015-08-24T16:38"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf02.txt"), //
                         hasNote("Abrechnungs-Nr. 00000000"), //
                         hasAmount("EUR", 4465.12), hasGrossValue("EUR", 4476.40), //
@@ -784,7 +785,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2015-08-24T00:00"), hasShares(100.00), //
+                        hasDate("2015-08-24T00:00"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf02.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 90.09), hasGrossValue("EUR", 90.09), //
@@ -818,7 +819,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2015-08-24T16:38"), hasShares(100.00), //
+                        hasDate("2015-08-24T16:38"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf03.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4447.21), hasGrossValue("EUR", 4478.45), //
@@ -827,7 +828,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2015-08-24T00:00"), hasShares(100.00), //
+                        hasDate("2015-08-24T00:00"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf03.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 98.08), hasGrossValue("EUR", 98.08), //
@@ -861,7 +862,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2015-08-24T16:38"), hasShares(100.00), //
+                        hasDate("2015-08-24T16:38"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf03.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4447.21), hasGrossValue("EUR", 4478.45), //
@@ -869,7 +870,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2015-08-24T00:00"), hasShares(100.00), //
+                        hasDate("2015-08-24T00:00"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf03.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 98.08), hasGrossValue("EUR", 98.08), //
@@ -903,7 +904,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-07T10:36"), hasShares(1900.00), //
+                        hasDate("2020-07-07T10:36"), hasBookingDate(null), hasShares(1900.00), //
                         hasSource("Verkauf04.txt"), //
                         hasNote("Abrechnungs-Nr. 4527275"), //
                         hasAmount("EUR", 5414.00), hasGrossValue("EUR", 5415.00), //
@@ -911,7 +912,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2020-07-07T00:00"), hasShares(1900.00), //
+                        hasDate("2020-07-07T00:00"), hasBookingDate(null), hasShares(1900.00), //
                         hasSource("Verkauf04.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 16.46), hasGrossValue("EUR", 16.46), //
@@ -945,7 +946,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-12-09T13:04"), hasShares(220.00), //
+                        hasDate("2020-12-09T13:04"), hasBookingDate(null), hasShares(220.00), //
                         hasSource("Verkauf05.txt"), //
                         hasNote("Abrechnungs-Nr. 123456"), //
                         hasAmount("EUR", 2577.52), hasGrossValue("EUR", 2577.52), //
@@ -979,7 +980,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-06-16T10:12"), hasShares(100.00), //
+                        hasDate("2021-06-16T10:12"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf06.txt"), //
                         hasNote("Abrechnungs-Nr. 98765432"), //
                         hasAmount("EUR", 17509.00), hasGrossValue("EUR", 17510.00), //
@@ -987,7 +988,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2021-06-16T00:00"), hasShares(100.00), //
+                        hasDate("2021-06-16T00:00"), hasBookingDate(null), hasShares(100.00), //
                         hasSource("Verkauf06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 178.59), hasGrossValue("EUR", 178.59), //
@@ -1021,7 +1022,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-05-31T08:50"), hasShares(300.00), //
+                        hasDate("2021-05-31T08:50"), hasBookingDate(null), hasShares(300.00), //
                         hasSource("Verkauf07.txt"), //
                         hasNote("Abrechnungs-Nr. 12106108"), //
                         hasAmount("EUR", 26252.00), hasGrossValue("EUR", 26253.00), //
@@ -1029,7 +1030,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2021-05-31T00:00"), hasShares(300.00), //
+                        hasDate("2021-05-31T00:00"), hasBookingDate(null), hasShares(300.00), //
                         hasSource("Verkauf07.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 551.08), hasGrossValue("EUR", 551.08), //
@@ -1063,7 +1064,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-05-26T09:01"), hasShares(300.00), //
+                        hasDate("2021-05-26T09:01"), hasBookingDate(null), hasShares(300.00), //
                         hasSource("Verkauf08.txt"), //
                         hasNote("Abrechnungs-Nr. 43214321"), //
                         hasAmount("EUR", 27911.45), hasGrossValue("EUR", 28293.00), //
@@ -1097,7 +1098,7 @@ public class DABPDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-05-31T08:50"), hasShares(300.00), //
+                        hasDate("2021-05-31T08:50"), hasBookingDate(null), hasShares(300.00), //
                         hasSource("Verkauf09.txt"), //
                         hasNote("Abrechnungs-Nr. 12106108"), //
                         hasAmount("EUR", 26252.00), hasGrossValue("EUR", 26253.00), //
@@ -1105,7 +1106,7 @@ public class DABPDFExtractorTest
 
         // check tax refund for 1st transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2021-05-31T00:00"), hasShares(300.00), //
+                        hasDate("2021-05-31T00:00"), hasBookingDate(null), hasShares(300.00), //
                         hasSource("Verkauf09.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 551.08), hasGrossValue("EUR", 551.08), //
@@ -1113,7 +1114,7 @@ public class DABPDFExtractorTest
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-05-26T09:01"), hasShares(300.00), //
+                        hasDate("2021-05-26T09:01"), hasBookingDate(null), hasShares(300.00), //
                         hasSource("Verkauf09.txt"), //
                         hasNote("Abrechnungs-Nr. 43214321"), //
                         hasAmount("EUR", 27911.45), hasGrossValue("EUR", 28293.00), //
@@ -1146,7 +1147,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-12-07T00:00"), hasShares(54), //
+                        hasDate("2021-12-07T00:00"), hasBookingDate(null), hasShares(54), //
                         hasSource("Verkauf10.txt"), //
                         hasNote("Abrechnungs-Nr. 00000000"), //
                         hasAmount("EUR", 0.05), hasGrossValue("EUR", 0.05), //
@@ -1179,7 +1180,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-12-03T00:00"), hasShares(783), //
+                        hasDate("2021-12-03T00:00"), hasBookingDate(null), hasShares(783), //
                         hasSource("Verkauf11.txt"), //
                         hasNote("Abrechnungs-Nr. 00000000"), //
                         hasAmount("EUR", 0.78), hasGrossValue("EUR", 0.78), //
@@ -1187,7 +1188,7 @@ public class DABPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2021-12-03T00:00"), hasShares(783), //
+                        hasDate("2021-12-03T00:00"), hasBookingDate(null), hasShares(783), //
                         hasSource("Verkauf11.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 142.93), hasGrossValue("EUR", 142.93), //
@@ -1220,7 +1221,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-02-18T16:56"), hasShares(100), //
+                        hasDate("2022-02-18T16:56"), hasBookingDate(null), hasShares(100), //
                         hasSource("Verkauf12.txt"), //
                         hasNote("Abrechnungs-Nr. 99887755"), //
                         hasAmount("EUR", 1013.54), hasGrossValue("EUR", 1032.88), //
@@ -1255,7 +1256,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-02-18T16:56"), hasShares(100), //
+                        hasDate("2022-02-18T16:56"), hasBookingDate(null), hasShares(100), //
                         hasSource("Verkauf12.txt"), //
                         hasNote("Abrechnungs-Nr. 99887755"), //
                         hasAmount("EUR", 1013.54), hasGrossValue("EUR", 1032.88), //
@@ -1289,7 +1290,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-03-15T00:00"), hasShares(100), //
+                        hasDate("2024-03-15T00:00"), hasBookingDate(null), hasShares(100), //
                         hasSource("Verkauf13.txt"), //
                         hasNote("Abrechnungs-Nr. 12345678"), //
                         hasAmount("EUR", 9880.00), hasGrossValue("EUR", 10000.00), //
@@ -1323,7 +1324,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-11-07T16:00"), hasShares(0.2741), //
+                        hasDate("2024-11-07T16:00"), hasBookingDate(null), hasShares(0.2741), //
                         hasSource("Verkauf14.txt"), //
                         hasNote("Abrechnungs-Nr. 64518224"), //
                         hasAmount("EUR", 11.60), hasGrossValue("EUR", 11.67), //
@@ -1357,7 +1358,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2012-03-27T16:15"), hasShares(0.5), //
+                        hasDate("2012-03-27T16:15"), hasBookingDate(null), hasShares(0.5), //
                         hasSource("AnleiheVerkauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 69859650"), //
                         hasAmount("EUR", 0.30), hasGrossValue("EUR", 0.30), //
@@ -1410,7 +1411,7 @@ public class DABPDFExtractorTest
 
         // check sale transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-11-30T09:59"), hasShares(3.00), //
+                        hasDate("2020-11-30T09:59"), hasBookingDate(null), hasShares(3.00), //
                         hasSource("MultipleKaufVerkauf01.txt"), //
                         hasNote("Abrechnungs-Nr. "), //
                         hasAmount("EUR", 679.50), hasGrossValue("EUR", 679.50), //
@@ -1418,35 +1419,35 @@ public class DABPDFExtractorTest
 
         // check purchase transactions
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-27T16:08"), hasShares(6.00), //
+                        hasDate("2020-11-27T16:08"), hasBookingDate(null), hasShares(6.00), //
                         hasSource("MultipleKaufVerkauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 15242954"), //
                         hasAmount("EUR", 619.92), hasGrossValue("EUR", 619.92), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-24T19:25"), hasShares(1.00), //
+                        hasDate("2020-11-24T19:25"), hasBookingDate(null), hasShares(1.00), //
                         hasSource("MultipleKaufVerkauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 13143056"), //
                         hasAmount("EUR", 585.70), hasGrossValue("EUR", 585.70), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-24T14:21"), hasShares(14.00), //
+                        hasDate("2020-11-24T14:21"), hasBookingDate(null), hasShares(14.00), //
                         hasSource("MultipleKaufVerkauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 95588332"), //
                         hasAmount("EUR", 573.02), hasGrossValue("EUR", 573.02), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-20T20:41"), hasShares(3.00), //
+                        hasDate("2020-11-20T20:41"), hasBookingDate(null), hasShares(3.00), //
                         hasSource("MultipleKaufVerkauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 74216527"), //
                         hasAmount("EUR", 685.50), hasGrossValue("EUR", 685.50), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-11-20T15:32"), hasShares(5.00), //
+                        hasDate("2020-11-20T15:32"), hasBookingDate(null), hasShares(5.00), //
                         hasSource("MultipleKaufVerkauf01.txt"), //
                         hasNote("Abrechnungs-Nr. 70044098"), //
                         hasAmount("EUR", 565.10), hasGrossValue("EUR", 564.10), //
@@ -1480,7 +1481,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2025-01-17T00:00"), hasShares(29.00), //
+                        hasDate("2025-01-17T00:00"), hasBookingDate(null), hasShares(29.00), //
                         hasSource("Verkauf_Steuerkorrektur01.txt"), //
                         hasNote("Abrechnungs-Nr. 50345944 | Steuerliche Korrektur Abrechnung Nr. 55935348 vom 09.01.2025"), //
                         hasAmount("EUR", 47.56), hasGrossValue("EUR", 47.56), //
@@ -1514,7 +1515,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2014-07-02T00:00"), hasExDate("2014-07-02T00:00"), //
+                        hasDate("2014-07-02T00:00"), hasBookingDate(null), hasExDate("2014-07-02T00:00"), //
                         hasShares(100), //
                         hasSource("Dividende01.txt"), //
                         hasNote(null), //
@@ -1549,7 +1550,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2015-05-16T00:00"), hasExDate("2015-04-14T00:00"), //
+                        hasDate("2015-05-16T00:00"), hasBookingDate(null), hasExDate("2015-04-14T00:00"), //
                         hasShares(100), //
                         hasSource("Dividende02.txt"), //
                         hasNote("Abrechnungs-Nr. 989898989"), //
@@ -1584,7 +1585,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2015-05-16T00:00"), hasExDate("2015-04-14T00:00"), //
+                        hasDate("2015-05-16T00:00"), hasBookingDate(null), hasExDate("2015-04-14T00:00"), //
                         hasShares(100), //
                         hasSource("Dividende02.txt"), //
                         hasNote("Abrechnungs-Nr. 989898989"), //
@@ -1620,7 +1621,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2015-03-30T00:00"), hasExDate("2015-03-23T00:00"), //
+                        hasDate("2015-03-30T00:00"), hasBookingDate(null), hasExDate("2015-03-23T00:00"), //
                         hasShares(1300), //
                         hasSource("Dividende03.txt"), //
                         hasNote(null), //
@@ -1656,7 +1657,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2015-03-30T00:00"), hasExDate("2015-03-23T00:00"), //
+                        hasDate("2015-03-30T00:00"), hasBookingDate(null), hasExDate("2015-03-23T00:00"), //
                         hasShares(1300), //
                         hasSource("Dividende03.txt"), //
                         hasNote(null), //
@@ -1691,7 +1692,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2013-05-31T00:00"), hasExDate("2013-05-30T00:00"), //
+                        hasDate("2013-05-31T00:00"), hasBookingDate(null), hasExDate("2013-05-30T00:00"), //
                         hasShares(100), //
                         hasSource("Dividende04.txt"), //
                         hasNote(null), //
@@ -1726,7 +1727,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2020-08-27T00:00"), hasExDate("2020-07-31T00:00"), //
+                        hasDate("2020-08-27T00:00"), hasBookingDate(null), hasExDate("2020-07-31T00:00"), //
                         hasShares(10), //
                         hasSource("Dividende05.txt"), //
                         hasNote(null), //
@@ -1761,7 +1762,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2020-08-27T00:00"), hasExDate("2020-07-31T00:00"), //
+                        hasDate("2020-08-27T00:00"), hasBookingDate(null), hasExDate("2020-07-31T00:00"), //
                         hasShares(10), //
                         hasSource("Dividende05.txt"), //
                         hasNote(null), //
@@ -1797,7 +1798,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2020-09-01T00:00"), hasExDate("2020-08-13T00:00"), //
+                        hasDate("2020-09-01T00:00"), hasBookingDate(null), hasExDate("2020-08-13T00:00"), //
                         hasShares(4), //
                         hasSource("Dividende06.txt"), //
                         hasNote("Abrechnungs-Nr. 123456789"), //
@@ -1833,7 +1834,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2020-09-01T00:00"), hasExDate("2020-08-13T00:00"), //
+                        hasDate("2020-09-01T00:00"), hasBookingDate(null), hasExDate("2020-08-13T00:00"), //
                         hasShares(4), //
                         hasSource("Dividende06.txt"), //
                         hasNote("Abrechnungs-Nr. 123456789"), //
@@ -1867,7 +1868,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2018-02-15T00:00"), hasExDate(null), //
+                        hasDate("2018-02-15T00:00"), hasBookingDate(null), hasExDate(null), //
                         hasShares(1500), //
                         hasSource("Dividende07.txt"), //
                         hasNote(null), //
@@ -1902,7 +1903,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2018-02-15T00:00"), hasExDate(null), //
+                        hasDate("2018-02-15T00:00"), hasBookingDate(null), hasExDate(null), //
                         hasShares(1500), //
                         hasSource("Dividende07.txt"), //
                         hasNote(null), //
@@ -1937,7 +1938,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-06-30T00:00"), hasExDate("2021-06-17T00:00"), //
+                        hasDate("2021-06-30T00:00"), hasBookingDate(null), hasExDate("2021-06-17T00:00"), //
                         hasShares(315), //
                         hasSource("Dividende08.txt"), //
                         hasNote("Abrechnungs-Nr. 81234456789"), //
@@ -1971,7 +1972,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-06-30T00:00"), hasExDate("2021-06-17T00:00"), //
+                        hasDate("2021-06-30T00:00"), hasBookingDate(null), hasExDate("2021-06-17T00:00"), //
                         hasShares(315), //
                         hasSource("Dividende08.txt"), //
                         hasNote("Abrechnungs-Nr. 81234456789"), //
@@ -2006,7 +2007,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2017-01-27T00:00"), hasExDate("2017-01-12T00:00"), //
+                        hasDate("2017-01-27T00:00"), hasBookingDate(null), hasExDate("2017-01-12T00:00"), //
                         hasShares(3.4256), //
                         hasSource("Dividende09.txt"), //
                         hasNote("Abrechnungs-Nr. <AbrNr>"), //
@@ -2040,7 +2041,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2017-02-07T00:00"), hasExDate("2017-02-02T00:00"), //
+                        hasDate("2017-02-07T00:00"), hasBookingDate(null), hasExDate("2017-02-02T00:00"), //
                         hasShares(14.3755), //
                         hasSource("Dividende10.txt"), //
                         hasNote("Abrechnungs-Nr. <AbrNr>"), //
@@ -2075,7 +2076,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-12-01T00:00"), hasExDate("2021-09-29T00:00"), //
+                        hasDate("2021-12-01T00:00"), hasBookingDate(null), hasExDate("2021-09-29T00:00"), //
                         hasShares(1), //
                         hasSource("Dividende11.txt"), //
                         hasNote("Abrechnungs-Nr. 93130690"), //
@@ -2110,7 +2111,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-12-01T00:00"), hasExDate("2021-09-29T00:00"), //
+                        hasDate("2021-12-01T00:00"), hasBookingDate(null), hasExDate("2021-09-29T00:00"), //
                         hasShares(1), //
                         hasSource("Dividende11.txt"), //
                         hasNote("Abrechnungs-Nr. 93130690"), //
@@ -2144,7 +2145,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2013-12-16T00:00"), hasExDate("2013-11-27T00:00"), //
+                        hasDate("2013-12-16T00:00"), hasBookingDate(null), hasExDate("2013-11-27T00:00"), //
                         hasShares(20), //
                         hasSource("Dividende12.txt"), //
                         hasNote("Abrechnungs-Nr. 12345678"), //
@@ -2179,7 +2180,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2013-12-16T00:00"), hasExDate("2013-11-27T00:00"), //
+                        hasDate("2013-12-16T00:00"), hasBookingDate(null), hasExDate("2013-11-27T00:00"), //
                         hasShares(20), //
                         hasSource("Dividende12.txt"), //
                         hasNote("Abrechnungs-Nr. 12345678"), //
@@ -2213,7 +2214,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2022-09-21T00:00"), hasExDate(null), //
+                        hasDate("2022-09-21T00:00"), hasBookingDate(null), hasExDate(null), //
                         hasShares(10000), //
                         hasSource("Dividende13.txt"), //
                         hasNote(null), //
@@ -2249,7 +2250,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2022-09-21T00:00"), hasExDate(null), //
+                        hasDate("2022-09-21T00:00"), hasBookingDate(null), hasExDate(null), //
                         hasShares(10000), //
                         hasSource("Dividende13.txt"), //
                         hasNote(null), //
@@ -2283,7 +2284,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2022-09-30T00:00"), hasExDate(null), //
+                        hasDate("2022-09-30T00:00"), hasBookingDate(null), hasExDate(null), //
                         hasShares(850), //
                         hasSource("Dividende14.txt"), //
                         hasNote(null), //
@@ -2319,7 +2320,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2022-09-30T00:00"), hasExDate(null), //
+                        hasDate("2022-09-30T00:00"), hasBookingDate(null), hasExDate(null), //
                         hasShares(850), //
                         hasSource("Dividende14.txt"), //
                         hasNote(null), //
@@ -2354,7 +2355,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-09-29T00:00"), hasExDate("2023-09-14T00:00"), //
+                        hasDate("2023-09-29T00:00"), hasBookingDate(null), hasExDate("2023-09-14T00:00"), //
                         hasShares(25), //
                         hasSource("Dividende15.txt"), //
                         hasNote("Abrechnungs-Nr. 12345678"), //
@@ -2390,7 +2391,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-09-29T00:00"), hasExDate("2023-09-14T00:00"), //
+                        hasDate("2023-09-29T00:00"), hasBookingDate(null), hasExDate("2023-09-14T00:00"), //
                         hasShares(25), //
                         hasSource("Dividende15.txt"), //
                         hasNote("Abrechnungs-Nr. 12345678"), //
@@ -2425,7 +2426,7 @@ public class DABPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2011-08-22T00:00"), hasExDate("2011-08-20T00:00"), //
+                        hasDate("2011-08-22T00:00"), hasBookingDate(null), hasExDate("2011-08-20T00:00"), //
                         hasShares(40), //
                         hasSource("AnleiheZinsen01.txt"), //
                         hasNote("Abrechnungs-Nr. 85374419"), //
@@ -2460,7 +2461,7 @@ public class DABPDFExtractorTest
 
         // check delivery inbound (Einlieferung) transaction
         assertThat(results, hasItem(inboundDelivery( //
-                        hasDate("2021-03-11T00:00"), hasShares(20.00), //
+                        hasDate("2021-03-11T00:00"), hasBookingDate(null), hasShares(20.00), //
                         hasSource("Einbuchung01.txt"), //
                         hasNote("Abrechnungs-Nr. 84747170"), //
                         hasAmount("EUR", 27.50), hasGrossValue("EUR", 0.00), //
@@ -2496,7 +2497,7 @@ public class DABPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionSplitUnsupported, //
                         inboundDelivery( //
-                                        hasDate("2018-12-04T00:00"), hasShares(1.5884), //
+                                        hasDate("2018-12-04T00:00"), hasBookingDate(null), hasShares(1.5884), //
                                         hasSource("Split01.txt"), //
                                         hasNote("Ausführungs-Nr. 12345678"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -2532,7 +2533,7 @@ public class DABPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         outboundDelivery( //
-                                        hasDate("2022-02-04T00:00"), hasShares(1000.00), //
+                                        hasDate("2022-02-04T00:00"), hasBookingDate(null), hasShares(1000.00), //
                                         hasSource("Ausbuchung01.txt"), //
                                         hasNote("Ausführungs-Nr. 62772656"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -2560,7 +2561,7 @@ public class DABPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2023-05-05T00:00"), hasShares(0.00), //
+                        hasDate("2023-05-05T00:00"), hasBookingDate(null), hasShares(0.00), //
                         hasSource("Steuerausgleich01.txt"), //
                         hasNote("Abrechnungs-Nr. 12345678 | Steuerausgleich 2023"), //
                         hasAmount("EUR", 143.90), hasGrossValue("EUR", 143.90), //
@@ -2594,7 +2595,7 @@ public class DABPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2024-01-15T00:00"), hasShares(50.00), //
+                        hasDate("2024-01-15T00:00"), hasBookingDate(null), hasShares(50.00), //
                         hasSource("Vorabpauschale01.txt"), //
                         hasNote("Abrechnungs-Nr. 92956682"), //
                         hasAmount("EUR", 11.43), hasGrossValue("EUR", 11.43), //
@@ -2621,27 +2622,27 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-07-05"), hasAmount("EUR", 15000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2019-07-05"), hasBookingDate(null), hasAmount("EUR", 15000.00), //
                         hasSource("Kontoumsaetze01.txt"), hasNote("SEPA-Gutschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-07-15"), hasAmount("EUR", 300.00), //
+        assertThat(results, hasItem(deposit(hasDate("2019-07-15"), hasBookingDate(null), hasAmount("EUR", 300.00), //
                         hasSource("Kontoumsaetze01.txt"), hasNote("SEPA-Lastschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-07-17"), hasAmount("EUR", 5000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2019-07-17"), hasBookingDate(null), hasAmount("EUR", 5000.00), //
                         hasSource("Kontoumsaetze01.txt"), hasNote("SEPA-Gutschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-07-17"), hasAmount("EUR", 1900.00), //
+        assertThat(results, hasItem(deposit(hasDate("2019-07-17"), hasBookingDate(null), hasAmount("EUR", 1900.00), //
                         hasSource("Kontoumsaetze01.txt"), hasNote("SEPA-Gutschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-08-13"), hasAmount("EUR", 300.00), //
+        assertThat(results, hasItem(deposit(hasDate("2019-08-13"), hasBookingDate(null), hasAmount("EUR", 300.00), //
                         hasSource("Kontoumsaetze01.txt"), hasNote("SEPA-Lastschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-09-13"), hasAmount("EUR", 300.00), //
+        assertThat(results, hasItem(deposit(hasDate("2019-09-13"), hasBookingDate(null), hasAmount("EUR", 300.00), //
                         hasSource("Kontoumsaetze01.txt"), hasNote("SEPA-Lastschrift"))));
     }
 
@@ -2665,20 +2666,20 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-01-13"), hasAmount("EUR", 400.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-01-13"), hasBookingDate(null), hasAmount("EUR", 400.00), //
                         hasSource("Kontoumsaetze02.txt"), hasNote("SEPA-Lastschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-02-18"), hasAmount("EUR", 400.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-02-18"), hasBookingDate(null), hasAmount("EUR", 400.00), //
                         hasSource("Kontoumsaetze02.txt"), hasNote("SEPA-Lastschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-15"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-15"), hasBookingDate(null), hasAmount("EUR", 500.00), //
                         hasSource("Kontoumsaetze02.txt"), hasNote("SEPA-Lastschrift"))));
 
         // check fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2020-06-29"), //
+                        hasDate("2020-06-29"), hasBookingDate(null), //
                         hasSource("Kontoumsaetze02.txt"), //
                         hasNote("Managementgebühr"), //
                         hasAmount("EUR", 53.02), hasGrossValue("EUR", 53.02), //
@@ -2686,7 +2687,7 @@ public class DABPDFExtractorTest
 
         // check fee transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2020-06-29"), //
+                        hasDate("2020-06-29"), hasBookingDate(null), //
                         hasSource("Kontoumsaetze02.txt"), //
                         hasNote("Managementgebühr"), //
                         hasAmount("EUR", 23.05), hasGrossValue("EUR", 23.05), //
@@ -2713,7 +2714,7 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-09-23"), hasAmount("EUR", 2000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-09-23"), hasBookingDate("2022-09-23"), hasAmount("EUR", 2000.00), //
                         hasSource("Kontoumsaetze03.txt"), hasNote("SEPA-Überweisung"))));
     }
 
@@ -2737,23 +2738,23 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-02"), hasAmount("EUR", 44.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-02"), hasBookingDate("2022-11-01"), hasAmount("EUR", 44.00), //
                         hasSource("Kontoumsaetze04.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-15"), hasAmount("EUR", 7.99), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-15"), hasBookingDate("2022-11-15"), hasAmount("EUR", 7.99), //
                         hasSource("Kontoumsaetze04.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-18"), hasAmount("EUR", 212.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-18"), hasBookingDate("2022-11-18"), hasAmount("EUR", 212.00), //
                         hasSource("Kontoumsaetze04.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-22"), hasAmount("EUR", 36.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-22"), hasBookingDate("2022-11-22"), hasAmount("EUR", 36.00), //
                         hasSource("Kontoumsaetze04.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-25"), hasAmount("EUR", 166.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-25"), hasBookingDate("2022-11-25"), hasAmount("EUR", 166.00), //
                         hasSource("Kontoumsaetze04.txt"), hasNote("SEPA-Überweisung"))));
     }
 
@@ -2777,24 +2778,24 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-09-27"), hasAmount("EUR", 10.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-09-27"), hasBookingDate("2022-09-27"), hasAmount("EUR", 10.00), //
                         hasSource("Kontoumsaetze05.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-09-28"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-09-28"), hasBookingDate("2022-09-28"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoumsaetze05.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2022-09-22"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-09-22"), hasBookingDate("2022-09-22"), hasAmount("EUR", 1000.00), //
                         hasSource("Kontoumsaetze05.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2022-09-27"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-09-27"), hasBookingDate("2022-09-27"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoumsaetze05.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2022-09-30"), //
+                        hasDate("2022-09-30"), hasBookingDate("2022-09-30"), //
                         hasSource("Kontoumsaetze05.txt"), //
                         hasNote("Sollzinsen"), //
                         hasAmount("EUR", 25.00), hasGrossValue("EUR", 25.00), //
@@ -2821,31 +2822,31 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2015-04-02"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2015-04-02"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze06.txt"), hasNote("SEPA-Gutschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2015-05-05"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2015-05-05"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze06.txt"), hasNote("SEPA-Gutschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2015-06-02"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2015-06-02"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze06.txt"), hasNote("SEPA-Gutschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2015-04-07"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-04-07"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze06.txt"), hasNote("SEPA-Überweisung"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2015-04-10"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-04-10"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze06.txt"), hasNote("SEPA-Dauerauftrag"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2015-05-11"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-05-11"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze06.txt"), hasNote("SEPA-Dauerauftrag"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2015-06-10"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-06-10"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze06.txt"), hasNote("SEPA-Dauerauftrag"))));
     }
 
@@ -2869,16 +2870,16 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2016-04-04"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2016-04-04"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze07.txt"), hasNote("SEPA-Gutschrift"))));
 
         // check transaction
-        assertThat(results, hasItem(removal(hasDate("2016-04-11"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2016-04-11"), hasBookingDate(null), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze07.txt"), hasNote("SEPA-Dauerauftrag"))));
 
         // check transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2016-04-05"), //
+                        hasDate("2016-04-05"), hasBookingDate(null), //
                         hasSource("Kontoumsaetze07.txt"), //
                         hasNote("Porto"), //
                         hasAmount("EUR", 0.70), hasGrossValue("EUR", 0.70), //
@@ -2905,7 +2906,7 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-08-28"), hasAmount("EUR", 26.59), //
+        assertThat(results, hasItem(deposit(hasDate("2024-08-28"), hasBookingDate("2024-08-28"), hasAmount("EUR", 26.59), //
                         hasSource("Kontoumsaetze08.txt"), hasNote("vermögenswirksame Leistung"))));
     }
 
@@ -2932,7 +2933,7 @@ public class DABPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         fee( //
-                                        hasDate("2024-10-09"), //
+                                        hasDate("2024-10-09"), hasBookingDate("2024-10-09"), //
                                         hasSource("Kontoumsaetze09.txt"), //
                                         hasNote("Ginmon Gebuehrenrechnung September 2024"), //
                                         hasAmount("EUR", 0.02)))));
@@ -2958,7 +2959,7 @@ public class DABPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-11-11"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-11-11"), hasBookingDate("2024-11-11"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoumsaetze10.txt"), hasNote("SEPA-Überweisung"))));
     }
 
@@ -2991,7 +2992,7 @@ public class DABPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         sale( //
-                                        hasDate("2024-11-11"), hasShares(0.003), //
+                                        hasDate("2024-11-11"), hasBookingDate("2024-11-07"), hasShares(0.003), //
                                         hasSource("Kontoumsaetze11.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.49), hasGrossValue("EUR", 0.49), //
@@ -3027,7 +3028,7 @@ public class DABPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         purchase(//
-                                        hasDate("2024-10-01"), hasShares(0.15), //
+                                        hasDate("2024-10-01"), hasBookingDate("2024-09-27"), hasShares(0.15), //
                                         hasSource("Kontoumsaetze12.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 6.26), hasGrossValue("EUR", 6.26), //
