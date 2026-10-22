@@ -154,7 +154,7 @@ public class StGallerKantonalbankPDFExtractor extends AbstractPDFExtractor
                                                         .attributes("date", "time") //
                                                         .find("Menge Ausf.hrungszeitpunkt B.rsenplatz W.hrung Kurs") //
                                                         .match("^[\\.'\\d]+ (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<time>[\\d]{2}\\:[\\d]{2}\\:[\\d]{2}) .*$") //
-                                                        .assign((t, v) -> t.setDate(asDate(v.get("date"), v.get("time")))),
+                                                        .assign((t, v) -> t.setBookingDate(asDate(v.get("date"), v.get("time")))),
                                         // @formatter:off
                                         // Wir haben für Sie am 24. Februar 2025 gekauft (Details siehe Folgeseite):
                                         // Wir haben für Sie am 20. Februar 2025 verkauft (Details siehe Folgeseite):
@@ -162,7 +162,7 @@ public class StGallerKantonalbankPDFExtractor extends AbstractPDFExtractor
                                         section -> section //
                                                         .attributes("date") //
                                                         .match("^Wir haben f.r Sie am (?<date>[\\d]{1,2}\\. .* [\\d]{4}) (gekauft|verkauft).*$") //
-                                                        .assign((t, v) -> t.setDate(asDate(v.get("date")))))
+                                                        .assign((t, v) -> t.setBookingDate(asDate(v.get("date")))))
 
                         // @formatter:off
                         // Zu Ihren Lasten Valuta 26.02.2025 EUR 69'297.29
@@ -174,9 +174,12 @@ public class StGallerKantonalbankPDFExtractor extends AbstractPDFExtractor
                         // Total EUR 59'403.62 Zu Ihren Gunsten
                         // Valuta 01.06.2026 EUR 59'403.62
                         // @formatter:on
-                        .section("currency", "amount") //
-                        .match("^(Zu Ihren (Lasten|Gunsten) )?Valuta [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<currency>[A-Z]{3}) (?<amount>[\\.'\\d]+)$") //
+                        .section("date", "currency", "amount") //
+                        .match("^(Zu Ihren (Lasten|Gunsten) )?Valuta (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<currency>[A-Z]{3}) (?<amount>[\\.'\\d]+)$") //
                         .assign((t, v) -> {
+                            // The settlement date (Valuta) is the transaction date
+                            // and therefore overrules the trade date.
+                            t.setDate(asDate(v.get("date")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                         })

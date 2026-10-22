@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.stgallerkantonalbank;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -70,7 +71,7 @@ public class StGallerKantonalbankPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-02-24T10:35:48"), hasShares(10000.00), //
+                        hasDate("2025-02-26T00:00"), hasBookingDate("2025-02-24T10:35:48"), hasShares(10000.00), //
                         hasSource("Kauf01.txt"), //
                         hasNote("Referenznummer 1603933135"), //
                         hasAmount("EUR", 69297.29), hasGrossValue("EUR", 68226.13), //
@@ -104,7 +105,7 @@ public class StGallerKantonalbankPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-02-20T09:00:13"), hasShares(10000.00), //
+                        hasDate("2025-02-24T00:00"), hasBookingDate("2025-02-20T09:00:13"), hasShares(10000.00), //
                         hasSource("Verkauf01.txt"), //
                         hasNote("Referenznummer 1602562989"), //
                         hasAmount("EUR", 65967.79), hasGrossValue("EUR", 67020.00), //
@@ -138,7 +139,7 @@ public class StGallerKantonalbankPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2026-02-13"), hasExDate("2026-02-11"), //
+                        hasDate("2026-02-13"), hasBookingDate(null), hasExDate("2026-02-11"), //
                         hasShares(10000.00), //
                         hasSource("Dividende01.txt"), //
                         hasNote("Referenznummer 1746312001"), //
@@ -173,7 +174,7 @@ public class StGallerKantonalbankPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2026-04-02"), //
+                        hasDate("2026-04-02"), hasBookingDate(null), //
                         hasExDate("2026-03-20"), //
                         hasShares(10000.00), //
                         hasSource("Dividende02.txt"), //
@@ -215,7 +216,7 @@ public class StGallerKantonalbankPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-05-28T14:04:36"), hasShares(500.00), //
+                        hasDate("2026-06-01T00:00"), hasBookingDate("2026-05-28T14:04:36"), hasShares(500.00), //
                         hasSource("Kauf02.txt"), //
                         hasNote("Referenznummer 2327228781"), //
                         hasAmount("CHF", 39728.85), hasGrossValue("CHF", 39695.00), //
@@ -251,7 +252,7 @@ public class StGallerKantonalbankPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-06-02T16:57:26"), hasShares(30.00), //
+                        hasDate("2026-06-04T00:00"), hasBookingDate("2026-06-02T16:57:26"), hasShares(30.00), //
                         hasSource("Kauf03.txt"), //
                         hasNote("Referenznummer 1111111111"), //
                         hasAmount("CHF", 24633.56), hasGrossValue("CHF", 24612.00), //
@@ -287,7 +288,7 @@ public class StGallerKantonalbankPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2026-05-28T13:48:08"), hasShares(5500.00), //
+                        hasDate("2026-06-01T00:00"), hasBookingDate("2026-05-28T13:48:08"), hasShares(5500.00), //
                         hasSource("Verkauf02.txt"), //
                         hasNote("Referenznummer 0987763798"), //
                         hasAmount("EUR", 59403.62), hasGrossValue("EUR", 59504.78), //
@@ -324,7 +325,7 @@ public class StGallerKantonalbankPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2026-07-01"), hasExDate("2026-06-01"), //
+                        hasDate("2026-07-01"), hasBookingDate(null), hasExDate("2026-06-01"), //
                         hasShares(750.00), //
                         hasSource("Dividende03.txt"), //
                         hasNote("Referenznummer 0345051361"), //
