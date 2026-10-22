@@ -3,6 +3,7 @@ package name.abuchen.portfolio.datatransfer.pdf.tradegateag;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
@@ -76,7 +77,7 @@ public class TradegateAGPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-06-04T11:04:53"), hasShares(3.00), //
+                        hasDate("2024-06-06T00:00"), hasBookingDate("2024-06-04T11:04:53"), hasShares(3.00), //
                         hasSource("Kauf01.txt"), //
                         hasNote("Order-/Ref.nr. 9876543 | Limit 43,2500 EUR"), //
                         hasAmount("EUR", 129.75), hasGrossValue("EUR", 129.75), //
@@ -110,7 +111,7 @@ public class TradegateAGPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-02-19T16:30:22"), hasShares(1560.00), //
+                        hasDate("2026-02-23T00:00"), hasBookingDate("2026-02-19T16:30:22"), hasShares(1560.00), //
                         hasSource("Kauf02.txt"), //
                         hasNote("Order-/Ref.nr. 37914729 | Limit 19,3500 EUR"), //
                         hasAmount("EUR", 30186.00), hasGrossValue("EUR", 30186.00), //
@@ -144,7 +145,7 @@ public class TradegateAGPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-05-27T16:17:00"), hasShares(2.673510), //
+                        hasDate("2026-05-29T00:00"), hasBookingDate("2026-05-27T16:17:00"), hasShares(2.673510), //
                         hasSource("Kauf03.txt"), //
                         hasNote("Order-/Ref.nr. 9876543"), //
                         hasAmount("EUR", 25.00), hasGrossValue("EUR", 25.00), //
@@ -178,7 +179,7 @@ public class TradegateAGPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-06-05T09:22:27"), hasShares(3.00), //
+                        hasDate("2024-06-07T00:00"), hasBookingDate("2024-06-05T09:22:27"), hasShares(3.00), //
                         hasSource("Verkauf01.txt"), //
                         hasNote("Order-/Ref.nr. 9876543 | Limit 43,6600 EUR"), //
                         hasAmount("EUR", 130.75), hasGrossValue("EUR", 130.98), //
@@ -212,7 +213,7 @@ public class TradegateAGPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-11-13T20:33:19"), hasShares(10.00), //
+                        hasDate("2024-11-15T00:00"), hasBookingDate("2024-11-13T20:33:19"), hasShares(10.00), //
                         hasSource("Verkauf02.txt"), //
                         hasNote("Order-/Ref.nr. 8321468 | Limit 102,8600 EUR"), //
                         hasAmount("EUR", 1028.40), hasGrossValue("EUR", 1028.67), //
@@ -246,7 +247,7 @@ public class TradegateAGPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-07-18T16:22:36"), hasShares(10.00), //
+                        hasDate("2025-07-22T00:00"), hasBookingDate("2025-07-18T16:22:36"), hasShares(10.00), //
                         hasSource("Verkauf03.txt"), //
                         hasNote("Order-/Ref.nr. 87947243 | Limit 105,0840 EUR"), //
                         hasAmount("EUR", 1050.90), hasGrossValue("EUR", 1050.90), //
@@ -280,7 +281,7 @@ public class TradegateAGPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2024-06-26T00:00"), hasShares(76.00), //
+                        hasDate("2024-06-26T00:00"), hasBookingDate(null), hasShares(76.00), //
                         hasSource("Dividende01.txt"), //
                         hasNote("Order-/Ref.nr. 9876543"), //
                         hasAmount("EUR", 7.16), hasGrossValue("EUR", 9.72), //
@@ -314,7 +315,7 @@ public class TradegateAGPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2024-09-25T00:00"), hasShares(59.00), //
+                        hasDate("2024-09-25T00:00"), hasBookingDate(null), hasShares(59.00), //
                         hasSource("Dividende02.txt"), //
                         hasNote("Order-/Ref.nr. 9876543"), //
                         hasAmount("EUR", 7.21), hasGrossValue("EUR", 9.79), //
@@ -350,7 +351,7 @@ public class TradegateAGPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2024-09-25T00:00"), hasShares(59.00), //
+                        hasDate("2024-09-25T00:00"), hasBookingDate(null), hasShares(59.00), //
                         hasSource("Dividende02.txt"), //
                         hasNote("Order-/Ref.nr. 9876543"), //
                         hasAmount("EUR", 7.21), hasGrossValue("EUR", 9.79), //
@@ -384,7 +385,7 @@ public class TradegateAGPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-18T00:00"), hasShares(3.00), //
+                        hasDate("2025-09-18T00:00"), hasBookingDate(null), hasShares(3.00), //
                         hasSource("Dividende03.txt"), //
                         hasNote("Order-/Ref.nr. 35894402"), //
                         hasAmount("EUR", 2.81), hasGrossValue("EUR", 3.81), //
@@ -420,7 +421,7 @@ public class TradegateAGPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-18T00:00"), hasShares(3.00), //
+                        hasDate("2025-09-18T00:00"), hasBookingDate(null), hasShares(3.00), //
                         hasSource("Dividende03.txt"), //
                         hasNote("Order-/Ref.nr. 35894402"), //
                         hasAmount("EUR", 2.81), hasGrossValue("EUR", 3.81), //
@@ -454,7 +455,7 @@ public class TradegateAGPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-07-07T00:00"), hasShares(12.00), //
+                        hasDate("2025-07-07T00:00"), hasBookingDate(null), hasShares(12.00), //
                         hasSource("Dividende04.txt"), //
                         hasNote("Order-/Ref.nr. 35894402"), //
                         hasAmount("EUR", 46.21), hasGrossValue("EUR", 62.76), ////
@@ -488,7 +489,7 @@ public class TradegateAGPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-03-13T00:00"), hasShares(6.00), //
+                        hasDate("2025-03-13T00:00"), hasBookingDate(null), hasShares(6.00), //
                         hasSource("Dividende05.txt"), //
                         hasNote("Order-/Ref.nr. 35894402"), //
                         hasAmount("EUR", 1.87), hasGrossValue("EUR", 2.20), //
@@ -524,7 +525,7 @@ public class TradegateAGPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-03-13T00:00"), hasShares(6.00), //
+                        hasDate("2025-03-13T00:00"), hasBookingDate(null), hasShares(6.00), //
                         hasSource("Dividende05.txt"), //
                         hasNote("Order-/Ref.nr. 35894402"), //
                         hasAmount("EUR", 1.87), hasGrossValue("EUR", 2.20), //
@@ -560,7 +561,7 @@ public class TradegateAGPDFExtractorTest
         assertThat(results, hasItem(skippedItem( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         taxes( //
-                                        hasDate("2025-01-02T00:00"), hasShares(220.00), //
+                                        hasDate("2025-01-02T00:00"), hasBookingDate(null), hasShares(220.00), //
                                         hasSource("Vorabpauschale01.txt"), //
                                         hasNote("Order-/Ref.nr. 11522032"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -594,7 +595,7 @@ public class TradegateAGPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02"), hasShares(159.00), //
+                        hasDate("2026-01-02"), hasBookingDate(null), hasShares(159.00), //
                         hasSource("Vorabpauschale02.txt"), //
                         hasNote("Order-/Ref.nr. 53370313"), //
                         hasAmount("EUR", 18.28), hasGrossValue("EUR", 18.28), //
@@ -628,7 +629,7 @@ public class TradegateAGPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02"), hasShares(1550.00), //
+                        hasDate("2026-01-02"), hasBookingDate(null), hasShares(1550.00), //
                         hasSource("Vorabpauschale03.txt"), //
                         hasNote("Order-/Ref.nr. 20061070"), //
                         hasAmount("EUR", 11.11), hasGrossValue("EUR", 11.11), //
@@ -657,7 +658,7 @@ public class TradegateAGPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2025-01-14T00:00"), hasShares(0), //
+                        hasDate("2025-01-14T00:00"), hasBookingDate("2025-01-14T00:00"), hasShares(0), //
                         hasSource("Steuerausgleichsrechnung01.txt"), //
                         hasNote("Order-/Ref.nr. 73385152 | 13.01.2025 - 14.01.2025"), //
                         hasAmount("EUR", 0.31), hasGrossValue("EUR", 0.31), //
@@ -686,7 +687,7 @@ public class TradegateAGPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2024-12-03T00:00"), hasShares(0), //
+                        hasDate("2024-12-03T00:00"), hasBookingDate("2024-12-03T00:00"), hasShares(0), //
                         hasSource("Steuerausgleichsrechnung02.txt"), //
                         hasNote("Order-/Ref.nr. 9876543 | 07.11.2024 - 03.12.2024"), //
                         hasAmount("EUR", 0.44), hasGrossValue("EUR", 0.44), //
@@ -715,7 +716,7 @@ public class TradegateAGPDFExtractorTest
 
         // check tax Refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2025-11-03T00:00"), hasShares(0), //
+                        hasDate("2025-11-03T00:00"), hasBookingDate("2025-11-03T00:00"), hasShares(0), //
                         hasSource("Steuerausgleichsrechnung03.txt"), //
                         hasNote("Order-/Ref.nr. 9876543 | 31.10.2025 - 03.11.2025"), //
                         hasAmount("EUR", 0.18), hasGrossValue("EUR", 0.18), //
@@ -742,7 +743,8 @@ public class TradegateAGPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-12-09"), hasAmount("EUR", 75.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-12-09"), hasBookingDate("2024-12-09"), //
+                        hasAmount("EUR", 75.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Ref.nr. 9668834"))));
     }
 
@@ -766,7 +768,8 @@ public class TradegateAGPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2026-03-02"), hasAmount("EUR", 10.72), //
+        assertThat(results, hasItem(removal(hasDate("2026-03-02"), hasBookingDate("2026-03-02"), //
+                        hasAmount("EUR", 10.72), //
                         hasSource("Kontoauszug02.txt"), hasNote("Ref.nr. 38063139"))));
     }
 }

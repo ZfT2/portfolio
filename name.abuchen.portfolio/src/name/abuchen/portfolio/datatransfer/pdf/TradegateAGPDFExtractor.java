@@ -100,9 +100,21 @@ public class TradegateAGPDFExtractor extends AbstractPDFExtractor
                         // @formatter:off
                         // Handelstag/-zeit 04.06.2024 11:04:53
                         // @formatter:on
-                        .section("date", "time") //
-                        .match("^Handelstag\\/\\-zeit (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<time>[\\d]{2}:[\\d]{2}:[\\d]{2}).*$") //
-                        .assign((t, v) -> t.setDate(asDate(v.get("date"), v.get("time"))))
+                        .section("bookingDate", "time") //
+                        .match("^Handelstag\\/\\-zeit (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<time>[\\d]{2}:[\\d]{2}:[\\d]{2}).*$") //
+                        .assign((t, v) -> t.setBookingDate(asDate(v.get("bookingDate"), v.get("time"))))
+
+                        // @formatter:off
+                        // Der Abrechnungsbetrag i. H. v. 129,75 EUR wird Ihrem o. g. Verrechnungskonto mit Valuta 06.06.2024 belastet.
+                        // Der Abrechnungsbetrag i. H. v. 130,75 EUR wird Ihrem o. g. Verrechnungskonto mit Valuta 07.06.2024 gutgeschrieben.
+                        // @formatter:on
+                        .section("date") //
+                        .match("^.* Verrechnungskonto mit Valuta (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (belastet|gutgeschrieben)\\.$") //
+                        .assign((t, v) -> {
+                            // The settlement date (Valuta) is the transaction date
+                            // and therefore overrules the trade date.
+                            t.setDate(asDate(v.get("date")));
+                        })
 
                         // @formatter:off
                         // Ausmachender Betrag 129,75 EUR
@@ -321,6 +333,13 @@ public class TradegateAGPDFExtractor extends AbstractPDFExtractor
                         .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
 
                         // @formatter:off
+                        // Buchungstagendsaldo Aktienverlustverrechnungstopf zum 14.01.2025 0,00
+                        // @formatter:on
+                        .section("bookingDate").optional() //
+                        .match("^Buchungstagendsaldo .* zum (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .*$") //
+                        .assign((t, v) -> t.setBookingDate(asDate(v.get("bookingDate"))))
+
+                        // @formatter:off
                         // Gutgeschriebener Betrag 0,31
                         // Belastung -0,44
                         // @formatter:on
@@ -395,8 +414,13 @@ public class TradegateAGPDFExtractor extends AbstractPDFExtractor
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Order-/ Buchungshinweise Buchungsdatum Umsatz
+        // Ref.nr. Valuta EUR
         // 9668834 Einzahlung 09.12.2024 75,00
+        // MI89 3759 6914 1248 5211 96 09.12.2024
+        //
         // 38063139 Auszahlung 02.03.2026 -10,72
+        // Fl48 4455 4944 2171 0797 36 02.03.2026
         // @formatter:on
         var depositAndWithdrawalBlock = new Block(
                         "^.* (Einzahlung|Auszahlung) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\-]?[\\.,\\d]+$");
@@ -405,16 +429,20 @@ public class TradegateAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("note", "type", "date", "amount") //
+                        .section("note", "type", "bookingDate", "amount", "date") //
                         .documentContext("currency") //
-                        .match("^(?<note>.*) (?<type>(Einzahlung|Auszahlung)) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\-]?(?<amount>[\\.,\\d]+)$") //
+                        .match("^(?<note>.*) (?<type>(Einzahlung|Auszahlung)) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\-]?(?<amount>[\\.,\\d]+)$") //
+                        .match("^.* (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4})$") //
                         .assign((t, v) -> {
                             // Is type --> "Auszahlung" change from DEPOSIT to
                             // REMOVAL
                             if ("Auszahlung".equals(v.get("type")))
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
+                            // The settlement date (Valuta) is the transaction date
+                            // and therefore overrules the booking date.
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote("Ref.nr. " + v.get("note"));
