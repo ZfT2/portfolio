@@ -6,6 +6,7 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.fee;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.feeRefund;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -3415,27 +3416,27 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-04-04"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-04-04"), hasBookingDate("2017-04-04"), hasAmount("EUR", 200.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-05-03"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-05-03"), hasBookingDate("2017-05-03"), hasAmount("EUR", 200.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-06-01"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-06-01"), hasBookingDate("2017-06-01"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-06-02"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-06-02"), hasBookingDate("2017-06-02"), hasAmount("EUR", 200.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-06-26"), hasAmount("EUR", 300.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-06-26"), hasBookingDate("2017-06-26"), hasAmount("EUR", 300.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-06-26"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-06-26"), hasBookingDate("2017-06-26"), hasAmount("EUR", 200.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungseingang SEPA"))));
     }
 
@@ -3460,7 +3461,7 @@ public class OnvistaPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2015-04-07"), //
+                        hasDate("2015-04-03"), hasBookingDate("2015-04-07"), //
                         hasSource("Kontoauszug02.txt"), //
                         hasNote("Portogebühren 03/15"), //
                         hasAmount("EUR", 0.62), hasGrossValue("EUR", 0.62), //
@@ -3487,7 +3488,7 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2010-10-31"), hasAmount("EUR", 37.66), //
+        assertThat(results, hasItem(deposit(hasDate("2010-10-31"), hasBookingDate("2010-10-31"), hasAmount("EUR", 37.66), //
                         hasSource("Kontoauszug03.txt"), hasNote("Saldenübernahme"))));
     }
 
@@ -3512,7 +3513,7 @@ public class OnvistaPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(feeRefund( //
-                        hasDate("2022-03-24"), //
+                        hasDate("2022-03-23"), hasBookingDate("2022-03-24"), //
                         hasSource("Kontoauszug04.txt"), //
                         hasNote("Erst. BGH-Urteil Sonstige 2. Quartal 2021"), //
                         hasAmount("EUR", 42.42), hasGrossValue("EUR", 42.42), //
@@ -3520,7 +3521,7 @@ public class OnvistaPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(feeRefund( //
-                        hasDate("2022-03-24"), //
+                        hasDate("2022-03-23"), hasBookingDate("2022-03-24"), //
                         hasSource("Kontoauszug04.txt"), //
                         hasNote("Erst. BGH-Urteil Sonstige 3. Quartal 2021"), //
                         hasAmount("EUR", 11.11), hasGrossValue("EUR", 11.11), //
@@ -3547,44 +3548,44 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-01-03"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-01-03"), hasBookingDate("2022-01-03"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-01-17"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-01-17"), hasBookingDate("2022-01-17"), hasAmount("EUR", 500.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-01-19"), hasAmount("EUR", 2700.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-01-19"), hasBookingDate("2022-01-19"), hasAmount("EUR", 2700.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-02-03"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-02-03"), hasBookingDate("2022-02-03"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-02-16"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-02-16"), hasBookingDate("2022-02-16"), hasAmount("EUR", 500.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-02-21"), hasAmount("EUR", 190.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-02-21"), hasBookingDate("2022-02-21"), hasAmount("EUR", 190.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-02-28"), hasAmount("EUR", 5000.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-02-28"), hasBookingDate("2022-02-28"), hasAmount("EUR", 5000.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungausgang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-03-16"), hasAmount("EUR", 750.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-03-16"), hasBookingDate("2022-03-16"), hasAmount("EUR", 750.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-03-21"), hasAmount("EUR", 1500.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-03-21"), hasBookingDate("2022-03-21"), hasAmount("EUR", 1500.00), //
                         hasSource("Kontoauszug05.txt"), hasNote("Überweisungausgang SEPA"))));
 
         // assert transaction
         assertThat(results, hasItem(feeRefund( //
-                        hasDate("2022-03-24"), //
+                        hasDate("2022-03-23"), hasBookingDate("2022-03-24"), //
                         hasSource("Kontoauszug05.txt"), //
                         hasNote("Erst. BGH-Urteil Sonstige 2. Quartal 2021"), //
                         hasAmount("EUR", 0.04), hasGrossValue("EUR", 0.04), //
@@ -3592,7 +3593,7 @@ public class OnvistaPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(feeRefund( //
-                        hasDate("2022-03-24"), //
+                        hasDate("2022-03-23"), hasBookingDate("2022-03-24"), //
                         hasSource("Kontoauszug05.txt"), //
                         hasNote("Erst. BGH-Urteil Sonstige 3. Quartal 2021"), //
                         hasAmount("EUR", 0.12), hasGrossValue("EUR", 0.12), //
@@ -3600,7 +3601,7 @@ public class OnvistaPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(feeRefund( //
-                        hasDate("2022-03-24"), //
+                        hasDate("2022-03-23"), hasBookingDate("2022-03-24"), //
                         hasSource("Kontoauszug05.txt"), //
                         hasNote("Erst. BGH-Urteil Sonstige 4. Quartal 2021"), //
                         hasAmount("EUR", 0.04), hasGrossValue("EUR", 0.04), //
@@ -3627,39 +3628,39 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-10-04"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-10-04"), hasBookingDate("2021-10-04"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-10-18"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-10-18"), hasBookingDate("2021-10-18"), hasAmount("EUR", 500.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-10-18"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-10-18"), hasBookingDate("2021-10-18"), hasAmount("EUR", 500.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungausgang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-10-25"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-10-25"), hasBookingDate("2021-10-25"), hasAmount("EUR", 1000.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungausgang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-11-03"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-11-03"), hasBookingDate("2021-11-03"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-11-16"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-11-16"), hasBookingDate("2021-11-16"), hasAmount("EUR", 500.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-12-03"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-12-03"), hasBookingDate("2021-12-03"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-12-15"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-12-15"), hasBookingDate("2021-12-15"), hasAmount("EUR", 500.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungausgang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-12-16"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-12-16"), hasBookingDate("2021-12-16"), hasAmount("EUR", 500.00), //
                         hasSource("Kontoauszug06.txt"), hasNote("Überweisungseingang SEPA"))));
     }
 
@@ -3683,31 +3684,31 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-07-28"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-07-28"), hasBookingDate("2017-07-28"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoauszug07.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-07-28"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-07-28"), hasBookingDate("2017-07-28"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoauszug07.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-08-15"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-08-15"), hasBookingDate("2017-08-15"), hasAmount("EUR", 1000.00), //
                         hasSource("Kontoauszug07.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-09-12"), hasAmount("EUR", 250.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-09-12"), hasBookingDate("2017-09-12"), hasAmount("EUR", 250.00), //
                         hasSource("Kontoauszug07.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-09-26"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-09-26"), hasBookingDate("2017-09-26"), hasAmount("EUR", 150.00), //
                         hasSource("Kontoauszug07.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-09-28"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-09-28"), hasBookingDate("2017-09-28"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoauszug07.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2017-09-28"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2017-09-28"), hasBookingDate("2017-09-28"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoauszug07.txt"), hasNote("Überweisungseingang SEPA"))));
     }
 
@@ -3731,27 +3732,27 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-02-01"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-02-01"), hasBookingDate("2021-02-01"), hasAmount("EUR", 1000.00), //
                         hasSource("Kontoauszug08.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-02-17"), hasAmount("EUR", 600.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-02-17"), hasBookingDate("2021-02-17"), hasAmount("EUR", 600.00), //
                         hasSource("Kontoauszug08.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-01"), hasAmount("EUR", 1100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-01"), hasBookingDate("2021-03-01"), hasAmount("EUR", 1100.00), //
                         hasSource("Kontoauszug08.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-01"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-01"), hasBookingDate("2021-03-01"), hasAmount("EUR", 200.00), //
                         hasSource("Kontoauszug08.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-25"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-25"), hasBookingDate("2021-03-25"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug08.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-31"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-31"), hasBookingDate("2021-03-31"), hasAmount("EUR", 150.00), //
                         hasSource("Kontoauszug08.txt"), hasNote("Überweisungseingang SEPA"))));
     }
 
@@ -3775,15 +3776,15 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-02-03"), hasAmount("EUR", 350.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-02-03"), hasBookingDate("2020-02-03"), hasAmount("EUR", 350.00), //
                         hasSource("Kontoauszug09.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-03-02"), hasAmount("EUR", 350.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-03-02"), hasBookingDate("2020-03-02"), hasAmount("EUR", 350.00), //
                         hasSource("Kontoauszug09.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-03-23"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-03-23"), hasBookingDate("2020-03-23"), hasAmount("EUR", 1000.00), //
                         hasSource("Kontoauszug09.txt"), hasNote("Überweisungseingang SEPA"))));
     }
 
@@ -3807,15 +3808,15 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-01-02"), hasAmount("EUR", 66.67), //
+        assertThat(results, hasItem(deposit(hasDate("2019-01-02"), hasBookingDate("2019-01-02"), hasAmount("EUR", 66.67), //
                         hasSource("Kontoauszug10.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-02-01"), hasAmount("EUR", 66.67), //
+        assertThat(results, hasItem(deposit(hasDate("2019-02-01"), hasBookingDate("2019-02-01"), hasAmount("EUR", 66.67), //
                         hasSource("Kontoauszug10.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2019-03-01"), hasAmount("EUR", 66.67), //
+        assertThat(results, hasItem(deposit(hasDate("2019-03-01"), hasBookingDate("2019-03-01"), hasAmount("EUR", 66.67), //
                         hasSource("Kontoauszug10.txt"), hasNote("Überweisungseingang SEPA"))));
     }
 
@@ -3839,12 +3840,12 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-01-25"), hasAmount("EUR", 2926.19), //
+        assertThat(results, hasItem(removal(hasDate("2022-01-25"), hasBookingDate("2022-01-25"), hasAmount("EUR", 2926.19), //
                         hasSource("Kontoauszug11.txt"), hasNote("Überweisungausgang SEPA"))));
 
         // assert transaction
         assertThat(results, hasItem(feeRefund( //
-                        hasDate("2022-03-24"), //
+                        hasDate("2022-03-23"), hasBookingDate("2022-03-24"), //
                         hasSource("Kontoauszug11.txt"), //
                         hasNote("Erst. BGH-Urteil Sonstige 3. Quartal 2021"), //
                         hasAmount("EUR", 0.67), hasGrossValue("EUR", 0.67), //
@@ -3852,7 +3853,7 @@ public class OnvistaPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2022-03-31"), //
+                        hasDate("2022-03-30"), hasBookingDate("2022-03-31"), //
                         hasSource("Kontoauszug11.txt"), //
                         hasNote("Überziehungszinsen"), //
                         hasAmount("EUR", 0.77), hasGrossValue("EUR", 0.77), //
@@ -3879,19 +3880,19 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2018-01-05"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2018-01-05"), hasBookingDate("2018-01-05"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoauszug12.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2018-02-05"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2018-02-05"), hasBookingDate("2018-02-05"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoauszug12.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2018-03-05"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2018-03-05"), hasBookingDate("2018-03-05"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoauszug12.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2018-03-05"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(deposit(hasDate("2018-03-05"), hasBookingDate("2018-03-05"), hasAmount("EUR", 50.00), //
                         hasSource("Kontoauszug12.txt"), hasNote("Überweisungseingang SEPA"))));
     }
 
@@ -3915,19 +3916,19 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-04-30"), hasAmount("EUR", 30000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-04-30"), hasBookingDate("2024-04-30"), hasAmount("EUR", 30000.00), //
                         hasSource("Kontoauszug13.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-04-30"), hasAmount("EUR", 30000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-04-30"), hasBookingDate("2024-04-30"), hasAmount("EUR", 30000.00), //
                         hasSource("Kontoauszug13.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(fee(hasDate("2024-05-02"), hasAmount("EUR", 7.50), //
+        assertThat(results, hasItem(fee(hasDate("2024-05-02"), hasBookingDate("2024-05-02"), hasAmount("EUR", 7.50), //
                         hasSource("Kontoauszug13.txt"), hasNote("Geb. Back Office extern"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-05-22"), hasAmount("EUR", 60000.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-05-22"), hasBookingDate("2024-05-22"), hasAmount("EUR", 60000.00), //
                         hasSource("Kontoauszug13.txt"), hasNote("Übertrag Referenzkonto"))));
     }
 
@@ -3951,11 +3952,11 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(fee(hasDate("2023-07-06"), hasAmount("EUR", 1.29), //
+        assertThat(results, hasItem(fee(hasDate("2023-07-06"), hasBookingDate("2023-07-06"), hasAmount("EUR", 1.29), //
                         hasSource("Kontoauszug14.txt"), hasNote("Geb. Back Office extern"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-08-23"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-08-23"), hasBookingDate("2023-08-23"), hasAmount("EUR", 1000.00), //
                         hasSource("Kontoauszug14.txt"), hasNote("Überweisungseingang SEPA"))));
     }
 
@@ -3979,19 +3980,19 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2016-07-15"), hasAmount("EUR", 5.00), //
+        assertThat(results, hasItem(removal(hasDate("2016-07-15"), hasBookingDate("2016-07-15"), hasAmount("EUR", 5.00), //
                         hasSource("Kontoauszug15.txt"), hasNote("Überweisungausgang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2016-07-19"), hasAmount("EUR", 5.00), //
+        assertThat(results, hasItem(deposit(hasDate("2016-07-19"), hasBookingDate("2016-07-19"), hasAmount("EUR", 5.00), //
                         hasSource("Kontoauszug15.txt"), hasNote("Überweisungseingang SEPA"))));
 
         // assert transaction
-        assertThat(results, hasItem(interestCharge(hasDate("2016-08-31"), hasAmount("EUR", 0.03), //
+        assertThat(results, hasItem(interestCharge(hasDate("2016-08-30"), hasBookingDate("2016-08-31"), hasAmount("EUR", 0.03), //
                         hasSource("Kontoauszug15.txt"), hasNote("Überziehungszinsen"))));
 
         // assert transaction
-        assertThat(results, hasItem(interestCharge(hasDate("2016-09-30"), hasAmount("EUR", 0.03), //
+        assertThat(results, hasItem(interestCharge(hasDate("2016-09-30"), hasBookingDate("2016-09-30"), hasAmount("EUR", 0.03), //
                         hasSource("Kontoauszug15.txt"), hasNote("Überziehungszinsen"))));
     }
 
@@ -4015,10 +4016,10 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-08-23"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-08-23"), hasBookingDate("2023-08-23"), hasAmount("EUR", 1000.00), //
                         hasSource("Kontoauszug16.txt"), hasNote("Überweisungseingang SEPA"))));
 
-        assertThat(results, hasItem(fee(hasDate("2023-07-06"), hasAmount("EUR", 1.29), //
+        assertThat(results, hasItem(fee(hasDate("2023-07-06"), hasBookingDate("2023-07-06"), hasAmount("EUR", 1.29), //
                         hasSource("Kontoauszug16.txt"), hasNote("Geb. Back Office extern"))));
     }
 
@@ -4042,13 +4043,13 @@ public class OnvistaPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // check transaction
-        assertThat(results, hasItem(fee(hasDate("2018-04-04"), hasAmount("EUR", 0.70), //
+        assertThat(results, hasItem(fee(hasDate("2018-04-04"), hasBookingDate("2018-04-04"), hasAmount("EUR", 0.70), //
                         hasSource("Kontoauszug17.txt"), hasNote("Portogebühren 03/18"))));
 
-        assertThat(results, hasItem(fee(hasDate("2018-05-03"), hasAmount("EUR", 0.70), //
+        assertThat(results, hasItem(fee(hasDate("2018-05-03"), hasBookingDate("2018-05-03"), hasAmount("EUR", 0.70), //
                         hasSource("Kontoauszug17.txt"), hasNote("Portogebühren 04/18"))));
 
-        assertThat(results, hasItem(feeRefund(hasDate("2018-05-11"), hasAmount("EUR", 0.70), //
+        assertThat(results, hasItem(feeRefund(hasDate("2018-05-03"), hasBookingDate("2018-05-11"), hasAmount("EUR", 0.70), //
                         hasSource("Kontoauszug17.txt"), hasNote("Storno: Portogebühren 04/18"))));
     }
 }

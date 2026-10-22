@@ -1208,9 +1208,9 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         // 22.05. 22.05. REF: 912315845658 60.000,00-
                         // Übertrag Referenzkonto
                         // @formatter:on
-                        .section("date", "amount", "note", "type").optional() //
+                        .section("bookingDate", "date", "amount", "note", "type").optional() //
                         .documentContext("year", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. .* (?<amount>[\\.,\\d]+)(?<type>([\\+|\\-]))$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) .* (?<amount>[\\.,\\d]+)(?<type>([\\+|\\-]))$") //
                         .match("^(?<note>(.berweisung(seingang|ausgang) SEPA|.bertrag Referenzkonto)).*$") //
                         .assign((t, v) -> {
                             // @formatter:off
@@ -1220,6 +1220,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
@@ -1232,12 +1233,13 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         // 19.07. 19.07. REF: 000040720216 5,00
                         // Überweisungseingang SEPA Max Muster
                         // @formatter:on
-                        .section("date", "amount", "note").optional() //
+                        .section("bookingDate", "date", "amount", "note").optional() //
                         .documentContext("year", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. .* (?<amount>[\\.,\\d]+)$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) .* (?<amount>[\\.,\\d]+)$") //
                         .match("^(?<note>(Salden.bernahme|Überweisungseingang SEPA)).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
@@ -1255,9 +1257,9 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         // Storno: Portogebühren
                         // Portogebuehren 04/18
                         // @formatter:on
-                        .section("date", "amount", "type", "note1", "note2").optional() //
+                        .section("bookingDate", "date", "amount", "type", "note1", "note2").optional() //
                         .documentContext("year", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. REF: [\\d]+ (?<amount>[\\.,\\d]+)(?<type>([\\+|\\-]))$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) REF: [\\d]+ (?<amount>[\\.,\\d]+)(?<type>([\\+|\\-]))$") //
                         .match("^(?<note1>((Storno: )?Portogeb.hren|Erst\\. BGH\\-Urteil Sonstige))$") //
                         .match("^(Portogebuehren )?(?<note2>([\\d]{2}\\/[\\d]{2}|[\\d]{1}\\. Quartal [\\d]{4}))$") //
                         .assign((t, v) -> {
@@ -1270,6 +1272,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.FEES_REFUND);
 
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note1") + " " + v.get("note2"));
@@ -1279,9 +1282,9 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         // 02.05. 02.05. REF: 337909771410 7,50-
                         // Geb. Back Office extern
                         // @formatter:on
-                        .section("date", "amount", "type", "note").optional() //
+                        .section("bookingDate", "date", "amount", "type", "note").optional() //
                         .documentContext("year", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. REF: [\\d]+ (?<amount>[\\.,\\d]+)(?<type>([\\+|\\-]))$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) REF: [\\d]+ (?<amount>[\\.,\\d]+)(?<type>([\\+|\\-]))$") //
                         .match("^(?<note>Geb\\. Back Office extern)$") //
                         .assign((t, v) -> {
                             // @formatter:off
@@ -1293,6 +1296,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.FEES_REFUND);
 
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
@@ -1302,9 +1306,9 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                         // 31.03. 30.03. REF: 000137802265 0,77-
                         // Überziehungszinsen
                         // @formatter:on
-                        .section("date", "amount", "type", "note").optional() //
+                        .section("bookingDate", "date", "amount", "type", "note").optional() //
                         .documentContext("year", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. REF: [\\d]+ (?<amount>[\\.,\\d]+)(?<type>([\\+|\\-]))$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) REF: [\\d]+ (?<amount>[\\.,\\d]+)(?<type>([\\+|\\-]))$") //
                         .match("^(?<note>.berziehungszinsen)$") //
                         .assign((t, v) -> {
                             // @formatter:off
@@ -1316,6 +1320,7 @@ public class OnvistaPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.INTEREST);
 
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
