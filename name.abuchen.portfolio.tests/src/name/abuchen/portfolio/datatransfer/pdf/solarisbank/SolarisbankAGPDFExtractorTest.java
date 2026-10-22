@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.solarisbank;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasNote;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasSource;
@@ -50,20 +51,24 @@ public class SolarisbankAGPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-10-26"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-10-26"), hasBookingDate("2022-10-26"), //
+                        hasAmount("EUR", 200.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("008eb3a1d003 etoken-google"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-10-27"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-10-26"), hasBookingDate("2022-10-27"), //
+                        hasAmount("EUR", 150.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("a141b0b25f9d etoken-google"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-10-26"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-10-26"), hasBookingDate("2022-10-26"), //
+                        hasAmount("EUR", 100.00), //
                         hasSource("GiroKontoauszug01.txt"),
                         hasNote("an Peter Panzwischen Kunden DE11111111111111111111"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-10-28"), hasAmount("EUR", 16.10), //
+        assertThat(results, hasItem(removal(hasDate("2022-10-27"), hasBookingDate("2022-10-28"), //
+                        hasAmount("EUR", 16.10), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Amazon.de AMAZON.DE LU"))));
     }
 
@@ -87,7 +92,8 @@ public class SolarisbankAGPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-10-26"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-10-26"), hasBookingDate("2022-10-26"), //
+                        hasAmount("EUR", 100.00), //
                         hasNote("von Peter Panzwischen Kunden DE11111111111111111111"))));
     }
 
@@ -111,7 +117,8 @@ public class SolarisbankAGPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-10-19"), hasAmount("EUR", 11.99), //
+        assertThat(results, hasItem(removal(hasDate("2022-10-19"), hasBookingDate("2022-10-19"), //
+                        hasAmount("EUR", 11.99), //
                         hasSource("GiroKontoauszug03.txt"), hasNote("11,99 EUR"))));
     }
 
@@ -135,15 +142,18 @@ public class SolarisbankAGPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-10-03"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-04-04"), hasBookingDate("2022-10-03"), //
+                        hasAmount("EUR", 200.00), //
                         hasSource("GiroKontoauszug04.txt"), hasNote("von Peter Pan"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-10-06"), hasAmount("EUR", 0.40), //
+        assertThat(results, hasItem(deposit(hasDate("2023-04-06"), hasBookingDate("2022-10-06"), //
+                        hasAmount("EUR", 0.40), //
                         hasSource("GiroKontoauszug04.txt"), hasNote("Visa Geld zurueck AktionVISACLP0324 GB"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-10-20"), hasAmount("EUR", 18.78), //
+        assertThat(results, hasItem(removal(hasDate("2023-04-20"), hasBookingDate("2022-10-20"), //
+                        hasAmount("EUR", 18.78), //
                         hasSource("GiroKontoauszug04.txt"), hasNote("an Peter Pan"))));
     }
 
@@ -167,23 +177,28 @@ public class SolarisbankAGPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-11-08"), hasAmount("EUR", 3000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-11-08"), hasBookingDate("2024-11-08"), //
+                        hasAmount("EUR", 3000.00), //
                         hasSource("Referenzkontoauszug01.txt"), hasNote("YLbKRus qXwsATAvg"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-11-10"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-11-10"), hasBookingDate("2024-11-10"), //
+                        hasAmount("EUR", 1000.00), //
                         hasSource("Referenzkontoauszug01.txt"), hasNote("EUWAX Aktiengesellschaft"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-11-14"), hasAmount("EUR", 1105.19), //
+        assertThat(results, hasItem(deposit(hasDate("2024-11-14"), hasBookingDate("2024-11-14"), //
+                        hasAmount("EUR", 1105.19), //
                         hasSource("Referenzkontoauszug01.txt"), hasNote("EUWAX Aktiengesellschaft"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-11-15"), hasAmount("EUR", 0.01), //
+        assertThat(results, hasItem(deposit(hasDate("2024-11-15"), hasBookingDate("2024-11-15"), //
+                        hasAmount("EUR", 0.01), //
                         hasSource("Referenzkontoauszug01.txt"), hasNote("sMPghUOQW KOQy PbfeyvP"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-11-15"), hasAmount("EUR", 0.01), //
+        assertThat(results, hasItem(removal(hasDate("2024-11-15"), hasBookingDate("2024-11-15"), //
+                        hasAmount("EUR", 0.01), //
                         hasSource("Referenzkontoauszug01.txt"), hasNote("UVOshYrqp ejDi CIXGqbX"))));
     }
 }

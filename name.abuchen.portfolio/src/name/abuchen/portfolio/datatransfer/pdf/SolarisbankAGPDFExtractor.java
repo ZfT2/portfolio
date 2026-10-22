@@ -38,6 +38,8 @@ public class SolarisbankAGPDFExtractor extends AbstractPDFExtractor
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Tag der Tag der
+        // Buchung Wertstellung Typ Beschreibung Betrag
         // 27.10.2022 26.10.2022 SEPA-Überweisunga141b0b25f9d etoken-google 150,00 EUR
         // 06.10.2022 06.04.2023 Kartenvorgang Visa Geld zurueck AktionVISACLP0324 GB 0,40 EUR
         // @formatter:on
@@ -47,10 +49,14 @@ public class SolarisbankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "amount", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*(SEPA\\-.berweisung|.berweisung|Kartenvorgang)(?<note>.*) (?<amount>[\\.,\\d]+) (?<currency>[\\w]{3})$") //
+                        .section("bookingDate", "date", "note", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*(SEPA\\-.berweisung|.berweisung|Kartenvorgang)(?<note>.*) (?<amount>[\\.,\\d]+) (?<currency>[\\w]{3})$") //
                         .assign((t, v) -> {
+                            // The value date ("Tag der Wertstellung") is the
+                            // transaction date, the booking date ("Tag der
+                            // Buchung") is stored in addition.
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(trim(v.get("note")));
@@ -59,6 +65,8 @@ public class SolarisbankAGPDFExtractor extends AbstractPDFExtractor
                         .wrap(TransactionItem::new));
 
         // @formatter:off
+        // Tag der Tag der
+        // Buchung Wertstellung Typ Beschreibung Betrag
         // 26.10.2022 26.10.2022 Überweisung an Peter Panzwischen Kunden DE11111111111111111111 -100,00 EUR
         // 28.10.2022 27.10.2022 Kartenzahlung Amazon.de AMAZON.DE LU -16,10 EUR
         // 19.10.2022 19.10.2022 SEPA-Lastschrift 11,99 EUR -11,99 EUR
@@ -70,11 +78,15 @@ public class SolarisbankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "note", "amount", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*(Kartenzahlung|.berweisung|SEPA\\-Lastschrift|SEPA\\-.berweisung)(?<note>.*) \\-(?<amount>[\\.,\\d]+) (?<currency>\\w{3})$") //
+                        .section("bookingDate", "date", "note", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*(Kartenzahlung|.berweisung|SEPA\\-Lastschrift|SEPA\\-.berweisung)(?<note>.*) \\-(?<amount>[\\.,\\d]+) (?<currency>\\w{3})$") //
                         .assign((t, v) -> {
+                            // The value date ("Tag der Wertstellung") is the
+                            // transaction date, the booking date ("Tag der
+                            // Buchung") is stored in addition.
                             t.setDateTime(asDate(v.get("date")));
-                            t.setCurrencyCode(v.get("currency"));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
+                            t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(trim(v.get("note")));
                         })
@@ -88,6 +100,7 @@ public class SolarisbankAGPDFExtractor extends AbstractPDFExtractor
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Transaktionen Buchungsdatum Valutadatum
         // YLbKRus qXwsATAvg 08.11.2024 08.11.2024 3000€
         // EUWAX Aktiengesellschaft 14.11.2024 14.11.2024 1105.19€
         // EUWAX Aktiengesellschaft 10.11.2024 10.11.2024 -1000€
@@ -98,8 +111,8 @@ public class SolarisbankAGPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("note", "date", "type", "amount", "currency") //
-                        .match("^(?<note>.*) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4})(?<type>[\\-\\s]+)(?<amount>[\\.,\\d]+)(?<currency>\\p{Sc})$") //
+                        .section("note", "bookingDate", "date", "type", "amount", "currency") //
+                        .match("^(?<note>.*) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4})(?<type>[\\-\\s]+)(?<amount>[\\.,\\d]+)(?<currency>\\p{Sc})$") //
                         .assign((t, v) -> {
                             // @formatter:off
                             // Is type is "-" change from DEPOSIT to REMOVAL
@@ -107,7 +120,11 @@ public class SolarisbankAGPDFExtractor extends AbstractPDFExtractor
                             if ("-".equals(trim(v.get("type"))))
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
+                            // The value date ("Valutadatum") is the transaction
+                            // date, the booking date ("Buchungsdatum") is
+                            // stored in addition.
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(trim(v.get("note")));
