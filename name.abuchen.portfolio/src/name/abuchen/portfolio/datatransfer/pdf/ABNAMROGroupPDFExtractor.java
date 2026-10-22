@@ -87,6 +87,9 @@ public class ABNAMROGroupPDFExtractor extends AbstractPDFExtractor
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Buchungs- Wert-
+        // datum stellung von/nach Konto Buchungstext Belastungen Gutschriften
+        //
         // 24.10.2011 19.10.2011 12030000-001 Zahlungseingang 100,00
         // 11.10.2012 11.10.2012 B2D11BI5S00A Ru¨ckzahlung Ihres Festgeldes 50.000,00
         // @formatter:on
@@ -96,15 +99,16 @@ public class ABNAMROGroupPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "amount") //
+                        .section("bookingDate", "date", "amount") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .* " //
                                         + "(Zahlungseingang" //
                                         + "|Ru.ckzahlung Ihres Festgeldes)[\\s]{1,}" //
                                         + "(?<amount>[\\.,\\d]+)$")
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                         })
@@ -121,14 +125,15 @@ public class ABNAMROGroupPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "amount") //
+                        .section("bookingDate", "date", "amount") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .* " //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .* " //
                                         + "(Zahlungsausgang" //
                                         + "|Abschluss eines Festgeldes)[\\s]{1,}" //
                                         + "(?<amount>[\\.,\\d]+)$")
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                         })
@@ -150,15 +155,16 @@ public class ABNAMROGroupPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST))
 
-                        .section("date", "amount") //
+                        .section("bookingDate", "date", "amount") //
                         .documentContext("currency") //
                         .documentContextOptionally("taxDate1", "taxDate2", "taxDate3", "tax1", "tax2", "tax3") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .* " //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .* " //
                                         + "(Ihre (Zinsabrechnung|Tagesgeldzinsen)" //
                                         + "|Zinszahlung Festgeld)[\\s]{1,}" //
                                         + "(?<amount>[\\.,\\d]+)$")
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
 
