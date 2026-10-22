@@ -45,6 +45,7 @@ import name.abuchen.portfolio.ui.util.Colors;
 import name.abuchen.portfolio.ui.util.ContextMenu;
 import name.abuchen.portfolio.ui.util.LogoManager;
 import name.abuchen.portfolio.ui.util.ValueColorScheme;
+import name.abuchen.portfolio.ui.util.viewers.BookingDateEditingSupport;
 import name.abuchen.portfolio.ui.util.viewers.Column;
 import name.abuchen.portfolio.ui.util.viewers.ColumnEditingSupport;
 import name.abuchen.portfolio.ui.util.viewers.ColumnEditingSupport.ModificationListener;
@@ -476,6 +477,17 @@ public final class TransactionsViewer implements ModificationListener
         ColumnViewerSorter.create(e -> exDateProvider.apply(((TransactionPair<?>) e).getTransaction()))
                         .attachTo(column);
         new ExDateEditingSupport().addListener(this).attachTo(column);
+        column.setVisible(false);
+        support.addColumn(column);
+
+        column = new Column("bookingdate", Messages.ColumnBookingDate, SWT.None, 80); //$NON-NLS-1$
+        column.setLabelProvider(new TransactionLabelProvider(tx -> {
+            var bookingDate = tx.getBookingDate();
+            return bookingDate != null ? Values.Date.format(bookingDate.toLocalDate()) : null;
+        }));
+        ColumnViewerSorter.create(e -> ((TransactionPair<?>) e).getTransaction().getBookingDate())
+                        .attachTo(column);
+        new BookingDateEditingSupport().addListener(this).attachTo(column);
         column.setVisible(false);
         support.addColumn(column);
 

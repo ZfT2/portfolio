@@ -32,10 +32,10 @@ public abstract class AbstractSecurityTransactionModel extends AbstractModel
 
     public enum Properties
     {
-        portfolio, security, account, date, time, shares, quote, grossValue, exchangeRate, inverseExchangeRate, //
-        convertedGrossValue, forexFees, fees, forexTaxes, taxes, total, note, exchangeRateCurrencies, //
-        inverseExchangeRateCurrencies, transactionCurrency, transactionCurrencyCode, securityCurrencyCode, //
-        calculationStatus;
+        portfolio, security, account, date, bookingDate, time, shares, quote, grossValue, exchangeRate, //
+        inverseExchangeRate, convertedGrossValue, forexFees, fees, forexTaxes, taxes, total, note, //
+        exchangeRateCurrencies, inverseExchangeRateCurrencies, transactionCurrency, transactionCurrencyCode, //
+        securityCurrencyCode, calculationStatus;
     }
 
     protected final Client client;
@@ -44,6 +44,7 @@ public abstract class AbstractSecurityTransactionModel extends AbstractModel
     protected Portfolio portfolio;
     protected Security security;
     protected LocalDate date = LocalDate.now();
+    protected LocalDateTime bookingDate;
     protected LocalTime time = PresetValues.getTime();
     protected long shares;
     protected BigDecimal quote = BigDecimal.ONE;
@@ -98,6 +99,7 @@ public abstract class AbstractSecurityTransactionModel extends AbstractModel
         setForexTaxes(0);
         setNote(null);
         setTime(PresetValues.getTime());
+        setBookingDate(null);
     }
 
     protected void fillFromTransaction(PortfolioTransaction transaction)
@@ -107,6 +109,7 @@ public abstract class AbstractSecurityTransactionModel extends AbstractModel
         LocalDateTime transactionDate = transaction.getDateTime();
         this.date = transactionDate.toLocalDate();
         this.time = transactionDate.toLocalTime();
+        this.bookingDate = transaction.getBookingDate();
 
         this.shares = transaction.getShares();
         this.total = transaction.getAmount();
@@ -374,6 +377,20 @@ public abstract class AbstractSecurityTransactionModel extends AbstractModel
         firePropertyChange(Properties.time.name(), this.time, this.time = time);
         updateSharesAndQuote();
         updateExchangeRate();
+    }
+
+    /**
+     * The booking date is an optional attribute. If it is not set, the general
+     * transaction date is used.
+     */
+    public LocalDateTime getBookingDate()
+    {
+        return bookingDate;
+    }
+
+    public void setBookingDate(LocalDateTime bookingDate)
+    {
+        firePropertyChange(Properties.bookingDate.name(), this.bookingDate, this.bookingDate = bookingDate);
     }
 
     public long getShares()

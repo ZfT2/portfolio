@@ -92,6 +92,7 @@ import name.abuchen.portfolio.ui.Messages;
         }
 
         entry.setDate(LocalDateTime.of(date, time));
+        entry.setBookingDate(bookingDate);
         entry.setCurrencyCode(account.getCurrencyCode());
         entry.setSecurity(security);
         entry.setShares(shares);

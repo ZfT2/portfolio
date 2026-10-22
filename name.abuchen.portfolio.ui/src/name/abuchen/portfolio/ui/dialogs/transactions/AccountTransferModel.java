@@ -26,7 +26,7 @@ public class AccountTransferModel extends AbstractModel
 {
     public enum Properties
     {
-        sourceAccount, targetAccount, date, time, fxAmount, exchangeRate, inverseExchangeRate, amount, //
+        sourceAccount, targetAccount, date, bookingDate, time, fxAmount, exchangeRate, inverseExchangeRate, amount, //
         note, sourceAccountCurrency, targetAccountCurrency, exchangeRateCurrencies, //
         inverseExchangeRateCurrencies, calculationStatus;
     }
@@ -38,6 +38,7 @@ public class AccountTransferModel extends AbstractModel
     private Account sourceAccount;
     private Account targetAccount;
     private LocalDate date = LocalDate.now();
+    private LocalDateTime bookingDate;
     private LocalTime time = PresetValues.getTime();
 
     private long fxAmount;
@@ -97,6 +98,7 @@ public class AccountTransferModel extends AbstractModel
         }
 
         t.setDate(LocalDateTime.of(date, time));
+        t.setBookingDate(bookingDate);
         t.setNote(note);
 
         // if source and target account have the same currencies, no forex data
@@ -137,6 +139,7 @@ public class AccountTransferModel extends AbstractModel
         setAmount(0);
         setNote(null);
         setTime(PresetValues.getTime());
+        setBookingDate(null);
     }
 
     public void setSource(AccountTransferEntry entry)
@@ -153,6 +156,7 @@ public class AccountTransferModel extends AbstractModel
         LocalDateTime transactionDate = entry.getSourceTransaction().getDateTime();
         this.date = transactionDate.toLocalDate();
         this.time = transactionDate.toLocalTime();
+        this.bookingDate = entry.getSourceTransaction().getBookingDate();
         this.note = entry.getSourceTransaction().getNote();
 
         this.fxAmount = entry.getSourceTransaction().getAmount();
@@ -281,6 +285,20 @@ public class AccountTransferModel extends AbstractModel
     public void setTime(LocalTime time)
     {
         firePropertyChange(Properties.time.name(), this.time, this.time = time);
+    }
+
+    /**
+     * The booking date is an optional attribute. If it is not set, the general
+     * transaction date is used.
+     */
+    public LocalDateTime getBookingDate()
+    {
+        return bookingDate;
+    }
+
+    public void setBookingDate(LocalDateTime bookingDate)
+    {
+        firePropertyChange(Properties.bookingDate.name(), this.bookingDate, this.bookingDate = bookingDate);
     }
 
     public long getFxAmount()

@@ -126,10 +126,17 @@ public class AccountTransactionDialog extends AbstractTransactionDialog // NOSON
 
         // ex-date
 
-        var exDate = new ExDateInput(editArea);
+        var exDate = new OptionalDateInput(editArea, Messages.ColumnExDate);
         exDate.bindDate(Properties.exDate.name());
         exDate.setVisible(model().supportsSecurity() && model().getSecurity() != null
                         && !AccountTransactionModel.EMPTY_SECURITY.equals(model().getSecurity()));
+
+        // booking date
+
+        var bookingDate = new OptionalDateInput(editArea, Messages.ColumnBookingDate);
+        bookingDate.bindDate(Properties.bookingDate.name());
+        bookingDate.checkBox.setSelection(model().getBookingDate() != null);
+        bookingDate.setDateVisible(model().getBookingDate() != null);
 
         // shares
 
@@ -260,6 +267,15 @@ public class AccountTransactionDialog extends AbstractTransactionDialog // NOSON
         forms = forms.thenBelow(dateTime.date.getControl()).label(dateTime.label);
 
         startingWith(dateTime.date.getControl()).thenRight(dateTime.time).thenRight(dateTime.button, 0);
+
+        // booking date
+        forms = forms.thenBelow(bookingDate.checkBox);
+        startingWith(bookingDate.checkBox).thenRight(bookingDate.date.getControl());
+
+        bookingDate.checkBox.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+            toggleOptionalDate(bookingDate, model()::getBookingDate, model()::setBookingDate, model().getDate());
+            editArea.layout();
+        }));
 
         if (model().supportsSecurity())
         {
@@ -407,7 +423,7 @@ public class AccountTransactionDialog extends AbstractTransactionDialog // NOSON
         model.firePropertyChange(Properties.exchangeRateCurrencies.name(), "", model().getExchangeRateCurrencies()); //$NON-NLS-1$
     }
 
-    private void toggleExDatePicker(ExDateInput exDate, boolean enable)
+    private void toggleExDatePicker(OptionalDateInput exDate, boolean enable)
     {
         exDate.checkBox.setSelection(enable);
         exDate.date.getControl().setVisible(enable);
@@ -433,7 +449,7 @@ public class AccountTransactionDialog extends AbstractTransactionDialog // NOSON
         }
     }
 
-    private void suggestExDate(ExDateInput exDate)
+    private void suggestExDate(OptionalDateInput exDate)
     {
         var security = model().getSecurity();
         if (security == null || AccountTransactionModel.EMPTY_SECURITY.equals(security))

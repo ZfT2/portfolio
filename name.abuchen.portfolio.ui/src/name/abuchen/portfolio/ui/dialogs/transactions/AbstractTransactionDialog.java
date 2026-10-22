@@ -326,15 +326,20 @@ public abstract class AbstractTransactionDialog extends TitleAreaDialog
         }
     }
 
-    public class ExDateInput
+    /**
+     * An input for an optional date, e.g. the ex-date or the booking date. The
+     * check box indicates whether the date is set at all. If it is not checked,
+     * the date picker is hidden and the model value is set to {@code null}.
+     */
+    public class OptionalDateInput
     {
         public final Button checkBox;
         public final DatePicker date;
 
-        public ExDateInput(Composite editArea)
+        public OptionalDateInput(Composite editArea, String label)
         {
             checkBox = new Button(editArea, SWT.CHECK);
-            checkBox.setText(Messages.ColumnExDate);
+            checkBox.setText(label);
             date = new DatePicker(editArea);
         }
 
@@ -357,6 +362,38 @@ public abstract class AbstractTransactionDialog extends TitleAreaDialog
         {
             checkBox.setVisible(visible);
             date.getControl().setVisible(visible);
+        }
+
+        public void setDateVisible(boolean visible)
+        {
+            date.getControl().setVisible(visible);
+        }
+    }
+
+    /**
+     * Enables or disables an optional date input. If the input is enabled but
+     * no value is set yet, the given default date is used. If the input is
+     * disabled, the value is removed from the model.
+     */
+    protected void toggleOptionalDate(OptionalDateInput input, Supplier<LocalDateTime> getter,
+                    Consumer<LocalDateTime> setter, LocalDate defaultDate)
+    {
+        boolean enable = input.checkBox.getSelection();
+
+        input.setDateVisible(enable);
+
+        if (enable)
+        {
+            if (getter.get() == null)
+            {
+                input.date.setSelection(defaultDate);
+                setter.accept(defaultDate.atStartOfDay());
+            }
+        }
+        else
+        {
+            setter.accept(null);
+            input.date.setSelection(defaultDate);
         }
     }
 

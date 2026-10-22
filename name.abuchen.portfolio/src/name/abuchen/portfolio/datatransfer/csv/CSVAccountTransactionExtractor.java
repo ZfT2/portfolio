@@ -34,6 +34,7 @@ import name.abuchen.portfolio.money.Money;
 
         var fields = getFields();
         fields.add(new DateField(FieldCode.DATE, Messages.CSVColumn_Date));
+        fields.add(new DateField(FieldCode.BOOKING_DATE, Messages.CSVColumn_BookingDate).setOptional(true));
         fields.add(new Field(FieldCode.TIME, Messages.CSVColumn_Time).setOptional(true));
         fields.add(new ISINField(FieldCode.ISIN, Messages.CSVColumn_ISIN).setOptional(true));
         fields.add(new Field(FieldCode.TICKER, Messages.CSVColumn_TickerSymbol).setOptional(true));
@@ -79,6 +80,7 @@ import name.abuchen.portfolio.money.Money;
         var date = getDate(FieldCode.DATE, FieldCode.TIME, rawValues, field2column);
         if (date == null)
             throw new ParseException(MessageFormat.format(Messages.CSVImportMissingField, Messages.CSVColumn_Date), 0);
+        var bookingDate = getDate(FieldCode.BOOKING_DATE, null, rawValues, field2column);
         var note = getText(FieldCode.NOTE, rawValues, field2column);
         var shares = getShares(FieldCode.SHARES, rawValues, field2column);
         var taxes = getAmount(FieldCode.TAXES, rawValues, field2column);
@@ -109,6 +111,7 @@ import name.abuchen.portfolio.money.Money;
                     entry.setCurrencyCode(amount.getCurrencyCode());
                 }
                 entry.setDate(date);
+                entry.setBookingDate(bookingDate);
                 entry.setNote(note);
                 item = new AccountTransferItem(entry, type == Type.TRANSFER_OUT);
                 break;
@@ -130,6 +133,7 @@ import name.abuchen.portfolio.money.Money;
                 buySellEntry.setCurrencyCode(amount.getCurrencyCode());
                 buySellEntry.setSecurity(security);
                 buySellEntry.setDate(date);
+                buySellEntry.setBookingDate(bookingDate);
                 buySellEntry.setNote(note);
 
                 if (grossAmount.isPresent())
@@ -181,6 +185,7 @@ import name.abuchen.portfolio.money.Money;
                                 || type == Type.FEES_REFUND)
                     t.setSecurity(security);
                 t.setDateTime(date);
+                t.setBookingDate(bookingDate);
                 t.setNote(note);
 
                 if (type == Type.DIVIDENDS)
@@ -226,6 +231,7 @@ import name.abuchen.portfolio.money.Money;
         var delivery = new PortfolioTransaction();
         delivery.setType(PortfolioTransaction.Type.DELIVERY_OUTBOUND);
         delivery.setDateTime(tx.getDateTime());
+        delivery.setBookingDate(tx.getBookingDate());
         delivery.setAmount(tx.getAmount());
         delivery.setCurrencyCode(tx.getCurrencyCode());
         delivery.setShares(tx.getShares());

@@ -80,6 +80,13 @@ public class PortfolioTransferEntry implements CrossEntry, Annotated
         this.transactionTo.setDateTime(date);
     }
 
+    @Override
+    public void setBookingDate(LocalDateTime bookingDate)
+    {
+        this.transactionFrom.setBookingDate(bookingDate);
+        this.transactionTo.setBookingDate(bookingDate);
+    }
+
     public void setSecurity(Security security)
     {
         this.transactionFrom.setSecurity(security);
@@ -151,6 +158,7 @@ public class PortfolioTransferEntry implements CrossEntry, Annotated
     private void copyAttributesOver(PortfolioTransaction from, PortfolioTransaction to)
     {
         to.setDateTime(from.getDateTime());
+        to.setBookingDate(from.getBookingDate());
         to.setSecurity(from.getSecurity());
         to.setShares(from.getShares());
         to.setNote(from.getNote());

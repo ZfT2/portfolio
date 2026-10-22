@@ -23,6 +23,7 @@ import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.services.IStylingEngine;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -125,6 +126,18 @@ public class AccountTransferDialog extends AbstractTransactionDialog // NOSONAR
         dateTime.bindTime(Properties.time.name());
         dateTime.bindButton(() -> model().getTime(), time -> model().setTime(time));
 
+        // booking date
+
+        var bookingDate = new OptionalDateInput(editArea, Messages.ColumnBookingDate);
+        bookingDate.bindDate(Properties.bookingDate.name());
+        bookingDate.checkBox.setSelection(model().getBookingDate() != null);
+        bookingDate.setDateVisible(model().getBookingDate() != null);
+
+        bookingDate.checkBox.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+            toggleOptionalDate(bookingDate, model()::getBookingDate, model()::setBookingDate, model().getDate());
+            editArea.layout();
+        }));
+
         // other input fields
 
         Input fxAmount = new Input(editArea, Messages.ColumnAmount);
@@ -169,6 +182,9 @@ public class AccountTransferDialog extends AbstractTransactionDialog // NOSONAR
                         .thenBelow(target.value.getControl()).label(target.label).suffix(target.currency)
                         .thenBelow(dateTime.date.getControl()).label(dateTime.label).thenRight(dateTime.time)
                         .thenRight(dateTime.button, 0);
+
+        // booking date
+        startingWith(dateTime.button).thenRight(bookingDate.checkBox).thenRight(bookingDate.date.getControl());
 
         // fxAmount - exchange rate - amount
         forms.thenBelow(fxAmount.value).width(amountWidth).label(fxAmount.label) //

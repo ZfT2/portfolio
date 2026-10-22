@@ -67,6 +67,7 @@ public class CSVExporter
     private void writeAccountTransaction(CSVPrinter printer, AccountTransaction accountTransaction) throws IOException
     {
         printer.print(accountTransaction.getDateTime().toString());
+        printBookingDate(printer, accountTransaction);
         printer.print(accountTransaction.getType().toString());
         printer.print(Values.Amount.format(accountTransaction.getType().isDebit() ? -accountTransaction.getAmount()
                         : accountTransaction.getAmount()));
@@ -110,6 +111,7 @@ public class CSVExporter
     private void writeHeader(CSVPrinter printer) throws IOException
     {
         printer.printRecord(Messages.CSVColumn_Date, //
+                        Messages.CSVColumn_BookingDate, //
                         Messages.CSVColumn_Type, //
                         Messages.CSVColumn_Value, //
                         Messages.CSVColumn_TransactionCurrency, //
@@ -136,6 +138,7 @@ public class CSVExporter
     private void writePortfolioTransaction(CSVPrinter printer, PortfolioTransaction transaction) throws IOException
     {
         printer.print(transaction.getDateTime().toString());
+        printBookingDate(printer, transaction);
         printer.print(transaction.getType().toString());
         printer.print(Values.Amount.format(
                         transaction.getType().isLiquidation() ? -transaction.getAmount() : transaction.getAmount()));
@@ -333,5 +336,11 @@ public class CSVExporter
     /* package */static String escapeNull(String value)
     {
         return value != null ? value : ""; //$NON-NLS-1$
+    }
+
+    private static void printBookingDate(CSVPrinter printer, Transaction transaction) throws IOException
+    {
+        var bookingDate = transaction.getBookingDate();
+        printer.print(bookingDate != null ? bookingDate.toString() : ""); //$NON-NLS-1$
     }
 }

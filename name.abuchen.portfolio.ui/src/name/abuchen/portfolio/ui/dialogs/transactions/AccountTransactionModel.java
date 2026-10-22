@@ -32,7 +32,7 @@ public class AccountTransactionModel extends AbstractModel
 {
     public enum Properties
     {
-        security, account, date, exDate, time, shares, fxGrossAmount, dividendAmount, exchangeRate, inverseExchangeRate, grossAmount, // NOSONAR
+        security, account, date, exDate, bookingDate, time, shares, fxGrossAmount, dividendAmount, exchangeRate, inverseExchangeRate, grossAmount, // NOSONAR
         fxTaxes, taxes, fxFees, fees, total, note, exchangeRateCurrencies, inverseExchangeRateCurrencies, // NOSONAR
         accountCurrencyCode, securityCurrencyCode, fxCurrencyCode, calculationStatus; // NOSONAR
     }
@@ -53,6 +53,7 @@ public class AccountTransactionModel extends AbstractModel
     private LocalDate date = LocalDate.now();
     private LocalTime time = PresetValues.getTime();
     private LocalDateTime exDate;
+    private LocalDateTime bookingDate;
     private long shares;
 
     private long fxGrossAmount;
@@ -134,6 +135,7 @@ public class AccountTransactionModel extends AbstractModel
 
         t.setDateTime(LocalDateTime.of(date, time));
         t.setExDate(exDate);
+        t.setBookingDate(bookingDate);
         t.setSecurity(!EMPTY_SECURITY.equals(security) ? security : null);
         t.setShares(supportsShares() ? shares : 0);
         t.setAmount(total);
@@ -187,6 +189,7 @@ public class AccountTransactionModel extends AbstractModel
         setNote(null);
         setTime(PresetValues.getTime());
         setExDate(null);
+        setBookingDate(null);
     }
 
     public boolean supportsShares()
@@ -240,6 +243,7 @@ public class AccountTransactionModel extends AbstractModel
         this.date = transactionDate.toLocalDate();
         this.time = transactionDate.toLocalTime();
         this.exDate = transaction.getExDate();
+        this.bookingDate = transaction.getBookingDate();
         this.shares = transaction.getShares();
         this.total = transaction.getAmount();
 
@@ -469,6 +473,16 @@ public class AccountTransactionModel extends AbstractModel
 
         firePropertyChange(Properties.calculationStatus.name(), this.calculationStatus,
                         this.calculationStatus = calculateStatus()); // NOSONAR
+    }
+
+    public LocalDateTime getBookingDate()
+    {
+        return bookingDate;
+    }
+
+    public void setBookingDate(LocalDateTime bookingDate)
+    {
+        firePropertyChange(Properties.bookingDate.name(), this.bookingDate, this.bookingDate = bookingDate); // NOSONAR
     }
 
     public long getShares()

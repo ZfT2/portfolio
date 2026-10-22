@@ -1,8 +1,15 @@
 package name.abuchen.portfolio.model;
 
+import java.time.LocalDateTime;
+
 public interface CrossEntry
 {
     void updateFrom(Transaction t);
+
+    /**
+     * Sets the booking date for both transactions of the entry.
+     */
+    void setBookingDate(LocalDateTime bookingDate);
 
     TransactionOwner<? extends Transaction> getOwner(Transaction t);
 

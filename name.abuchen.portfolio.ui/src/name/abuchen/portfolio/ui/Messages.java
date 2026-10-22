@@ -122,6 +122,7 @@ public class Messages extends NLS
     public static String ColumnBalance_Description;
     public static String ColumnBalanceOfReferenceAccount;
     public static String ColumnBaseCurrency;
+    public static String ColumnBookingDate;
     public static String ColumnCapitalGains;
     public static String ColumnCapitalGains_Description;
     public static String ColumnCapitalGains_Option;

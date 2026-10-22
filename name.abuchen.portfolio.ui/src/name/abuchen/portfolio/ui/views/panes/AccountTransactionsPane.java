@@ -64,6 +64,7 @@ import name.abuchen.portfolio.ui.util.TableViewerCSVExporter;
 import name.abuchen.portfolio.ui.util.ValueColorScheme;
 import name.abuchen.portfolio.ui.util.searchfilter.TransactionFilterDropDown;
 import name.abuchen.portfolio.ui.util.searchfilter.TransactionSearchField;
+import name.abuchen.portfolio.ui.util.viewers.BookingDateEditingSupport;
 import name.abuchen.portfolio.ui.util.viewers.Column;
 import name.abuchen.portfolio.ui.util.viewers.ColumnEditingSupport;
 import name.abuchen.portfolio.ui.util.viewers.ColumnEditingSupport.ModificationListener;
@@ -457,6 +458,27 @@ public class AccountTransactionsPane implements InformationPanePage, Modificatio
         });
         ColumnViewerSorter.create(e -> ((AccountTransaction) e).getExDate()).attachTo(column);
         new ExDateEditingSupport().addListener(this).attachTo(column);
+        column.setVisible(false);
+        transactionsColumns.addColumn(column);
+
+        column = new Column("bookingdate", Messages.ColumnBookingDate, SWT.None, 80); //$NON-NLS-1$
+        column.setLabelProvider(new ColumnLabelProvider()
+        {
+            @Override
+            public String getText(Object e)
+            {
+                var t = (AccountTransaction) e;
+                return t.getBookingDate() != null ? Values.Date.format(t.getBookingDate().toLocalDate()) : null;
+            }
+
+            @Override
+            public Color getForeground(Object element)
+            {
+                return colorFor((AccountTransaction) element);
+            }
+        });
+        ColumnViewerSorter.create(e -> ((AccountTransaction) e).getBookingDate()).attachTo(column);
+        new BookingDateEditingSupport().addListener(this).attachTo(column);
         column.setVisible(false);
         transactionsColumns.addColumn(column);
 

@@ -27,7 +27,8 @@ public class SecurityTransferModel extends AbstractModel
 {
     public enum Properties
     {
-        security, securityCurrencyCode, sourcePortfolio, targetPortfolio, date, time, shares, quote, amount, note, calculationStatus;
+        security, securityCurrencyCode, sourcePortfolio, targetPortfolio, date, bookingDate, time, shares, quote, amount, //
+        note, calculationStatus;
     }
 
     private final Client client;
@@ -38,6 +39,7 @@ public class SecurityTransferModel extends AbstractModel
     private Portfolio sourcePortfolio;
     private Portfolio targetPortfolio;
     private LocalDate date = LocalDate.now();
+    private LocalDateTime bookingDate;
     private LocalTime time = PresetValues.getTime();
 
     private long shares;
@@ -98,6 +100,7 @@ public class SecurityTransferModel extends AbstractModel
 
         t.setSecurity(security);
         t.setDate(LocalDateTime.of(date, time));
+        t.setBookingDate(bookingDate);
         t.setShares(shares);
         t.setAmount(amount);
         t.setCurrencyCode(security.getCurrencyCode());
@@ -113,6 +116,7 @@ public class SecurityTransferModel extends AbstractModel
         setAmount(0);
         setNote(null);
         setTime(PresetValues.getTime());
+        setBookingDate(null);
     }
 
     private IStatus calculateStatus()
@@ -186,6 +190,7 @@ public class SecurityTransferModel extends AbstractModel
         LocalDateTime transactionDate = entry.getSourceTransaction().getDateTime();
         this.date = transactionDate.toLocalDate();
         this.time = transactionDate.toLocalTime();
+        this.bookingDate = entry.getSourceTransaction().getBookingDate();
         this.shares = entry.getSourceTransaction().getShares();
         this.quote = entry.getSourceTransaction().getGrossPricePerShare().toBigDecimal();
         this.amount = entry.getTargetTransaction().getAmount();
@@ -255,6 +260,20 @@ public class SecurityTransferModel extends AbstractModel
     {
         firePropertyChange(Properties.time.name(), this.time, this.time = time);
         updateSharesAndQuote();
+    }
+
+    /**
+     * The booking date is an optional attribute. If it is not set, the general
+     * transaction date is used.
+     */
+    public LocalDateTime getBookingDate()
+    {
+        return bookingDate;
+    }
+
+    public void setBookingDate(LocalDateTime bookingDate)
+    {
+        firePropertyChange(Properties.bookingDate.name(), this.bookingDate, this.bookingDate = bookingDate);
     }
 
     public long getShares()

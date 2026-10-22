@@ -22,6 +22,7 @@ package name.abuchen.portfolio.datatransfer.csv;
     public static final String CURRENCY_GROSS = "currencyGross";
     public static final String NOTE = "note";
     public static final String DATE = "date";
+    public static final String BOOKING_DATE = "bookingDate";
     public static final String DATE_QUOTE = "date-quote";
     public static final String QUOTE = "quote";
     public static final String TIME = "time";

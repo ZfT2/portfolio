@@ -34,6 +34,7 @@ import name.abuchen.portfolio.money.Money;
 
         var fields = getFields();
         fields.add(new DateField(FieldCode.DATE, Messages.CSVColumn_Date));
+        fields.add(new DateField(FieldCode.BOOKING_DATE, Messages.CSVColumn_BookingDate).setOptional(true));
         fields.add(new Field(FieldCode.TIME, Messages.CSVColumn_Time).setOptional(true));
         fields.add(new ISINField(FieldCode.ISIN, Messages.CSVColumn_ISIN).setOptional(true));
         fields.add(new Field(FieldCode.TICKER, Messages.CSVColumn_TickerSymbol).setOptional(true));
@@ -98,6 +99,8 @@ import name.abuchen.portfolio.money.Money;
         if (date == null)
             throw new ParseException(MessageFormat.format(Messages.CSVImportMissingField, Messages.CSVColumn_Date), 0);
 
+        var bookingDate = getDate(FieldCode.BOOKING_DATE, null, rawValues, field2column);
+
         var shares = getShares(FieldCode.SHARES, rawValues, field2column);
         var fees = getAmount(FieldCode.FEES, rawValues, field2column);
         var taxes = getAmount(FieldCode.TAXES, rawValues, field2column);
@@ -113,12 +116,12 @@ import name.abuchen.portfolio.money.Money;
         {
             case BUY, SELL -> //
                             createBuySell(rawValues, field2column, type, security, amount, fees, taxes, date, note,
-                                            shares, grossAmount);
+                                            shares, grossAmount, bookingDate);
             case TRANSFER_IN, TRANSFER_OUT -> //
-                            createTransfer(security, amount, date, note, shares);
+                            createTransfer(security, amount, date, note, shares, bookingDate);
             case DELIVERY_INBOUND, DELIVERY_OUTBOUND -> //
                             createDelivery(rawValues, field2column, type, security, amount, fees, taxes, date, note,
-                                            shares, grossAmount);
+                                            shares, grossAmount, bookingDate);
             default ->
                 throw new IllegalArgumentException(type.toString());
         };
@@ -132,12 +135,13 @@ import name.abuchen.portfolio.money.Money;
 
     private Item createBuySell(String[] rawValues, Map<String, Column> field2column, Type type, Security security,
                     Money amount, Long fees, Long taxes, LocalDateTime date, String note, Long shares,
-                    Optional<Unit> grossAmount) throws ParseException
+                    Optional<Unit> grossAmount, LocalDateTime bookingDate) throws ParseException
     {
         var entry = new BuySellEntry();
         entry.setType(type);
         entry.setSecurity(security);
         entry.setDate(date);
+        entry.setBookingDate(bookingDate);
         entry.setAmount(Math.abs(amount.getAmount()));
         entry.setCurrencyCode(amount.getCurrencyCode());
         entry.setShares(shares);
@@ -162,11 +166,13 @@ import name.abuchen.portfolio.money.Money;
         return new BuySellEntryItem(entry);
     }
 
-    private Item createTransfer(Security security, Money amount, LocalDateTime date, String note, Long shares)
+    private Item createTransfer(Security security, Money amount, LocalDateTime date, String note, Long shares,
+                    LocalDateTime bookingDate)
     {
         var entry = new PortfolioTransferEntry();
         entry.setSecurity(security);
         entry.setDate(date);
+        entry.setBookingDate(bookingDate);
         entry.setAmount(Math.abs(amount.getAmount()));
         entry.setCurrencyCode(amount.getCurrencyCode());
         entry.setShares(shares);
@@ -177,13 +183,14 @@ import name.abuchen.portfolio.money.Money;
 
     private Item createDelivery(String[] rawValues, Map<String, Column> field2column, Type type, Security security,
                     Money amount, Long fees, Long taxes, LocalDateTime date, String note, Long shares,
-                    Optional<Unit> grossAmount) throws ParseException
+                    Optional<Unit> grossAmount, LocalDateTime bookingDate) throws ParseException
     {
         var t = new PortfolioTransaction();
 
         t.setType(type);
         t.setSecurity(security);
         t.setDateTime(date);
+        t.setBookingDate(bookingDate);
         t.setAmount(Math.abs(amount.getAmount()));
         t.setCurrencyCode(amount.getCurrencyCode());
         t.setShares(shares);

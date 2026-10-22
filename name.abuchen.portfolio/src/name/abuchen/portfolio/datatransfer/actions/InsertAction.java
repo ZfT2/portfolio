@@ -85,6 +85,7 @@ public class InsertAction implements ImportAction
                             AccountTransaction.Type.REMOVAL);
             removal.setNote(transaction.getNote());
             removal.setSource(transaction.getSource());
+            removal.setBookingDate(transaction.getBookingDate());
             account.addTransaction(removal);
         }
 
@@ -129,6 +130,7 @@ public class InsertAction implements ImportAction
                 if (existingTransaction != null)
                 {
                     existingTransaction.setDateTime(t.getDateTime());
+                    existingTransaction.setBookingDate(t.getBookingDate());
                     existingTransaction.setNote(t.getNote());
                     existingTransaction.setSource(t.getSource());
                     existingTransaction.setShares(t.getShares());
@@ -141,6 +143,7 @@ public class InsertAction implements ImportAction
                         Transaction crossTransaction = existingTransaction.getCrossEntry()
                                         .getCrossTransaction(existingTransaction);
                         crossTransaction.setDateTime(t.getDateTime());
+                        crossTransaction.setBookingDate(t.getBookingDate());
                         crossTransaction.setAmount(t.getAmount());
                         crossTransaction.setNote(t.getNote());
                         crossTransaction.setSource(t.getSource());
@@ -159,6 +162,7 @@ public class InsertAction implements ImportAction
                             : PortfolioTransaction.Type.DELIVERY_OUTBOUND);
 
             delivery.setDateTime(t.getDateTime());
+            delivery.setBookingDate(t.getBookingDate());
             delivery.setSecurity(t.getSecurity());
             delivery.setMonetaryAmount(t.getMonetaryAmount());
             delivery.setNote(t.getNote());

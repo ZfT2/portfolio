@@ -22,6 +22,7 @@ import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.services.IStylingEngine;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -128,6 +129,13 @@ public class SecurityTransactionDialog extends AbstractTransactionDialog // NOSO
         dateTime.bindTime(Properties.time.name());
         dateTime.bindButton(() -> model().getTime(), time -> model().setTime(time));
 
+        // booking date
+
+        var bookingDate = new OptionalDateInput(editArea, Messages.ColumnBookingDate);
+        bookingDate.bindDate(Properties.bookingDate.name());
+        bookingDate.checkBox.setSelection(model().getBookingDate() != null);
+        bookingDate.setDateVisible(model().getBookingDate() != null);
+
         // other input fields
 
         Input shares = new Input(editArea, Messages.ColumnShares);
@@ -228,8 +236,17 @@ public class SecurityTransactionDialog extends AbstractTransactionDialog // NOSO
 
         startingWith(securities.label).width(labelWidth);
 
+        // booking date
+        startingWith(dateTime.date.getControl()).thenBelow(bookingDate.checkBox);
+        startingWith(bookingDate.checkBox).thenRight(bookingDate.date.getControl());
+
+        bookingDate.checkBox.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+            toggleOptionalDate(bookingDate, model()::getBookingDate, model()::setBookingDate, model().getDate());
+            editArea.layout();
+        }));
+
         // shares - quote - gross value
-        startingWith(dateTime.date.getControl()).thenBelow(shares.value).width(width).label(shares.label)
+        startingWith(bookingDate.checkBox).thenBelow(shares.value).width(width).label(shares.label)
                         .thenRight(quote.label).thenRight(quote.value).width(width).thenRight(quote.currency)
                         .width(width).thenRight(grossValue.label).thenRight(grossValue.value).width(width)
                         .thenRight(grossValue.currency);

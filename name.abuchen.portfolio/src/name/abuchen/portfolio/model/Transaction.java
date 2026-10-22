@@ -250,6 +250,16 @@ public abstract class Transaction implements Annotated, Adaptable
 
     private String uuid;
     private LocalDateTime date;
+
+    /**
+     * The booking date (Buchungsdatum) of the transaction. This is an
+     * optional attribute: many documents provide both a booking date and a
+     * settlement date (Wertstellungsdatum), but only one of them is stored in
+     * {@link #getDateTime()}. If the booking date is known, it can be recorded
+     * here in addition.
+     */
+    private LocalDateTime bookingDate;
+
     private String currencyCode;
     private long amount;
 
@@ -309,6 +319,20 @@ public abstract class Transaction implements Annotated, Adaptable
     public void setDateTime(LocalDateTime date)
     {
         this.date = date;
+        this.updatedAt = Instant.now();
+    }
+
+    /**
+     * Returns the booking date (Buchungsdatum) of the transaction, if set.
+     */
+    public LocalDateTime getBookingDate()
+    {
+        return bookingDate;
+    }
+
+    public void setBookingDate(LocalDateTime bookingDate)
+    {
+        this.bookingDate = bookingDate;
         this.updatedAt = Instant.now();
     }
 
