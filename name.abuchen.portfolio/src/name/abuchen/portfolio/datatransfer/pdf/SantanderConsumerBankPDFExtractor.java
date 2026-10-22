@@ -232,6 +232,8 @@ public class SantanderConsumerBankPDFExtractor extends AbstractPDFExtractor
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Buchungsdatum Valutadatum Betrag Saldo Buchungstext
+        //
         // 31.05.2023 31.05.2023 6,63 40,64 Zinsgutschrift Habenzinsen
         // 31.05.2023 31.05.2023 -1,66 37,98 Kapitalertragsteuer
         //
@@ -244,11 +246,12 @@ public class SantanderConsumerBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST))
 
-                        .section("date", "amount", "note") //
+                        .section("bookingDate", "date", "amount", "note") //
                         .documentContext("currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<amount>[\\.,\\d]+) [\\.,\\d]+ Zinsgutschrift (?<note>.*)$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<amount>[\\.,\\d]+) [\\.,\\d]+ Zinsgutschrift (?<note>.*)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(replaceMultipleBlanks(v.get("note")));
@@ -295,11 +298,12 @@ public class SantanderConsumerBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "amount", "note") //
+                        .section("bookingDate", "date", "amount", "note") //
                         .documentContext("currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<amount>[\\.,\\d]+) [\\.,\\d]+ Einzahlung (?<note>.*)$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<amount>[\\.,\\d]+) [\\.,\\d]+ Einzahlung (?<note>.*)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(replaceMultipleBlanks(v.get("note")));
@@ -322,12 +326,13 @@ public class SantanderConsumerBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("note", "date", "amount") //
+                        .section("note", "bookingDate", "date", "amount") //
                         .documentContext("currency") //
                         .match("^(?<note>Einzahlung von Konto .*) lautend auf.*$")
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<amount>[\\.,\\d]+) [\\.,\\d]+.*$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<amount>[\\.,\\d]+) [\\.,\\d]+.*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(replaceMultipleBlanks(v.get("note")));
@@ -344,11 +349,12 @@ public class SantanderConsumerBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "amount", "note") //
+                        .section("bookingDate", "date", "amount", "note") //
                         .documentContext("currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} \\-(?<amount>[\\.,\\d]+) [\\.,\\d]+ Auszahlung (?<note>.*)$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) \\-(?<amount>[\\.,\\d]+) [\\.,\\d]+ Auszahlung (?<note>.*)$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(replaceMultipleBlanks(v.get("note")));
