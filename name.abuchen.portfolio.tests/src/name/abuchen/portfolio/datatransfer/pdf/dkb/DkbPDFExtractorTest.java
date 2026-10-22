@@ -6,6 +6,7 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.fee;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.feeRefund;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -89,7 +90,7 @@ public class DkbPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2015-11-25T11:02:54"), hasShares(20.00), //
+                        hasDate("2015-11-27T00:00"), hasBookingDate("2015-11-25T11:02:54"), hasShares(20.00), //
                         hasSource("Kauf01.txt"), //
                         hasNote("Auftragsnummer 495752/48.00 | Limit 97,50 %"), //
                         hasAmount("EUR", 2030.66), hasGrossValue("EUR", 2023.16), //
@@ -123,7 +124,7 @@ public class DkbPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2016-01-25T09:33:06"), hasShares(1000.00), //
+                        hasDate("2016-01-27T00:00"), hasBookingDate("2016-01-25T09:33:06"), hasShares(1000.00), //
                         hasSource("Kauf02.txt"), //
                         hasNote("Limit 1,75 EUR"), //
                         hasAmount("EUR", 1760.91), hasGrossValue("EUR", 1750.00), //
@@ -157,7 +158,7 @@ public class DkbPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2017-03-06T00:00"), hasShares(29.2893), //
+                        hasDate("2017-03-08T00:00"), hasBookingDate("2017-03-06T00:00"), hasShares(29.2893), //
                         hasSource("Kauf03.txt"), //
                         hasAmount("EUR", 1410.00), hasGrossValue("EUR", 1400.00), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 10.00))));
@@ -190,7 +191,7 @@ public class DkbPDFExtractorTest
 
         // check purchase transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2017-10-05T00:00"), hasShares(2.521), //
+                        hasDate("2017-10-09T00:00"), hasBookingDate("2017-10-05T00:00"), hasShares(2.521), //
                         hasSource("Kauf04.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 130.41), hasGrossValue("EUR", 128.00), //
@@ -224,7 +225,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2019-01-07"), hasShares(25.60), //
+                        hasDate("2019-01-09T00:00"), hasBookingDate("2019-01-07T00:00"), hasShares(25.60), //
                         hasSource("Kauf05.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1201.50), hasGrossValue("EUR", 1200.00), //
@@ -258,7 +259,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2019-11-07T11:11:56"), hasShares(10.00), //
+                        hasDate("2016-01-27T00:00"), hasBookingDate("2019-11-07T11:11:56"), hasShares(10.00), //
                         hasSource("Kauf06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1144.20), hasGrossValue("EUR", 1142.60), //
@@ -292,7 +293,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-09-01T08:00:04"), hasShares(3.00), //
+                        hasDate("2021-09-03T00:00"), hasBookingDate("2021-09-01T08:00:04"), hasShares(3.00), //
                         hasSource("Kauf07.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1918.31), hasGrossValue("EUR", 1902.60), //
@@ -326,7 +327,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-01-09T17:14:41"), hasShares(20.00), //
+                        hasDate("2023-01-11T00:00"), hasBookingDate("2023-01-09T17:14:41"), hasShares(20.00), //
                         hasSource("Kauf08.txt"), //
                         hasNote("Auftragsnummer 123456/78.90 | Limit 50,00 CHF"), //
                         hasAmount("EUR", 1014.68), hasGrossValue("EUR", 984.79), //
@@ -362,7 +363,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-01-09T17:14:41"), hasShares(20.00), //
+                        hasDate("2023-01-11T00:00"), hasBookingDate("2023-01-09T17:14:41"), hasShares(20.00), //
                         hasSource("Kauf08.txt"), //
                         hasNote("Auftragsnummer 123456/78.90 | Limit 50,00 CHF"), //
                         hasAmount("EUR", 1014.68), hasGrossValue("EUR", 984.79), //
@@ -404,7 +405,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-31T19:46:30"), hasShares(2300), //
+                        hasDate("2024-02-02T00:00"), hasBookingDate("2024-01-31T19:46:30"), hasShares(2300), //
                         hasSource("Kauf09.txt"), //
                         hasNote("Limit 1,80 USD"), //
                         hasAmount("EUR", 3884.81), hasGrossValue("EUR", 3848.30), //
@@ -440,7 +441,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-01-31T19:46:30"), hasShares(2300), //
+                        hasDate("2024-02-02T00:00"), hasBookingDate("2024-01-31T19:46:30"), hasShares(2300), //
                         hasSource("Kauf09.txt"), //
                         hasNote("Limit 1,80 USD"), //
                         hasAmount("EUR", 3884.81), hasGrossValue("EUR", 3848.30), //
@@ -474,7 +475,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-02-27T19:42:48"), hasShares(2000), //
+                        hasDate("2024-02-29T00:00"), hasBookingDate("2024-02-27T19:42:48"), hasShares(2000), //
                         hasSource("Kauf10.txt"), //
                         hasNote("Auftragsnummer 123456/31.01 | Limit 0,54 USD"), //
                         hasAmount("EUR", 1037.14), hasGrossValue("EUR", 1000.65), //
@@ -510,7 +511,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-02-27T19:42:48"), hasShares(2000), //
+                        hasDate("2024-02-29T00:00"), hasBookingDate("2024-02-27T19:42:48"), hasShares(2000), //
                         hasSource("Kauf10.txt"), //
                         hasNote("Auftragsnummer 123456/31.01 | Limit 0,54 USD"), //
                         hasAmount("EUR", 1037.14), hasGrossValue("EUR", 1000.65), //
@@ -544,7 +545,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2015-10-27T09:05:33"), hasShares(60.00), //
+                        hasDate("2015-10-29T00:00"), hasBookingDate("2015-10-27T09:05:33"), hasShares(60.00), //
                         hasSource("Verkauf01.txt"), //
                         hasNote("Auftragsnummer 495752/36.00 | Limit 85,00 %"), //
                         hasAmount("EUR", 4937.19), hasGrossValue("EUR", 5428.36), //
@@ -586,7 +587,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2016-02-10T10:58:02"), hasShares(200.00), //
+                        hasDate("2016-02-12T00:00"), hasBookingDate("2016-02-10T10:58:02"), hasShares(200.00), //
                         hasSource("Verkauf02.txt"), //
                         hasNote("Auftragsnummer 590966/56.00 | Limit 15,05 EUR"), //
                         hasAmount("EUR", 3000.00), hasGrossValue("EUR", 3010.00), //
@@ -620,7 +621,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-05-06T14:32:46"), hasShares(100.00), //
+                        hasDate("2020-05-08T00:00"), hasBookingDate("2020-05-06T14:32:46"), hasShares(100.00), //
                         hasSource("Verkauf03.txt"), //
                         hasNote("Auftragsnummer 123456/12.34"), //
                         hasAmount("EUR", 4123.12), hasGrossValue("EUR", 4245.50), //
@@ -654,7 +655,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-02-22T20:56:04"), hasShares(20.00), //
+                        hasDate("2021-02-24T00:00"), hasBookingDate("2021-02-22T20:56:04"), hasShares(20.00), //
                         hasSource("Verkauf04.txt"), //
                         hasNote("Auftragsnummer 123456/78.00 | Limit 5,44 EUR"), //
                         hasAmount("EUR", 99.00), hasGrossValue("EUR", 109.00), //
@@ -696,7 +697,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2020-07-09"), hasShares(4.00), //
+                        hasDate("2020-07-09T00:00"), hasBookingDate(null), hasShares(4.00), //
                         hasSource("Verkauf05.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 164.00), hasGrossValue("EUR", 164.00), //
@@ -730,7 +731,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-07-06T14:49:39"), hasShares(75.00), //
+                        hasDate("2021-07-08T00:00"), hasBookingDate("2021-07-06T14:49:39"), hasShares(75.00), //
                         hasSource("Verkauf06.txt"), //
                         hasNote("Limit 27,80 EUR"), //
                         hasAmount("EUR", 2051.02), hasGrossValue("EUR", 2085.00), //
@@ -764,7 +765,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2019-10-07"), hasShares(0.982), //
+                        hasDate("2019-10-09T00:00"), hasBookingDate("2019-10-07T00:00"), hasShares(0.982), //
                         hasSource("Verkauf07.txt"), //
                         hasNote("Auftragsnummer 000000/00.00"), //
                         hasAmount("EUR", 24.69), hasGrossValue("EUR", 24.79), //
@@ -798,7 +799,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2014-07-31"), hasShares(30.00), //
+                        hasDate("2014-07-31T00:00"), hasBookingDate(null), hasShares(30.00), //
                         hasSource("Verkauf08.txt"), //
                         hasNote("Auftragsnummer 9892578200 | Rückzahlungskurs 100 %"), //
                         hasAmount("EUR", 2974.39), hasGrossValue("EUR", 3000.00), //
@@ -832,7 +833,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2016-01-13"), hasShares(20.00), //
+                        hasDate("2016-01-13T00:00"), hasBookingDate(null), hasShares(20.00), //
                         hasSource("Verkauf09.txt"), //
                         hasNote("Auftragsnummer 9796635900 | Rückzahlungskurs 100 %"), //
                         hasAmount("EUR", 1908.39), hasGrossValue("EUR", 2000.00), //
@@ -868,7 +869,7 @@ public class DkbPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionOrderCancellationUnsupported, //
                         sale( //
-                                        hasDate("2016-01-13T00:00"), hasShares(20.00), //
+                                        hasDate("2016-01-13T00:00"), hasBookingDate(null), hasShares(20.00), //
                                         hasSource("Verkauf10.txt"), //
                                         hasNote("Auftragsnummer 9796635950 | Rückzahlungskurs 100 %"), //
                                         hasAmount("EUR", 1908.39), hasGrossValue("EUR", 2000.00), //
@@ -902,7 +903,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2016-01-13"), hasShares(20.00), //
+                        hasDate("2016-01-13T00:00"), hasBookingDate(null), hasShares(20.00), //
                         hasSource("Verkauf11.txt"), //
                         hasNote("Rückzahlungskurs 100 %"), //
                         hasAmount("EUR", 2000.00), hasGrossValue("EUR", 2000.00), //
@@ -936,7 +937,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-09-26T00:00"), hasShares(50.00), //
+                        hasDate("2025-09-26T00:00"), hasBookingDate(null), hasShares(50.00), //
                         hasSource("Verkauf12.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 2390.77), hasGrossValue("EUR", 2400.00), //
@@ -970,7 +971,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-11-18T00:00"), hasShares(50.00), //
+                        hasDate("2025-11-18T00:00"), hasBookingDate(null), hasShares(50.00), //
                         hasSource("Verkauf13.txt"), //
                         hasNote("Auftragsnummer CERZ 9504228500 | Rückzahlungskurs 100 %"), //
                         hasAmount("EUR", 4976.27), hasGrossValue("EUR", 5000.00), //
@@ -1004,7 +1005,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-12-29T10:14:13"), hasShares(547.00), //
+                        hasDate("2025-12-31T00:00"), hasBookingDate("2025-12-29T10:14:13"), hasShares(547.00), //
                         hasSource("Verkauf14.txt"), //
                         hasNote("Auftragsnummer 249453/79.00 | Limit 118,02 USD"), //
                         hasAmount("EUR", 54599.35), hasGrossValue("EUR", 54635.19), //
@@ -1049,7 +1050,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-12-29T10:14:13"), hasShares(547.00), //
+                        hasDate("2025-12-31T00:00"), hasBookingDate("2025-12-29T10:14:13"), hasShares(547.00), //
                         hasSource("Verkauf14.txt"), //
                         hasNote("Auftragsnummer 249453/79.00 | Limit 118,02 USD"), //
                         hasAmount("EUR", 54599.35), hasGrossValue("EUR", 54635.19), //
@@ -1093,7 +1094,7 @@ public class DkbPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionOrderCancellationUnsupported, //
                         purchase( //
-                                        hasDate("2021-01-05"), hasShares(16.3986), //
+                                        hasDate("2021-01-07T00:00"), hasBookingDate("2021-01-05T00:00"), hasShares(16.3986), //
                                         hasSource("VerkaufStorno01.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 1051.50), hasGrossValue("EUR", 1051.50), //
@@ -1127,7 +1128,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2016-01-04"), hasExDate(null), //
+                        hasDate("2016-01-04"), hasBookingDate("2016-01-04"), hasExDate(null), //
                         hasShares(100.00), //
                         hasSource("Dividende01.txt"), //
                         hasNote("Abrechnungsnr. 86525618110"), //
@@ -1162,7 +1163,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2016-04-07"), hasExDate("2016-04-07"), //
+                        hasDate("2016-04-07"), hasBookingDate("2016-04-07"), hasExDate("2016-04-07"), //
                         hasShares(30.00), //
                         hasSource("Dividende02.txt"), //
                         hasNote("Abrechnungsnr. 59717175720"), //
@@ -1197,7 +1198,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2017-12-07"), hasExDate("2017-11-30"), //
+                        hasDate("2017-12-07"), hasBookingDate("2017-12-07"), hasExDate("2017-11-30"), //
                         hasShares(216.00), //
                         hasSource("Dividende03.txt"), //
                         hasNote("Abrechnungsnr. 84033925310"), //
@@ -1232,7 +1233,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2018-05-15"), hasExDate("2018-05-08"), //
+                        hasDate("2018-05-15"), hasBookingDate("2018-05-11"), hasExDate("2018-05-08"), //
                         hasShares(1.00), //
                         hasSource("Dividende04.txt"), //
                         hasNote("Abrechnungsnr. 63136911234"), //
@@ -1269,7 +1270,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2018-05-15"), hasExDate("2018-05-08"), //
+                        hasDate("2018-05-15"), hasBookingDate("2018-05-11"), hasExDate("2018-05-08"), //
                         hasShares(1.00), //
                         hasSource("Dividende04.txt"), //
                         hasNote("Abrechnungsnr. 63136911234"), //
@@ -1311,7 +1312,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2018-06-01"), hasExDate("2018-05-12"), //
+                        hasDate("2018-06-01"), hasBookingDate("2018-06-01"), hasExDate("2018-05-12"), //
                         hasShares(10.00), //
                         hasSource("Dividende05.txt"), //
                         hasNote("Abrechnungsnr. 12345678901"), //
@@ -1346,7 +1347,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2019-01-11"), hasExDate("2018-12-27"), //
+                        hasDate("2019-01-11"), hasBookingDate("2019-01-09"), hasExDate("2018-12-27"), //
                         hasShares(16.3517), //
                         hasSource("Dividende06.txt"), //
                         hasNote("Abrechnungsnr. 11111"), //
@@ -1383,7 +1384,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2019-01-11"), hasExDate("2018-12-27"), //
+                        hasDate("2019-01-11"), hasBookingDate("2019-01-09"), hasExDate("2018-12-27"), //
                         hasShares(16.3517), //
                         hasSource("Dividende06.txt"), //
                         hasNote("Abrechnungsnr. 11111"), //
@@ -1425,7 +1426,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2014-01-02"), hasExDate(null), //
+                        hasDate("2014-01-02"), hasBookingDate("2014-01-02"), hasExDate(null), //
                         hasShares(100.00), //
                         hasSource("Dividende07.txt"), //
                         hasNote("Abrechnungsnr. 86508012450"), //
@@ -1460,7 +1461,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2019-05-20"), hasExDate("2019-05-16"), //
+                        hasDate("2019-05-20"), hasBookingDate("2019-05-20"), hasExDate("2019-05-16"), //
                         hasShares(92.00), //
                         hasSource("Dividende08.txt"), //
                         hasNote("Abrechnungsnr. 63736123456"), //
@@ -1495,7 +1496,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2015-02-23"), hasExDate("2015-01-29"), //
+                        hasDate("2015-02-23"), hasBookingDate("2015-02-19"), hasExDate("2015-01-29"), //
                         hasShares(53.00), //
                         hasSource("Dividende09.txt"), //
                         hasNote("Abrechnungsnr. 8127381273"), //
@@ -1532,7 +1533,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2015-02-23"), hasExDate("2015-01-29"), //
+                        hasDate("2015-02-23"), hasBookingDate("2015-02-19"), hasExDate("2015-01-29"), //
                         hasShares(53.00), //
                         hasSource("Dividende09.txt"), //
                         hasNote("Abrechnungsnr. 8127381273"), //
@@ -1574,7 +1575,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2017-10-04"), hasExDate("2017-09-18"), //
+                        hasDate("2017-10-04"), hasBookingDate("2017-10-02"), hasExDate("2017-09-18"), //
                         hasShares(10.6841), //
                         hasSource("Dividende10.txt"), //
                         hasNote("Abrechnungsnr. 123456789"), //
@@ -1611,7 +1612,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2017-10-04"), hasExDate("2017-09-18"), //
+                        hasDate("2017-10-04"), hasBookingDate("2017-10-02"), hasExDate("2017-09-18"), //
                         hasShares(10.6841), //
                         hasSource("Dividende10.txt"), //
                         hasNote("Abrechnungsnr. 123456789"), //
@@ -1653,7 +1654,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2017-02-20"), hasExDate("2017-02-09"), //
+                        hasDate("2017-02-20"), hasBookingDate("2017-02-16"), hasExDate("2017-02-09"), //
                         hasShares(66.00), //
                         hasSource("Dividende11.txt"), //
                         hasNote("Abrechnungsnr. 123456789 | Quartalsdividende"), //
@@ -1690,7 +1691,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2017-02-20"), hasExDate("2017-02-09"), //
+                        hasDate("2017-02-20"), hasBookingDate("2017-02-16"), hasExDate("2017-02-09"), //
                         hasShares(66.00), //
                         hasSource("Dividende11.txt"), //
                         hasNote("Abrechnungsnr. 123456789 | Quartalsdividende"), //
@@ -1732,7 +1733,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2019-07-01"), hasExDate("2019-03-27"), //
+                        hasDate("2019-07-01"), hasBookingDate("2019-06-27"), hasExDate("2019-03-27"), //
                         hasShares(715.00), //
                         hasSource("Dividende12.txt"), //
                         hasNote("Abrechnungsnr. 111111111 | Schlussdividende"), //
@@ -1769,7 +1770,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2019-07-01"), hasExDate("2019-03-27"), //
+                        hasDate("2019-07-01"), hasBookingDate("2019-06-27"), hasExDate("2019-03-27"), //
                         hasShares(715.00), //
                         hasSource("Dividende12.txt"), //
                         hasNote("Abrechnungsnr. 111111111 | Schlussdividende"), //
@@ -1811,7 +1812,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2015-10-13"), hasExDate("2015-09-10"), //
+                        hasDate("2015-10-13"), hasBookingDate("2015-10-09"), hasExDate("2015-09-10"), //
                         hasShares(450.00), //
                         hasSource("Dividende13.txt"), //
                         hasNote("Abrechnungsnr. 12345678901 | Zwischendividende"), //
@@ -1848,7 +1849,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2015-10-13"), hasExDate("2015-09-10"), //
+                        hasDate("2015-10-13"), hasBookingDate("2015-10-09"), hasExDate("2015-09-10"), //
                         hasShares(450.00), //
                         hasSource("Dividende13.txt"), //
                         hasNote("Abrechnungsnr. 12345678901 | Zwischendividende"), //
@@ -1890,7 +1891,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-03-05"), hasExDate("2021-02-18"), //
+                        hasDate("2021-03-05"), hasBookingDate("2021-03-03"), hasExDate("2021-02-18"), //
                         hasShares(935.00), //
                         hasSource("Dividende14.txt"), //
                         hasNote("Abrechnungsnr. 12345678901"), //
@@ -1927,7 +1928,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-03-05"), hasExDate("2021-02-18"), //
+                        hasDate("2021-03-05"), hasBookingDate("2021-03-03"), hasExDate("2021-02-18"), //
                         hasShares(935.00), //
                         hasSource("Dividende14.txt"), //
                         hasNote("Abrechnungsnr. 12345678901"), //
@@ -1969,7 +1970,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2018-05-15"), hasExDate("2018-05-08"), //
+                        hasDate("2018-05-15"), hasBookingDate("2018-05-11"), hasExDate("2018-05-08"), //
                         hasShares(1.00), //
                         hasSource("Dividende15.txt"), //
                         hasNote("Abrechnungsnr. 63136911234 | Kapitalrückzahlung"), //
@@ -2006,7 +2007,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2018-05-15"), hasExDate("2018-05-08"), //
+                        hasDate("2018-05-15"), hasBookingDate("2018-05-11"), hasExDate("2018-05-08"), //
                         hasShares(1.00), //
                         hasSource("Dividende15.txt"), //
                         hasNote("Abrechnungsnr. 63136911234 | Kapitalrückzahlung"), //
@@ -2048,7 +2049,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2014-05-14"), hasExDate("2014-05-14"), //
+                        hasDate("2014-05-14"), hasBookingDate("2014-05-14"), hasExDate("2014-05-14"), //
                         hasShares(200.00), //
                         hasSource("Dividende16.txt"), //
                         hasNote("Abrechnungsnr. 63310000000"), //
@@ -2083,7 +2084,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-12-19T00:00"), hasExDate("2023-12-07T00:00"), //
+                        hasDate("2023-12-19T00:00"), hasBookingDate("2023-12-15T00:00"), hasExDate("2023-12-07T00:00"), //
                         hasShares(497.00), //
                         hasSource("Dividende17.txt"), //
                         hasNote("Abrechnungsnr. 85345940130 | Monatliche Dividende"), //
@@ -2120,7 +2121,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-12-19T00:00"), hasExDate("2023-12-07T00:00"), //
+                        hasDate("2023-12-19T00:00"), hasBookingDate("2023-12-15T00:00"), hasExDate("2023-12-07T00:00"), //
                         hasShares(497.00), //
                         hasSource("Dividende17.txt"), //
                         hasNote("Abrechnungsnr. 85345940130 | Monatliche Dividende"), //
@@ -2155,7 +2156,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-10-01T00:00"), hasExDate(null), hasShares(180.00), //
+                        hasDate("2025-10-01T00:00"), hasBookingDate("2025-09-30T00:00"), hasExDate(null), hasShares(180.00), //
                         hasSource("Dividende18.txt"), //
                         hasNote("Abrechnungsnr. 77349248800"), //
                         hasAmount("EUR", 231.64), hasGrossValue("EUR", 314.62), //
@@ -2191,7 +2192,7 @@ public class DkbPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-10-01T00:00"), hasExDate(null), hasShares(180.00), //
+                        hasDate("2025-10-01T00:00"), hasBookingDate("2025-09-30T00:00"), hasExDate(null), hasShares(180.00), //
                         hasSource("Dividende18.txt"), //
                         hasNote("Abrechnungsnr. 77349248800"), //
                         hasAmount("EUR", 231.64), hasGrossValue("EUR", 314.62), //
@@ -2225,7 +2226,7 @@ public class DkbPDFExtractorTest
 
         // check outbound delivery transaction
         assertThat(results, hasItem(outboundDelivery( //
-                        hasDate("2015-11-30"), hasShares(250.00), //
+                        hasDate("2015-11-30"), hasBookingDate("2015-11-30"), hasShares(250.00), //
                         hasSource("WertpapierAusgang01.txt"), //
                         hasNote("Auftragsnummer 489130/67.00 | Depotkonto-Nr. 100235452280"), //
                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -2259,7 +2260,7 @@ public class DkbPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2021-01-06"), hasShares(49.1102), //
+                        hasDate("2021-01-06"), hasBookingDate("2021-01-04"), hasShares(49.1102), //
                         hasSource("Vorabpauschale01.txt"), //
                         hasNote("Abrechnungsnr. 12345678901"), //
                         hasAmount("EUR", 0.08), hasGrossValue("EUR", 0.08), //
@@ -2295,7 +2296,7 @@ public class DkbPDFExtractorTest
         assertThat(results, hasItem(skippedItem( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         taxes( //
-                                        hasDate("2024-01-15T00:00"), hasShares(9.6469), //
+                                        hasDate("2024-01-15T00:00"), hasBookingDate("2024-01-02T00:00"), hasShares(9.6469), //
                                         hasSource("Vorabpauschale02.txt"), //
                                         hasNote("Abrechnungsnr. 123456789"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -2329,7 +2330,7 @@ public class DkbPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2025-01-02T00:00"), hasShares(5.00), //
+                        hasDate("2025-01-02T00:00"), hasBookingDate("2025-01-02T00:00"), hasShares(5.00), //
                         hasSource("Vorabpauschale03.txt"), //
                         hasNote("Abrechnungsnr. 51511993430"), //
                         hasAmount("EUR", 5.28), hasGrossValue("EUR", 5.28), //
@@ -2363,7 +2364,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2018-07-05"), hasShares(2.2394), //
+                        hasDate("2018-07-09T00:00"), hasBookingDate("2018-07-05T00:00"), hasShares(2.2394), //
                         hasSource("Fondssparplan01.txt"), //
                         hasNote("Auftragsnummer 531781/77.00"), //
                         hasAmount("EUR", 90.00), hasGrossValue("EUR", 90.00), //
@@ -2371,7 +2372,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2018-08-06"), hasShares(2.1692), //
+                        hasDate("2018-08-08T00:00"), hasBookingDate("2018-08-06T00:00"), hasShares(2.1692), //
                         hasSource("Fondssparplan01.txt"), //
                         hasNote("Auftragsnummer 548714/63.00"), //
                         hasAmount("EUR", 90.00), hasGrossValue("EUR", 90.00), //
@@ -2379,7 +2380,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2018-09-05"), hasShares(2.3253), //
+                        hasDate("2018-09-07T00:00"), hasBookingDate("2018-09-05T00:00"), hasShares(2.3253), //
                         hasSource("Fondssparplan01.txt"), //
                         hasNote("Auftragsnummer 567153/38.00"), //
                         hasAmount("EUR", 90.00), hasGrossValue("EUR", 90.00), //
@@ -2387,7 +2388,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2018-10-05"), hasShares(2.3496), //
+                        hasDate("2018-10-09T00:00"), hasBookingDate("2018-10-05T00:00"), hasShares(2.3496), //
                         hasSource("Fondssparplan01.txt"), //
                         hasNote("Auftragsnummer 586519/87.00"), //
                         hasAmount("EUR", 90.00), hasGrossValue("EUR", 90.00), //
@@ -2395,7 +2396,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2018-11-05"), hasShares(2.3678), //
+                        hasDate("2018-11-07T00:00"), hasBookingDate("2018-11-05T00:00"), hasShares(2.3678), //
                         hasSource("Fondssparplan01.txt"), //
                         hasNote("Auftragsnummer 605113/36.00"), //
                         hasAmount("EUR", 90.00), hasGrossValue("EUR", 90.00), //
@@ -2403,7 +2404,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2018-12-05"), hasShares(2.316), //
+                        hasDate("2018-12-07T00:00"), hasBookingDate("2018-12-05T00:00"), hasShares(2.316), //
                         hasSource("Fondssparplan01.txt"), //
                         hasNote("Auftragsnummer 626208/11.00"), //
                         hasAmount("EUR", 90.00), hasGrossValue("EUR", 90.00), //
@@ -2439,7 +2440,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-02-20"), hasShares(3.9136), //
+                        hasDate("2020-02-24T00:00"), hasBookingDate("2020-02-20T00:00"), hasShares(3.9136), //
                         hasSource("Fondssparplan02.txt"), //
                         hasNote("Auftragsnummer 256485/46.00"), //
                         hasAmount("EUR", 200.49), hasGrossValue("EUR", 200.00), //
@@ -2447,7 +2448,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-04-20"), hasShares(4.8207), //
+                        hasDate("2020-04-22T00:00"), hasBookingDate("2020-04-20T00:00"), hasShares(4.8207), //
                         hasSource("Fondssparplan02.txt"), //
                         hasNote("Auftragsnummer 342983/71.00"), //
                         hasAmount("EUR", 200.49), hasGrossValue("EUR", 200.00), //
@@ -2455,7 +2456,7 @@ public class DkbPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2020-06-22"), hasShares(4.4425), //
+                        hasDate("2020-06-24T00:00"), hasBookingDate("2020-06-22T00:00"), hasShares(4.4425), //
                         hasSource("Fondssparplan02.txt"), //
                         hasNote("Auftragsnummer 414802/35.00"), //
                         hasAmount("EUR", 200.49), hasGrossValue("EUR", 200.00), //
@@ -2482,43 +2483,43 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-01-06"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-01-06"), hasBookingDate("2021-01-06"), hasAmount("EUR", 1000.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-01-08"), hasAmount("EUR", 20.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-01-08"), hasBookingDate("2021-01-08"), hasAmount("EUR", 20.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-01-28"), hasAmount("EUR", 91.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-01-28"), hasBookingDate("2021-01-28"), hasAmount("EUR", 91.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Dauerauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-01"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-01"), hasBookingDate("2021-02-01"), hasAmount("EUR", 1000.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Dauerauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-01"), hasAmount("EUR", 999.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-01"), hasBookingDate("2021-02-01"), hasAmount("EUR", 999.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Dauerauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-01"), hasAmount("EUR", 43.86), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-01"), hasBookingDate("2021-02-01"), hasAmount("EUR", 43.86), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-01"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-01"), hasBookingDate("2021-02-01"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-01-18"), hasAmount("EUR", 0.01), //
+        assertThat(results, hasItem(deposit(hasDate("2021-01-18"), hasBookingDate("2021-01-18"), hasAmount("EUR", 0.01), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-01-29"), hasAmount("EUR", 1234.56), //
+        assertThat(results, hasItem(deposit(hasDate("2021-01-29"), hasBookingDate("2021-01-29"), hasAmount("EUR", 1234.56), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("Lohn, Gehalt, Rente"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-05-03"), hasAmount("EUR", 105.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-05-03"), hasBookingDate("2021-05-03"), hasAmount("EUR", 105.00), //
                         hasSource("GiroKontoauszug01.txt"), hasNote("sonstige Buchung"))));
     }
 
@@ -2542,20 +2543,20 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2020-12-31"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(removal(hasDate("2020-12-31"), hasBookingDate("2021-01-04"), hasAmount("EUR", 1000.00), //
                         hasSource("GiroKontoauszug02.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-01-04"), hasAmount("EUR", 1000.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-01-04"), hasBookingDate("2021-01-04"), hasAmount("EUR", 1000.00), //
                         hasSource("GiroKontoauszug02.txt"), hasNote("Dauerauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-02-01"), hasAmount("EUR", 1234.56), //
+        assertThat(results, hasItem(deposit(hasDate("2021-02-01"), hasBookingDate("2021-02-01"), hasAmount("EUR", 1234.56), //
                         hasSource("GiroKontoauszug02.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2021-01-29"), hasShares(0.00), //
+                        hasDate("2021-01-29"), hasBookingDate("2021-01-29"), hasShares(0.00), //
                         hasSource("GiroKontoauszug02.txt"), //
                         hasNote("Steuerausgleich"), //
                         hasAmount("EUR", 1.23), hasGrossValue("EUR", 1.23), //
@@ -2582,23 +2583,23 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-11"), hasAmount("EUR", 31.95), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-11"), hasBookingDate("2021-02-11"), hasAmount("EUR", 31.95), //
                         hasSource("GiroKontoauszug03.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-15"), hasAmount("EUR", 69.96), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-15"), hasBookingDate("2021-02-15"), hasAmount("EUR", 69.96), //
                         hasSource("GiroKontoauszug03.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-18"), hasAmount("EUR", 1337.96), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-18"), hasBookingDate("2021-02-18"), hasAmount("EUR", 1337.96), //
                         hasSource("GiroKontoauszug03.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-23"), hasAmount("EUR", 163.80), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-23"), hasBookingDate("2021-02-23"), hasAmount("EUR", 163.80), //
                         hasSource("GiroKontoauszug03.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-02-24"), hasAmount("EUR", 1337.69), //
+        assertThat(results, hasItem(removal(hasDate("2021-02-24"), hasBookingDate("2021-02-24"), hasAmount("EUR", 1337.69), //
                         hasSource("GiroKontoauszug03.txt"), hasNote("Kreditkartenabrechnung"))));
     }
 
@@ -2622,12 +2623,12 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-04-21"), hasAmount("EUR", 3450.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-04-21"), hasBookingDate("2021-04-21"), hasAmount("EUR", 3450.00), //
                         hasSource("GiroKontoauszug04.txt"), hasNote("Bareinzahlung am Geldautomat"))));
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2021-04-23"), //
+                        hasDate("2021-04-23"), hasBookingDate("2021-04-23"), //
                         hasSource("GiroKontoauszug04.txt"), //
                         hasNote("Rechnung Bargeldeinzahlung"), //
                         hasAmount("EUR", 15.00), hasGrossValue("EUR", 15.00), //
@@ -2655,90 +2656,90 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2021-03-31"), //
+                        hasDate("2021-03-31"), hasBookingDate(null), //
                         hasSource("GiroKontoauszug05.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.01.2021 bis 31.03.2021"), //
                         hasAmount("EUR", 0.24), hasGrossValue("EUR", 0.24), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-05"), hasAmount("EUR", 418.50), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-05"), hasBookingDate("2021-03-05"), hasAmount("EUR", 418.50), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-08"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-08"), hasBookingDate("2021-03-08"), hasAmount("EUR", 150.00), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Dauerauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-08"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-08"), hasBookingDate("2021-03-08"), hasAmount("EUR", 200.00), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Dauerauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-10"), hasAmount("EUR", 82.88), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-10"), hasBookingDate("2021-03-10"), hasAmount("EUR", 82.88), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-11"), hasAmount("EUR", 300.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-11"), hasBookingDate("2021-03-11"), hasAmount("EUR", 300.00), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-15"), hasAmount("EUR", 20.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-15"), hasBookingDate("2021-03-15"), hasAmount("EUR", 20.00), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-17"), hasAmount("EUR", 29.70), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-17"), hasBookingDate("2021-03-17"), hasAmount("EUR", 29.70), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-17"), hasAmount("EUR", 42.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-17"), hasBookingDate("2021-03-17"), hasAmount("EUR", 42.00), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-22"), hasAmount("EUR", 32.77), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-22"), hasBookingDate("2021-03-22"), hasAmount("EUR", 32.77), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-24"), hasAmount("EUR", 28.90), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-24"), hasBookingDate("2021-03-24"), hasAmount("EUR", 28.90), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-24"), hasAmount("EUR", 104.21), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-24"), hasBookingDate("2021-03-24"), hasAmount("EUR", 104.21), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Kreditkartenabrechnung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-25"), hasAmount("EUR", 28.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-25"), hasBookingDate("2021-03-25"), hasAmount("EUR", 28.00), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-29"), hasAmount("EUR", 19.54), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-29"), hasBookingDate("2021-03-29"), hasAmount("EUR", 19.54), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-29"), hasAmount("EUR", 30.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-29"), hasBookingDate("2021-03-29"), hasAmount("EUR", 30.00), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-30"), hasAmount("EUR", 92.35), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-30"), hasBookingDate("2021-03-30"), hasAmount("EUR", 92.35), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-30"), hasAmount("EUR", 33.92), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-30"), hasBookingDate("2021-03-30"), hasAmount("EUR", 33.92), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-03-31"), hasAmount("EUR", 39.66), //
+        assertThat(results, hasItem(removal(hasDate("2021-03-31"), hasBookingDate("2021-03-31"), hasAmount("EUR", 39.66), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-04-01"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2021-04-01"), hasBookingDate("2021-04-01"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-04-01"), hasAmount("EUR", 23.56), //
+        assertThat(results, hasItem(removal(hasDate("2021-04-01"), hasBookingDate("2021-04-01"), hasAmount("EUR", 23.56), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-04-01"), hasAmount("EUR", 52.50), //
+        assertThat(results, hasItem(removal(hasDate("2021-04-01"), hasBookingDate("2021-04-01"), hasAmount("EUR", 52.50), //
                         hasSource("GiroKontoauszug05.txt"), hasNote("Basislastschrift"))));
     }
 
@@ -2762,11 +2763,11 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-08"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-08"), hasBookingDate("2021-03-08"), hasAmount("EUR", 150.00), //
                         hasSource("GiroKontoauszug06.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-29"), hasAmount("EUR", 111.11), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-29"), hasBookingDate("2021-03-29"), hasAmount("EUR", 111.11), //
                         hasSource("GiroKontoauszug06.txt"), hasNote("Zahlungseingang"))));
     }
 
@@ -2790,11 +2791,11 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-30"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-30"), hasBookingDate("2021-03-30"), hasAmount("EUR", 100.00), //
                         hasSource("GiroKontoauszug07.txt"), hasNote("Eingang Echtzeitüberweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2021-03-31"), hasAmount("EUR", 1400.00), //
+        assertThat(results, hasItem(deposit(hasDate("2021-03-31"), hasBookingDate("2021-03-31"), hasAmount("EUR", 1400.00), //
                         hasSource("GiroKontoauszug07.txt"), hasNote("Eingang Echtzeitüberweisung"))));
     }
 
@@ -2818,11 +2819,11 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2015-03-02"), hasAmount("EUR", 300.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-03-02"), hasBookingDate("2015-03-02"), hasAmount("EUR", 300.00), //
                         hasSource("GiroKontoauszug08.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2015-02-27"), hasAmount("EUR", 300.00), //
+        assertThat(results, hasItem(deposit(hasDate("2015-02-27"), hasBookingDate("2015-02-27"), hasAmount("EUR", 300.00), //
                         hasSource("GiroKontoauszug08.txt"), hasNote("Zahlungseingang"))));
     }
 
@@ -2847,22 +2848,22 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2015-03-31"), //
+                        hasDate("2015-03-31"), hasBookingDate(null), //
                         hasSource("GiroKontoauszug09.txt"), //
                         hasNote("Abrechnungszeitraum vom 03.02.2015 bis 31.03.2015"), //
                         hasAmount("EUR", 0.01), hasGrossValue("EUR", 0.01), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2015-03-19"), hasAmount("EUR", 300.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-03-19"), hasBookingDate("2015-03-19"), hasAmount("EUR", 300.00), //
                         hasSource("GiroKontoauszug09.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2015-03-31"), hasAmount("EUR", 34.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-03-31"), hasBookingDate("2015-03-31"), hasAmount("EUR", 34.00), //
                         hasSource("GiroKontoauszug09.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2015-03-17"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2015-03-17"), hasBookingDate("2015-03-17"), hasAmount("EUR", 500.00), //
                         hasSource("GiroKontoauszug09.txt"), hasNote("Zahlungseingang"))));
     }
 
@@ -2887,7 +2888,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2015-09-30"), //
+                        hasDate("2015-09-30"), hasBookingDate(null), //
                         hasSource("GiroKontoauszug10.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.07.2015 bis 30.09.2015"), //
                         hasAmount("EUR", 0.03), hasGrossValue("EUR", 0.04), //
@@ -2895,7 +2896,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2015-09-30"), //
+                        hasDate("2015-09-30"), hasBookingDate(null), //
                         hasSource("GiroKontoauszug10.txt"), //
                         hasNote("Zinsen für Dispositionskredit"), //
                         hasAmount("EUR", 0.18), hasGrossValue("EUR", 0.18), //
@@ -2923,7 +2924,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2015-12-30"), //
+                        hasDate("2015-12-30"), hasBookingDate(null), //
                         hasSource("GiroKontoauszug11.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.10.2015 bis 31.12.2015"), //
                         hasAmount("EUR", 0.16), hasGrossValue("EUR", 0.22), //
@@ -2931,7 +2932,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2015-12-30"), //
+                        hasDate("2015-12-30"), hasBookingDate(null), //
                         hasSource("GiroKontoauszug11.txt"), //
                         hasNote("Zinsen für Dispositionskredit"), //
                         hasAmount("EUR", 0.14), hasGrossValue("EUR", 0.14), //
@@ -2959,18 +2960,18 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2015-06-30"), //
+                        hasDate("2015-06-30"), hasBookingDate(null), //
                         hasSource("GiroKontoauszug12.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.04.2015 bis 30.06.2015"), //
                         hasAmount("EUR", 0.14), hasGrossValue("EUR", 0.19), //
                         hasTaxes("EUR", 0.05), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2015-06-11"), hasAmount("EUR", 94.00), //
+        assertThat(results, hasItem(removal(hasDate("2015-06-11"), hasBookingDate("2015-06-11"), hasAmount("EUR", 94.00), //
                         hasSource("GiroKontoauszug12.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2015-07-03"), hasAmount("EUR", 4.25), //
+        assertThat(results, hasItem(removal(hasDate("2015-07-03"), hasBookingDate("2015-07-03"), hasAmount("EUR", 4.25), //
                         hasSource("GiroKontoauszug12.txt"), hasNote("Lastschrift"))));
     }
 
@@ -2995,7 +2996,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2022-01-27"), //
+                        hasDate("2022-01-27"), hasBookingDate("2022-01-27"), //
                         hasSource("GiroKontoauszug13.txt"), //
                         hasNote("Rechnung Rückruf/Nachforschung"), //
                         hasAmount("EUR", 10.00), hasGrossValue("EUR", 10.00), //
@@ -3023,30 +3024,30 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2022-03-31"), //
+                        hasDate("2022-03-31"), hasBookingDate(null), //
                         hasSource("GiroKontoauszug14.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.01.2022 bis 31.03.2022"), //
                         hasAmount("EUR", 0.64), hasGrossValue("EUR", 0.64), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-04-21"), hasAmount("EUR", 161.65), //
+        assertThat(results, hasItem(removal(hasDate("2022-04-21"), hasBookingDate("2022-04-21"), hasAmount("EUR", 161.65), //
                         hasSource("GiroKontoauszug14.txt"), hasNote("Geldautomat (Fremdwährung)"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-04-22"), hasAmount("EUR", 69.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-04-22"), hasBookingDate("2022-04-22"), hasAmount("EUR", 69.00), //
                         hasSource("GiroKontoauszug14.txt"), hasNote("Kartenzahlung online"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-04-25"), hasAmount("EUR", 4.01), //
+        assertThat(results, hasItem(removal(hasDate("2022-04-25"), hasBookingDate("2022-04-25"), hasAmount("EUR", 4.01), //
                         hasSource("GiroKontoauszug14.txt"), hasNote("Kartenzahlung onl FW"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-03-09"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-03-09"), hasBookingDate("2022-03-09"), hasAmount("EUR", 200.00), //
                         hasSource("GiroKontoauszug14.txt"), hasNote("Geldautomat"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-03-28"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-03-28"), hasBookingDate("2022-03-28"), hasAmount("EUR", 100.00), //
                         hasSource("GiroKontoauszug14.txt"), hasNote("Geldautomat"))));
     }
 
@@ -3070,7 +3071,7 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-08-18"), hasAmount("EUR", 13.74), //
+        assertThat(results, hasItem(removal(hasDate("2022-08-18"), hasBookingDate("2022-08-18"), hasAmount("EUR", 13.74), //
                         hasSource("GiroKontoauszug15.txt"), hasNote("Kartenzahlung online"))));
     }
 
@@ -3094,7 +3095,7 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-09-05"), hasAmount("EUR", 15.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-09-05"), hasBookingDate("2022-09-05"), hasAmount("EUR", 15.00), //
                         hasSource("GiroKontoauszug16.txt"), hasNote("Überweisung entgeltfrei"))));
     }
 
@@ -3118,7 +3119,7 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2018-08-01"), hasAmount("EUR", 1.00), //
+        assertThat(results, hasItem(deposit(hasDate("2018-08-01"), hasBookingDate("2018-08-01"), hasAmount("EUR", 1.00), //
                         hasSource("GiroKontoauszug17.txt"), hasNote("Zahlungseingang"))));
     }
 
@@ -3144,7 +3145,7 @@ public class DkbPDFExtractorTest
         // check failure message
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionOrderCancellationUnsupported, //
-                        deposit(hasDate("2022-11-03"), hasAmount("EUR", 26.91), //
+                        deposit(hasDate("2022-11-03"), hasBookingDate("2022-11-04"), hasAmount("EUR", 26.91), //
                                         hasSource("GiroKontoauszug18.txt"), hasNote("Storno Gutschrift")))));
     }
 
@@ -3169,7 +3170,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2018-06-12"), //
+                        hasDate("2018-06-12"), hasBookingDate("2018-06-12"), //
                         hasSource("GiroKontoauszug19.txt"), //
                         hasNote("Buchung Identifikationscode"), //
                         hasAmount("EUR", 0.01), hasGrossValue("EUR", 0.01), //
@@ -3196,15 +3197,15 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2020-03-05"), hasAmount("EUR", 4.80), //
+        assertThat(results, hasItem(removal(hasDate("2020-03-05"), hasBookingDate("2020-03-05"), hasAmount("EUR", 4.80), //
                         hasSource("GiroKontoauszug20.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2020-03-06"), hasAmount("EUR", 24.65), //
+        assertThat(results, hasItem(removal(hasDate("2020-03-06"), hasBookingDate("2020-03-06"), hasAmount("EUR", 24.65), //
                         hasSource("GiroKontoauszug20.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-03-24"), hasAmount("EUR", 1234.56), //
+        assertThat(results, hasItem(deposit(hasDate("2020-03-24"), hasBookingDate("2020-03-24"), hasAmount("EUR", 1234.56), //
                         hasSource("GiroKontoauszug20.txt"), hasNote("Eingang Inst.Paym."))));
     }
 
@@ -3228,11 +3229,11 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2018-06-22"), hasAmount("EUR", 8.97), //
+        assertThat(results, hasItem(removal(hasDate("2018-06-22"), hasBookingDate("2018-06-22"), hasAmount("EUR", 8.97), //
                         hasSource("GiroKontoauszug21.txt"), hasNote("KARTENZAHLUNG"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2018-06-29"), hasAmount("EUR", 4.14), //
+        assertThat(results, hasItem(removal(hasDate("2018-06-29"), hasBookingDate("2018-06-29"), hasAmount("EUR", 4.14), //
                         hasSource("GiroKontoauszug21.txt"), hasNote("KARTENZAHLUNG"))));
     }
 
@@ -3256,48 +3257,48 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-06"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-06"), hasBookingDate("2023-01-06"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-09"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-09"), hasBookingDate("2023-01-09"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-16"), hasAmount("EUR", 4.80), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-16"), hasBookingDate("2023-01-16"), hasAmount("EUR", 4.80), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-18"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-18"), hasBookingDate("2023-01-18"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-23"), hasAmount("EUR", 7.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-23"), hasBookingDate("2023-01-23"), hasAmount("EUR", 7.50), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-26"), hasAmount("EUR", 3.71), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-26"), hasBookingDate("2023-01-26"), hasAmount("EUR", 3.71), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Kartenzahlung (Fremdwährung)"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-30"), hasAmount("EUR", 4.40), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-30"), hasBookingDate("2023-01-30"), hasAmount("EUR", 4.40), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-30"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-30"), hasBookingDate("2023-01-30"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-01-27"), hasAmount("EUR", 201.23), //
+        assertThat(results, hasItem(deposit(hasDate("2023-01-27"), hasBookingDate("2023-01-27"), hasAmount("EUR", 201.23), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-02-01"), hasAmount("EUR", 1600.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-02-01"), hasBookingDate("2023-02-01"), hasAmount("EUR", 1600.00), //
                         hasSource("GiroKontoauszug22.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2023-01-18"), //
+                        hasDate("2023-01-18"), hasBookingDate("2023-01-18"), //
                         hasSource("GiroKontoauszug22.txt"), //
                         hasNote("sonstige Entgelte Girokarte"), //
                         hasAmount("EUR", 11.88), hasGrossValue("EUR", 11.88), //
@@ -3307,7 +3308,7 @@ public class DkbPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionOrderCancellationUnsupported, //
                         feeRefund( //
-                                        hasDate("2023-01-31"), //
+                                        hasDate("2023-01-31"), hasBookingDate("2023-01-31"), //
                                         hasSource("GiroKontoauszug22.txt"), //
                                         hasNote("sonstige Entgelte Stornorechnung"), //
                                         hasAmount("EUR", 10.12), hasGrossValue("EUR", 10.12), //
@@ -3334,184 +3335,184 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-06-26"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-06-26"), hasBookingDate("2023-06-26"), hasAmount("EUR", 500.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-07-04"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-07-04"), hasBookingDate("2023-07-04"), hasAmount("EUR", 500.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-05"), hasAmount("EUR", 288.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-05"), hasBookingDate("2023-06-05"), hasAmount("EUR", 288.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung online"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-05"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-05"), hasBookingDate("2023-06-05"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-05"), hasAmount("EUR", 12.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-05"), hasBookingDate("2023-06-05"), hasAmount("EUR", 12.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-06"), hasAmount("EUR", 9.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-06"), hasBookingDate("2023-06-06"), hasAmount("EUR", 9.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-06"), hasAmount("EUR", 26.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-06"), hasBookingDate("2023-06-06"), hasAmount("EUR", 26.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-07"), hasAmount("EUR", 276.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-07"), hasBookingDate("2023-06-07"), hasAmount("EUR", 276.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung online"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-07"), hasAmount("EUR", 4.34), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-07"), hasBookingDate("2023-06-07"), hasAmount("EUR", 4.34), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-08"), hasAmount("EUR", 7.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-08"), hasBookingDate("2023-06-08"), hasAmount("EUR", 7.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-08"), hasAmount("EUR", 39.90), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-08"), hasBookingDate("2023-06-08"), hasAmount("EUR", 39.90), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-08"), hasAmount("EUR", 33.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-08"), hasBookingDate("2023-06-08"), hasAmount("EUR", 33.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasAmount("EUR", 10.55), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasBookingDate("2023-06-12"), hasAmount("EUR", 10.55), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasAmount("EUR", 9.90), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasBookingDate("2023-06-12"), hasAmount("EUR", 9.90), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung online"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasAmount("EUR", 41.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasBookingDate("2023-06-12"), hasAmount("EUR", 41.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasAmount("EUR", 31.63), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasBookingDate("2023-06-12"), hasAmount("EUR", 31.63), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasAmount("EUR", 93.70), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasBookingDate("2023-06-12"), hasAmount("EUR", 93.70), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasAmount("EUR", 22.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasBookingDate("2023-06-12"), hasAmount("EUR", 22.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasAmount("EUR", 30.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-12"), hasBookingDate("2023-06-12"), hasAmount("EUR", 30.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung online"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-13"), hasAmount("EUR", 29.58), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-13"), hasBookingDate("2023-06-13"), hasAmount("EUR", 29.58), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-14"), hasAmount("EUR", 40.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-14"), hasBookingDate("2023-06-14"), hasAmount("EUR", 40.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-15"), hasAmount("EUR", 51.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-15"), hasBookingDate("2023-06-15"), hasAmount("EUR", 51.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-15"), hasAmount("EUR", 37.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-15"), hasBookingDate("2023-06-15"), hasAmount("EUR", 37.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-16"), hasAmount("EUR", 69.06), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-16"), hasBookingDate("2023-06-16"), hasAmount("EUR", 69.06), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-20"), hasAmount("EUR", 9.80), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-20"), hasBookingDate("2023-06-20"), hasAmount("EUR", 9.80), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-20"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-20"), hasBookingDate("2023-06-20"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-21"), hasAmount("EUR", 46.37), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-21"), hasBookingDate("2023-06-21"), hasAmount("EUR", 46.37), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-21"), hasAmount("EUR", 41.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-21"), hasBookingDate("2023-06-21"), hasAmount("EUR", 41.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-21"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-21"), hasBookingDate("2023-06-21"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-22"), hasAmount("EUR", 14.83), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-22"), hasBookingDate("2023-06-22"), hasAmount("EUR", 14.83), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-22"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-22"), hasBookingDate("2023-06-22"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-23"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-23"), hasBookingDate("2023-06-23"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-26"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-26"), hasBookingDate("2023-06-26"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-27"), hasAmount("EUR", 17.42), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-27"), hasBookingDate("2023-06-27"), hasAmount("EUR", 17.42), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-27"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-27"), hasBookingDate("2023-06-27"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-28"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-28"), hasBookingDate("2023-06-28"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-06-30"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-06-30"), hasBookingDate("2023-06-30"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasAmount("EUR", 1185.90), //
+        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasBookingDate("2023-07-03"), hasAmount("EUR", 1185.90), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasAmount("EUR", 32.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasBookingDate("2023-07-03"), hasAmount("EUR", 32.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasAmount("EUR", 18.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasBookingDate("2023-07-03"), hasAmount("EUR", 18.00), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasBookingDate("2023-07-03"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasAmount("EUR", 52.63), //
+        assertThat(results, hasItem(removal(hasDate("2023-07-03"), hasBookingDate("2023-07-03"), hasAmount("EUR", 52.63), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-07-04"), hasAmount("EUR", 6.25), //
+        assertThat(results, hasItem(removal(hasDate("2023-07-04"), hasBookingDate("2023-07-04"), hasAmount("EUR", 6.25), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-07-04"), hasAmount("EUR", 4.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-07-04"), hasBookingDate("2023-07-04"), hasAmount("EUR", 4.50), //
                         hasSource("GiroKontoauszug23.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2023-07-03"), //
+                        hasDate("2023-07-03"), hasBookingDate("2023-07-03"), //
                         hasSource("GiroKontoauszug23.txt"), //
                         hasNote("Entgelt für Konto ohne mtl. Eingang"), //
                         hasAmount("EUR", 4.50), hasGrossValue("EUR", 4.50), //
@@ -3538,99 +3539,99 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-07"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-07"), hasBookingDate("2023-08-07"), hasAmount("EUR", 200.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Dauerauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-07"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-07"), hasBookingDate("2023-08-07"), hasAmount("EUR", 150.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Dauerauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-07"), hasAmount("EUR", 55.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-07"), hasBookingDate("2023-08-07"), hasAmount("EUR", 55.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-07"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-07"), hasBookingDate("2023-08-07"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-08-07"), hasAmount("EUR", 237.44), //
+        assertThat(results, hasItem(deposit(hasDate("2023-08-07"), hasBookingDate("2023-08-07"), hasAmount("EUR", 237.44), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-14"), hasAmount("EUR", 60.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-14"), hasBookingDate("2023-08-14"), hasAmount("EUR", 60.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-17"), hasAmount("EUR", 76.05), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-17"), hasBookingDate("2023-08-17"), hasAmount("EUR", 76.05), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-17"), hasAmount("EUR", 29.70), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-17"), hasBookingDate("2023-08-17"), hasAmount("EUR", 29.70), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-18"), hasAmount("EUR", 48.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-18"), hasBookingDate("2023-08-18"), hasAmount("EUR", 48.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-18"), hasAmount("EUR", 35.50), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-18"), hasBookingDate("2023-08-18"), hasAmount("EUR", 35.50), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-18"), hasAmount("EUR", 12.75), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-18"), hasBookingDate("2023-08-18"), hasAmount("EUR", 12.75), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-21"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-21"), hasBookingDate("2023-08-21"), hasAmount("EUR", 100.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Geldautomat"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-22"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-22"), hasBookingDate("2023-08-22"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-28"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-28"), hasBookingDate("2023-08-28"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-28"), hasAmount("EUR", 40.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-28"), hasBookingDate("2023-08-28"), hasAmount("EUR", 40.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-29"), hasAmount("EUR", 86.88), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-29"), hasBookingDate("2023-08-29"), hasAmount("EUR", 86.88), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-08-29"), hasAmount("EUR", 800.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-08-29"), hasBookingDate("2023-08-29"), hasAmount("EUR", 800.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-30"), hasAmount("EUR", 9.99), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-30"), hasBookingDate("2023-08-30"), hasAmount("EUR", 9.99), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-08-30"), hasAmount("EUR", 75.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-08-30"), hasBookingDate("2023-08-30"), hasAmount("EUR", 75.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-09-01"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-09-01"), hasBookingDate("2023-09-01"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-09-01"), hasAmount("EUR", 5.99), //
+        assertThat(results, hasItem(removal(hasDate("2023-09-01"), hasBookingDate("2023-09-01"), hasAmount("EUR", 5.99), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-09-04"), hasAmount("EUR", 277.97), //
+        assertThat(results, hasItem(removal(hasDate("2023-09-04"), hasBookingDate("2023-09-04"), hasAmount("EUR", 277.97), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-09-04"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-09-04"), hasBookingDate("2023-09-04"), hasAmount("EUR", 100.00), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Geldautomat"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-09-04"), hasAmount("EUR", 62.70), //
+        assertThat(results, hasItem(removal(hasDate("2023-09-04"), hasBookingDate("2023-09-04"), hasAmount("EUR", 62.70), //
                         hasSource("GiroKontoauszug24.txt"), hasNote("Kartenzahlung"))));
     }
 
@@ -3654,15 +3655,15 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-23"), hasAmount("EUR", 200.90), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-23"), hasBookingDate("2023-08-23"), hasAmount("EUR", 200.90), //
                         hasSource("GiroKontoauszug25.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-08-28"), hasAmount("EUR", 3.93), //
+        assertThat(results, hasItem(removal(hasDate("2023-08-28"), hasBookingDate("2023-08-28"), hasAmount("EUR", 3.93), //
                         hasSource("GiroKontoauszug25.txt"), hasNote("Kartenzahlung (Fremdwährung)"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-09-01"), hasAmount("EUR", 1900.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-09-01"), hasBookingDate("2023-09-01"), hasAmount("EUR", 1900.00), //
                         hasSource("GiroKontoauszug25.txt"), hasNote("Zahlungseingang"))));
     }
 
@@ -3686,32 +3687,32 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-09-05"), hasAmount("EUR", 480.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-09-05"), hasBookingDate("2023-09-05"), hasAmount("EUR", 480.00), //
                         hasSource("GiroKontoauszug26.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-09-05"), hasAmount("EUR", 20.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-09-05"), hasBookingDate("2023-09-05"), hasAmount("EUR", 20.00), //
                         hasSource("GiroKontoauszug26.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-09-06"), hasAmount("EUR", 73.36), //
+        assertThat(results, hasItem(removal(hasDate("2023-09-06"), hasBookingDate("2023-09-06"), hasAmount("EUR", 73.36), //
                         hasSource("GiroKontoauszug26.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-09-06"), hasAmount("EUR", 9999.99), //
+        assertThat(results, hasItem(deposit(hasDate("2023-09-06"), hasBookingDate("2023-09-06"), hasAmount("EUR", 9999.99), //
                         hasSource("GiroKontoauszug26.txt"), hasNote("Lohn, Gehalt, Rente"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-10-04"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-10-03"), hasBookingDate("2023-10-04"), hasAmount("EUR", 150.00), //
                         hasSource("GiroKontoauszug26.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-10-04"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-10-04"), hasBookingDate("2023-10-04"), hasAmount("EUR", 150.00), //
                         hasSource("GiroKontoauszug26.txt"), hasNote("Überweisung"))));
 
         // assert transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2023-10-02"), //
+                        hasDate("2023-10-01"), hasBookingDate("2023-10-02"), //
                         hasSource("GiroKontoauszug26.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.07.2023 bis 30.09.2023"), //
                         hasAmount("EUR", 0.01), hasGrossValue("EUR", 0.01), //
@@ -3739,7 +3740,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2023-06-30"), hasShares(0), //
+                        hasDate("2023-06-30"), hasBookingDate(null), hasShares(0), //
                         hasSource("GiroKontoauszug27.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.04.2023 bis 30.06.2023"), //
                         hasAmount("EUR", 222.74), hasGrossValue("EUR", 302.54), //
@@ -3767,30 +3768,30 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2024-01-15"), //
+                        hasDate("2024-01-13"), hasBookingDate("2024-01-15"), //
                         hasSource("GiroKontoauszug28.txt"), //
                         hasNote("sonstige Entgelte Girokarte"), //
                         hasAmount("EUR", 11.88), hasGrossValue("EUR", 11.88), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-01-16"), hasAmount("EUR", 65.28), //
+        assertThat(results, hasItem(removal(hasDate("2024-01-16"), hasBookingDate("2024-01-16"), hasAmount("EUR", 65.28), //
                         hasSource("GiroKontoauszug28.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-01-17"), hasAmount("EUR", 52.33), //
+        assertThat(results, hasItem(removal(hasDate("2024-01-17"), hasBookingDate("2024-01-17"), hasAmount("EUR", 52.33), //
                         hasSource("GiroKontoauszug28.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-01-24"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-01-24"), hasBookingDate("2024-01-24"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug28.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-01-26"), hasAmount("EUR", 4.75), //
+        assertThat(results, hasItem(removal(hasDate("2024-01-26"), hasBookingDate("2024-01-26"), hasAmount("EUR", 4.75), //
                         hasSource("GiroKontoauszug28.txt"), hasNote("Kartenzahlung (Fremdwährung)"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-02-01"), hasAmount("EUR", 2600.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-02-01"), hasBookingDate("2024-02-01"), hasAmount("EUR", 2600.00), //
                         hasSource("GiroKontoauszug28.txt"), hasNote("Zahlungseingang"))));
     }
 
@@ -3814,32 +3815,32 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-12-09"), hasAmount("EUR", 10.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-12-09"), hasBookingDate("2024-12-09"), hasAmount("EUR", 10.00), //
                         hasSource("GiroKontoauszug29.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-12-09"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-12-09"), hasBookingDate("2024-12-09"), hasAmount("EUR", 500.00), //
                         hasSource("GiroKontoauszug29.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-12-23"), hasAmount("EUR", 390.11), //
+        assertThat(results, hasItem(removal(hasDate("2024-12-23"), hasBookingDate("2024-12-23"), hasAmount("EUR", 390.11), //
                         hasSource("GiroKontoauszug29.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-12-23"), hasAmount("EUR", 400.00), //
+        assertThat(results, hasItem(deposit(hasDate("2024-12-23"), hasBookingDate("2024-12-23"), hasAmount("EUR", 400.00), //
                         hasSource("GiroKontoauszug29.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-12-30"), hasAmount("EUR", 110.82), //
+        assertThat(results, hasItem(removal(hasDate("2024-12-30"), hasBookingDate("2024-12-30"), hasAmount("EUR", 110.82), //
                         hasSource("GiroKontoauszug29.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-12-30"), hasAmount("EUR", 8.70), //
+        assertThat(results, hasItem(removal(hasDate("2024-12-30"), hasBookingDate("2024-12-30"), hasAmount("EUR", 8.70), //
                         hasSource("GiroKontoauszug29.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2024-12-30"), //
+                        hasDate("2025-01-01"), hasBookingDate("2024-12-30"), //
                         hasSource("GiroKontoauszug29.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.10.2024 bis 31.12.2024"), //
                         hasAmount("EUR", 0.07), hasGrossValue("EUR", 0.07), //
@@ -3866,11 +3867,11 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-02-06"), hasAmount("EUR", 460.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-02-06"), hasBookingDate("2025-02-06"), hasAmount("EUR", 460.00), //
                         hasSource("GiroKontoauszug30.txt"), hasNote("Kartenzahlung online"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-02-17"), hasAmount("EUR", 44.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-02-17"), hasBookingDate("2025-02-17"), hasAmount("EUR", 44.00), //
                         hasSource("GiroKontoauszug30.txt"), hasNote("Kartenzahlung"))));
     }
 
@@ -3894,12 +3895,12 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-04-01"), hasAmount("EUR", 5.99), //
+        assertThat(results, hasItem(removal(hasDate("2025-04-01"), hasBookingDate("2025-04-01"), hasAmount("EUR", 5.99), //
                         hasSource("GiroKontoauszug31.txt"), hasNote("Basislastschrift"))));
 
         // assert transaction
         assertThat(results, hasItem(interestCharge( //
-                        hasDate("2025-04-01"), //
+                        hasDate("2025-04-01"), hasBookingDate("2025-04-01"), //
                         hasSource("GiroKontoauszug31.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.01.2025 bis 31.03.2025"), //
                         hasAmount("EUR", 0.04), hasGrossValue("EUR", 0.04), //
@@ -3926,11 +3927,11 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-04-08"), hasAmount("EUR", 13.20), //
+        assertThat(results, hasItem(removal(hasDate("2025-04-07"), hasBookingDate("2025-04-08"), hasAmount("EUR", 13.20), //
                         hasSource("GiroKontoauszug32.txt"), hasNote("Kartenzahlung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-05-02"), hasAmount("EUR", 2000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-05-02"), hasBookingDate("2025-05-02"), hasAmount("EUR", 2000.00), //
                         hasSource("GiroKontoauszug32.txt"), hasNote("Zahlungseingang"))));
     }
 
@@ -3954,31 +3955,31 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-07-07"), hasAmount("EUR", 1.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-07-07"), hasBookingDate("2025-07-07"), hasAmount("EUR", 1.00), //
                         hasSource("GiroKontoauszug33.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-07-10"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-07-10"), hasBookingDate("2025-07-10"), hasAmount("EUR", 200.00), //
                         hasSource("GiroKontoauszug33.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-07-14"), hasAmount("EUR", 65.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-07-14"), hasBookingDate("2025-07-14"), hasAmount("EUR", 65.00), //
                         hasSource("GiroKontoauszug33.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-07-14"), hasAmount("EUR", 65.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-07-12"), hasBookingDate("2025-07-14"), hasAmount("EUR", 65.00), //
                         hasSource("GiroKontoauszug33.txt"), hasNote("Eingang Echtzeitüberweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-08-01"), hasAmount("EUR", 7.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-08-01"), hasBookingDate("2025-08-01"), hasAmount("EUR", 7.00), //
                         hasSource("GiroKontoauszug33.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-08-01"), hasAmount("EUR", 30.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-08-01"), hasBookingDate("2025-08-01"), hasAmount("EUR", 30.00), //
                         hasSource("GiroKontoauszug33.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-08-04"), hasAmount("EUR", 4.99), //
+        assertThat(results, hasItem(removal(hasDate("2025-08-04"), hasBookingDate("2025-08-04"), hasAmount("EUR", 4.99), //
                         hasSource("GiroKontoauszug33.txt"), hasNote("Kartenzahlung"))));
     }
 
@@ -4002,7 +4003,7 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-11-06"), hasAmount("EUR", 50.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-11-06"), hasBookingDate("2025-11-06"), hasAmount("EUR", 50.00), //
                         hasSource("GiroKontoauszug34.txt"), hasNote("Echtzeitüberweisung"))));
     }
 
@@ -4026,7 +4027,7 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-12-22"), hasAmount("EUR", 20.71), //
+        assertThat(results, hasItem(deposit(hasDate("2025-12-22"), hasBookingDate("2025-12-22"), hasAmount("EUR", 20.71), //
                         hasSource("GiroKontoauszug35.txt"), hasNote("Rückbuchung"))));
     }
 
@@ -4051,14 +4052,14 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2026-01-19"), //
+                        hasDate("2026-01-17"), hasBookingDate("2026-01-19"), //
                         hasSource("GiroKontoauszug36.txt"), //
                         hasNote("sonstige Entgelte Girokarte"), //
                         hasAmount("EUR", 11.88), hasGrossValue("EUR", 11.88), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2026-02-02"), hasAmount("EUR", 2400.00), //
+        assertThat(results, hasItem(deposit(hasDate("2026-02-02"), hasBookingDate("2026-02-02"), hasAmount("EUR", 2400.00), //
                         hasSource("GiroKontoauszug36.txt"), hasNote("Zahlungseingang"))));
     }
 
@@ -4082,7 +4083,7 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2026-01-15"), hasAmount("EUR", 4.20), //
+        assertThat(results, hasItem(removal(hasDate("2026-01-15"), hasBookingDate("2026-01-15"), hasAmount("EUR", 4.20), //
                         hasSource("GiroKontoauszug37.txt"), hasNote("Echtzeit-Dauerauftrag"))));
     }
 
@@ -4106,11 +4107,11 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-11-10"), hasAmount("EUR", 1.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-11-10"), hasBookingDate("2025-11-10"), hasAmount("EUR", 1.00), //
                         hasSource("GiroKontoauszug38.txt"), hasNote("Kartenzahlung (Fremdwährung)"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-11-10"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-11-10"), hasBookingDate("2025-11-10"), hasAmount("EUR", 100.00), //
                         hasSource("GiroKontoauszug38.txt"), hasNote("Kartenzahlung online (Fremdwährung)"))));
     }
 
@@ -4135,7 +4136,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2024-07-01"), //
+                        hasDate("2024-07-01"), hasBookingDate("2024-07-01"), //
                         hasSource("TagesgeldKontoauszug01.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.04.2024 bis 30.06.2024"), //
                         hasAmount("EUR", 11.51), hasGrossValue("EUR", 11.51), //
@@ -4162,24 +4163,24 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-06-13"), hasAmount("EUR", 2000.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-06-13"), hasBookingDate("2024-06-13"), hasAmount("EUR", 2000.00), //
                         hasSource("TagesgeldKontoauszug02.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2024-06-26"), hasAmount("EUR", 400.00), //
+        assertThat(results, hasItem(removal(hasDate("2024-06-26"), hasBookingDate("2024-06-26"), hasAmount("EUR", 400.00), //
                         hasSource("TagesgeldKontoauszug02.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-06-27"), hasAmount("EUR", 9180.74), //
+        assertThat(results, hasItem(deposit(hasDate("2024-06-27"), hasBookingDate("2024-06-27"), hasAmount("EUR", 9180.74), //
                         hasSource("TagesgeldKontoauszug02.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2024-07-04"), hasAmount("EUR", 9982.07), //
+        assertThat(results, hasItem(deposit(hasDate("2024-07-04"), hasBookingDate("2024-07-04"), hasAmount("EUR", 9982.07), //
                         hasSource("TagesgeldKontoauszug02.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2024-07-01"), //
+                        hasDate("2024-07-01"), hasBookingDate("2024-07-01"), //
                         hasSource("TagesgeldKontoauszug02.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.04.2024 bis 30.06.2024"), //
                         hasAmount("EUR", 17.93), hasGrossValue("EUR", 17.93), //
@@ -4207,7 +4208,7 @@ public class DkbPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2024-07-01"), hasShares(0), //
+                        hasDate("2024-07-01"), hasBookingDate("2024-07-01"), hasShares(0), //
                         hasSource("TagesgeldKontoauszug03.txt"), //
                         hasNote("Abrechnungszeitraum vom 01.04.2024 bis 30.06.2024"), //
                         hasAmount("EUR", 56.47), hasGrossValue("EUR", 76.70), //
@@ -4234,22 +4235,22 @@ public class DkbPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-01-02"), hasAmount("EUR", 133.51), //
+        assertThat(results, hasItem(removal(hasDate("2025-01-02"), hasBookingDate("2025-01-02"), hasAmount("EUR", 133.51), //
                         hasSource("TagesgeldKontoauszug04.txt"), hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-01-03"), hasAmount("EUR", 406.97), //
+        assertThat(results, hasItem(deposit(hasDate("2024-12-31"), hasBookingDate("2025-01-03"), hasAmount("EUR", 406.97), //
                         hasSource("TagesgeldKontoauszug04.txt"), hasNote("Zahlungseingang"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-01-04"), hasAmount("EUR", 406.99), //
+        assertThat(results, hasItem(removal(hasDate("2025-01-04"), hasBookingDate("2025-01-04"), hasAmount("EUR", 406.99), //
                         hasSource("TagesgeldKontoauszug04.txt"), hasNote("Überweisung"))));
 
         // check failure message
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionOrderCancellationUnsupported, //
                         interest( //
-                                        hasDate("2025-01-05"), //
+                                        hasDate("2025-01-05"), hasBookingDate("2025-01-05"), //
                                         hasSource("TagesgeldKontoauszug04.txt"), //
                                         hasNote("Stornorechnung zur Abrechnung 30.12.2024"), //
                                         hasAmount("EUR", 0.02), hasGrossValue("EUR", 0.02), //

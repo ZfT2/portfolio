@@ -39,6 +39,7 @@ import name.abuchen.portfolio.money.Values;
 public class DkbPDFExtractor extends AbstractPDFExtractor
 {
     private static final String IS_JOINT_ACCOUNT = "isJointAccount";
+    private static final String VALUE_DATE = "valueDate";
 
     BiConsumer<DocumentContext, String[]> isJointAccount = (context, lines) -> {
         var pJointAccount = Pattern.compile("^Anteilige Berechnungsgrundlage f.r \\([\\d]{2},[\\d]{2}[\\s]*%\\).*$");
@@ -221,7 +222,39 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         .match("^Schlusstag(\\/-Zeit)? .* (?<time>[\\d]{2}:[\\d]{2}:[\\d]{2}).*$") //
                         .assign((t, v) -> type.getCurrentContext().put("time", v.get("time"))) //
 
+                        // @formatter:off
+                        // Schlusstag/-Zeit 25.11.2015 11:02:54
+                        // Schlusstag 06.03.2017 Auftraggeber Max Mustermann
+                        // @formatter:on
+                        .section("bookingDate").optional() //
+                        .match("^Schlusstag(\\/-Zeit)? (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                        .assign((t, v) -> {
+                            if (type.getCurrentContext().get("time") != null)
+                                t.setBookingDate(asDate(v.get("bookingDate"), type.getCurrentContext().get("time")));
+                            else
+                                t.setBookingDate(asDate(v.get("bookingDate")));
+                        })
+
                         .oneOf( //
+                                        // @formatter:off
+                                        // Den Gegenwert buchen wir mit Valuta 09.07.2020 zu Gunsten des Kontos 1053412345
+                                        // Den Betrag buchen wir mit Valuta 31.07.2014 zu Gunsten des Kontos 16765097 (IBAN DE30 1203 0000 0026 6741 97),
+                                        // @formatter:on
+                                        section -> section //
+                                                        .attributes("date") //
+                                                        .match("^Den (Gegenwert|Betrag) buchen wir mit Valuta (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                                                        .assign((t, v) -> {
+                                                            // The settlement date (Valuta) is the transaction date
+                                                            // and therefore overrules the trade date.
+                                                            t.setDate(asDate(v.get("date")));
+                                                        }),
+                                        // @formatter:off
+                                        // Fälligkeitstag 26.09.2025
+                                        // @formatter:on
+                                        section -> section //
+                                                        .attributes("date") //
+                                                        .match("^F.lligkeitstag (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                                                        .assign((t, v) -> t.setDate(asDate(v.get("date")))),
                                         // @formatter:off
                                         // Schlusstag 06.03.2017 Auftraggeber Max Mustermann
                                         // @formatter:on
@@ -233,22 +266,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                                                                 t.setDate(asDate(v.get("date"), type.getCurrentContext().get("time")));
                                                             else
                                                                 t.setDate(asDate(v.get("date")));
-                                                        }),
-                                        // @formatter:off
-                                        // Den Gegenwert buchen wir mit Valuta 09.07.2020 zu Gunsten des Kontos 1053412345
-                                        // Den Betrag buchen wir mit Valuta 31.07.2014 zu Gunsten des Kontos 16765097 (IBAN DE30 1203 0000 0026 6741 97),
-                                        // @formatter:on
-                                        section -> section //
-                                                        .attributes("date") //
-                                                        .match("^Den (Gegenwert|Betrag) buchen wir mit Valuta (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
-                                                        .assign((t, v) -> t.setDate(asDate(v.get("date")))),
-                                        // @formatter:off
-                                        // Fälligkeitstag 26.09.2025
-                                        // @formatter:on
-                                        section -> section //
-                                                        .attributes("date") //
-                                                        .match("^F.lligkeitstag (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
-                                                        .assign((t, v) -> t.setDate(asDate(v.get("date")))))
+                                                        }))
 
                         // @formatter:off
                         // Ausmachender Betrag 4.937,19 EUR
@@ -407,6 +425,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
 
                         // @formatter:off
+                        // Zahlbarkeitstag 04.01.2016 Zinssatz p. a. 7,25 %
+                        // @formatter:on
+                        .section("bookingDate").optional() //
+                        .match("^Zahlbarkeitstag (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                        .assign((t, v) -> t.setBookingDate(asDate(v.get("bookingDate"))))
+
+                        // @formatter:off
                         // Ex-Tag 09.02.2017 Art der Dividende Quartalsdividende
                         // Ex-Tag 07.04.2016
                         // @formatter:on
@@ -517,6 +542,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
 
                         // @formatter:off
+                        // Schlusstag 30.11.2015 Auftrags-Nr. 489130/67.00
+                        // @formatter:on
+                        .section("bookingDate").optional() //
+                        .match("^Schlusstag (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                        .assign((t, v) -> t.setBookingDate(asDate(v.get("bookingDate"))))
+
+                        // @formatter:off
                         // Auftragsnummer 489130/67.00
                         // @formatter:on
                         .section("note").optional() //
@@ -597,6 +629,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                                                         .match("^.* Datum (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
                                                         .assign((t, v) -> t.setDateTime(asDate(v.get("date")))))
 
+                        // @formatter:off
+                        // Zahlbarkeitstag 04.01.2021 Vorabpauschale pro St. 0,037971560 EUR
+                        // @formatter:on
+                        .section("bookingDate").optional() //
+                        .match("^Zahlbarkeitstag (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                        .assign((t, v) -> t.setBookingDate(asDate(v.get("bookingDate"))))
+
                         .oneOf( //
                                         // @formatter:off
                                         // Ausmachender Betrag 0,08- EUR
@@ -670,36 +709,48 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .oneOf( //
                                         // @formatter:off
+                                        // Umsatzart Sparrate in Ordernummer Preis je Stück Devise Anteilsumsatz Schlusstag Valuta Zwischengewinn Steuerausgleich
                                         // Kauf 90,00 531781/77.00 40,1900 1,0000 2,2394 05.07.2018 09.07.2018 0,00 0,00
                                         // + Provision 0,49 Summe 200,49
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("note", "amount", "shares", "date") //
+                                                        .attributes("note", "amount", "shares", "bookingDate", "date") //
                                                         .documentContext("name", "isin", "wkn", "currency") //
-                                                        .match("^Kauf [\\.,\\d]+ (?<note>[\\d]+\\/[\\.\\d]+).* (?<shares>[\\.,\\d]+) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} .*$") //
+                                                        .match("^Kauf [\\.,\\d]+ (?<note>[\\d]+\\/[\\.\\d]+).* (?<shares>[\\.,\\d]+) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .*$") //
                                                         .match("^\\+ Provision [\\.,\\d]+ Summe (?<amount>[\\.,\\d]+)$") //
                                                         .assign((t, v) -> {
                                                             t.setSecurity(getOrCreateSecurity(v));
                                                             t.setShares(asShares(v.get("shares")));
+
+                                                            // The settlement date (Valuta) is the transaction date
+                                                            // and therefore overrules the trade date.
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
+
                                                             t.setNote("Auftragsnummer " + trim(v.get("note")));
 
                                                             t.setCurrencyCode(v.get("currency"));
                                                             t.setAmount(asAmount(v.get("amount")));
                                                         }),
                                         // @formatter:off
+                                        // Umsatzart Sparrate in Ordernummer Preis je Stück Devise Anteilsumsatz Schlusstag Valuta Zwischengewinn Steuerausgleich
                                         // Kauf 90,00 531781/77.00 40,1900
                                         // 1,0000 2,2394 05.07.2018 09.07.2018
                                         // 0,00 0,00
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("note", "amount", "shares", "date") //
+                                                        .attributes("note", "amount", "shares", "bookingDate", "date") //
                                                         .documentContext("name", "isin", "wkn", "currency") //
-                                                        .match("^Kauf (?<amount>[\\.,\\d]+) (?<note>[\\d]+\\/[\\.\\d]+).* (?<shares>[\\.,\\d]+) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} .*$") //
+                                                        .match("^Kauf (?<amount>[\\.,\\d]+) (?<note>[\\d]+\\/[\\.\\d]+).* (?<shares>[\\.,\\d]+) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) .*$") //
                                                         .assign((t, v) -> {
                                                             t.setSecurity(getOrCreateSecurity(v));
                                                             t.setShares(asShares(v.get("shares")));
+
+                                                            // The settlement date (Valuta) is the transaction date
+                                                            // and therefore overrules the trade date.
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
+
                                                             t.setNote("Auftragsnummer " + trim(v.get("note")));
 
                                                             t.setCurrencyCode(v.get("currency"));
@@ -857,9 +908,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("month1", "day", "month2", "note", "amount") //
+                        // @formatter:off
+                        // Bu.Tag Wert Wir haben für Sie gebucht Belastung in EUR Gutschrift in EUR
+                        // 04.01. 31.12. Überweisung 1.000,00
+                        // @formatter:on
+                        .section("day1", "month1", "day", "month2", "note", "amount") //
                         .documentContext("toMonth", "toYear", "currency") //
-                        .match("^(?i)[\\d]{2}\\.(?<month1>[\\d]{2})\\. (?<day>[\\d]{2})\\.(?<month2>[\\d]{2})\\. " //
+                        .match("^(?i)(?<day1>[\\d]{2})\\.(?<month1>[\\d]{2})\\. (?<day>[\\d]{2})\\.(?<month2>[\\d]{2})\\. " //
                                         + "(?<note>(.berweisung" //
                                         + "|Dauerauftrag" //
                                         + "|Basislastschrift" //
@@ -915,9 +970,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("month1", "day", "month2", "note", "amount") //
+                        // @formatter:off
+                        // Bu.Tag Wert Wir haben für Sie gebucht Belastung in EUR Gutschrift in EUR
+                        // 03.05. 03.05. sonstige Buchung 105,00
+                        // @formatter:on
+                        .section("day1", "month1", "day", "month2", "note", "amount") //
                         .documentContext("toMonth", "toYear", "currency") //
-                        .match("^(?i)[\\d]{2}\\.(?<month1>[\\d]{2})\\. (?<day>[\\d]{2})\\.(?<month2>[\\d]{2})\\. " //
+                        .match("^(?i)(?<day1>[\\d]{2})\\.(?<month1>[\\d]{2})\\. (?<day>[\\d]{2})\\.(?<month2>[\\d]{2})\\. " //
                                         + "(?<note>(Lohn, Gehalt, Rente" //
                                         + "|Zahlungseingang" //
                                         + "|Storno Gutschrift" //
@@ -954,9 +1013,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.TAX_REFUND))
 
-                        .section("month1", "day", "month2", "note", "amount") //
+                        // @formatter:off
+                        // Bu.Tag Wert Wir haben für Sie gebucht Belastung in EUR Gutschrift in EUR
+                        // 29.01. 29.01. 1234567890 Steuerausgleich 1,23
+                        // @formatter:on
+                        .section("day1", "month1", "day", "month2", "note", "amount") //
                         .documentContext("toMonth", "toYear", "currency") //
-                        .match("^(?i)[\\d]{2}\\.(?<month1>[\\d]{2})\\. (?<day>[\\d]{2})\\.(?<month2>[\\d]{2})\\. [\\d]+ " //
+                        .match("^(?i)(?<day1>[\\d]{2})\\.(?<month1>[\\d]{2})\\. (?<day>[\\d]{2})\\.(?<month2>[\\d]{2})\\. [\\d]+ " //
                                         + "(?<note>Steuerausgleich) " //
                                         + "(?<amount>[\\.,\\d]+)$") //
                         .assign((t, v) -> {
@@ -979,9 +1042,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES))
 
-                        .section("month1", "day", "month2", "note1", "amount", "note2") //
+                        // @formatter:off
+                        // Bu.Tag Wert Wir haben für Sie gebucht Belastung in EUR Gutschrift in EUR
+                        // 12.06. 12.06. BUCHUNG 0,01
+                        // @formatter:on
+                        .section("day1", "month1", "day", "month2", "note1", "amount", "note2") //
                         .documentContext("toMonth", "toYear", "currency") //
-                        .match("^(?i)[\\d]{2}\\.(?<month1>[\\d]{2})\\. (?<day>[\\d]{2})\\.(?<month2>[\\d]{2})\\. " //
+                        .match("^(?i)(?<day1>[\\d]{2})\\.(?<month1>[\\d]{2})\\. (?<day>[\\d]{2})\\.(?<month2>[\\d]{2})\\. " //
                                         + "(?<note1>(Rechnung" //
                                         + "|Buchung" //
                                         + "|sonstige Entgelte)) " //
@@ -1038,9 +1105,21 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                                         // 01.07.2024 Abrechnung 28.06.2024
                                         //  01.04.2025 Abrechnung 31.03.2025                -0,04
                                         // @formatter:on
-                                        .section("date").optional() //
-                                        .match("^(?<date>[\\d\\s]{1,4}\\.[\\d]{2}\\.[\\d]{4}) Abrechnung [\\d]{2}\\.[\\d]{2}\\.[\\d]{4}.*") //
-                                        .assign((ctx, v) -> ctx.put("date", stripBlanks(v.get("date")))));
+                                        .optionalOneOf( //
+                                                        section -> section //
+                                                                        .attributes("date", "bookingDate") //
+                                                                        .match("^(?<bookingDate>[\\d\\s]{1,4}\\.[\\d]{2}\\.[\\d]{4}) Abrechnung [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} / Wert: (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*") //
+                                                                        .assign((ctx, v) -> {
+                                                                            ctx.put("date", stripBlanks(v.get("date")));
+                                                                            ctx.put("bookingDate", stripBlanks(v.get("bookingDate")));
+                                                                        }),
+                                                        section -> section //
+                                                                        .attributes("date") //
+                                                                        .match("^(?<date>[\\d\\s]{1,4}\\.[\\d]{2}\\.[\\d]{4}) Abrechnung [\\d]{2}\\.[\\d]{2}\\.[\\d]{4}.*") //
+                                                                        .assign((ctx, v) -> {
+                                                                            ctx.put("date", stripBlanks(v.get("date")));
+                                                                            ctx.put("bookingDate", stripBlanks(v.get("date")));
+                                                                        })));
 
         this.addDocumentTyp(type);
 
@@ -1050,6 +1129,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
         depositRemovalBlock_Format01.set(new Transaction<AccountTransaction>()
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
+
+                        // @formatter:off
+                        // 04.10.2023 Zahlungseingang / Wert: 03.10.2023
+                        // @formatter:on
+                        .section("valueDate").optional() //
+                        .match("^.*\\/ Wert: (?<valueDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                        .assign((t, v) -> v.getTransactionContext().putString(VALUE_DATE, v.get("valueDate")))
 
                         .section("type", "amount", "date", "note").optional() //
                         .documentContext("currency") //
@@ -1082,7 +1168,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                             if ("-".equals(trim(v.get("type"))))
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
-                            t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            dateTransactionHelper_Format02(t, v);
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
 
@@ -1148,6 +1234,13 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
+                        // @formatter:off
+                        // 08.04.2025 Kartenzahlung / Wert: 07.04.2025               -13,20
+                        // @formatter:on
+                        .section("valueDate").optional() //
+                        .match("^.*\\/ Wert: (?<valueDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                        .assign((t, v) -> v.getTransactionContext().putString(VALUE_DATE, v.get("valueDate")))
+
                         .section("date", "note", "type", "amount").optional() //
                         .documentContext("currency") //
                         .match("^(?<date>[\\d\\s]{1,4}\\.[\\d]{2}\\.[\\d]{4}) " //
@@ -1182,7 +1275,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                             if ("-".equals(trim(v.get("type"))))
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
-                            t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            dateTransactionHelper_Format02(t, v);
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
 
@@ -1302,7 +1395,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                             if ("-".equals(trim(v.get("type"))))
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
-                            t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            dateTransactionHelper_Format02(t, v);
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
 
@@ -1360,6 +1453,15 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES_REFUND))
 
+                        // @formatter:off
+                        //              -11,88
+                        // 15.01.2024 sonstige Entgelte / Wert: 13.01.2024
+                        // Rechnung DEUTSCHE KREDITBANK AG Entgelt Girokarte
+                        // @formatter:on
+                        .section("valueDate").optional() //
+                        .match("^.*\\/ Wert: (?<valueDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                        .assign((t, v) -> v.getTransactionContext().putString(VALUE_DATE, v.get("valueDate")))
+
                         .section("type", "amount", "date", "note1", "note2").optional() //
                         .documentContext("currency") //
                         .match("^[\\s]+(?<type>[\\-\\s])(?<amount>[\\.,\\d]+)$") //
@@ -1381,7 +1483,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                             if ("-".equals(trim(v.get("type"))))
                                 t.setType(AccountTransaction.Type.FEES);
 
-                            t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            dateTransactionHelper_Format02(t, v);
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(v.get("note1") + " " + v.get("note2"));
@@ -1419,6 +1521,14 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES_REFUND))
 
+                        // @formatter:off
+                        // 19.01.2026 sonstige Entgelte / Wert: 17.01.2026               -11,88
+                        // Rechnung DEUTSCHE KREDITBANK AG Entgelt Girokarte
+                        // @formatter:on
+                        .section("valueDate").optional() //
+                        .match("^.*\\/ Wert: (?<valueDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
+                        .assign((t, v) -> v.getTransactionContext().putString(VALUE_DATE, v.get("valueDate")))
+
                         .section("date", "note1", "type", "amount", "note2").optional() //
                         .documentContext("currency") //
                         .match("^(?<date>[\\d\\s]{1,4}\\.[\\d]{2}\\.[\\d]{4}) " //
@@ -1440,7 +1550,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                             if ("-".equals(trim(v.get("type"))))
                                 t.setType(AccountTransaction.Type.FEES);
 
-                            t.setDateTime(asDate(stripBlanks(v.get("date"))));
+                            dateTransactionHelper_Format02(t, v);
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(v.get("note1") + " " + v.get("note2"));
@@ -1483,7 +1593,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST))
 
                         .section("note", "amount", "type").optional() //
-                        .documentContext("currency", "date") //
+                        .documentContext("currency", "date", "bookingDate") //
                         .match("^(?<note>Abrechnungszeitraum vom [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} bis [\\d]{2}\\.[\\d]{2}\\.[\\d]{4})$") //
                         .match("^Zinsen f.r (einger.umte Konto.berziehung|Guthaben) [\\s]*(?<amount>[\\.,\\d]+)(?<type>([\\-|\\+]))$") //
                         .assign((t, v) -> {
@@ -1494,6 +1604,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.INTEREST_CHARGE);
 
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(v.get("note"));
@@ -1562,6 +1673,7 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
                         .match("^(?<note>Stornorechnung.*) Erstattung.*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("date")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setNote(v.get("note"));
@@ -2069,15 +2181,20 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
      * lies more than six months before, it belongs to the following year. Otherwise the year of the end date
      * is used. The final date is set using "day", "month2" and the determined year.
      *
+     * The first date column holds the booking date ("Bu.Tag"), the second one the value date ("Wert"). The
+     * booking date is set accordingly using "day1", "month1" and the year derived for the booking month.
+     *
      * @param t The AccountTransaction object to set the date for.
-     * @param v The ParsedData object containing the date information. It should provide "day", "month2",
-     *            "toMonth" and "toYear".
+     * @param v The ParsedData object containing the date information. It should provide "day1", "month1",
+     *            "day", "month2", "toMonth" and "toYear".
      */
     private void dateTranactionHelper(AccountTransaction t, ParsedData v)
     {
-        var month = Integer.parseInt(v.get("month2"));
         var toMonth = Integer.parseInt(v.get("toMonth"));
-        var year = Integer.parseInt(v.get("toYear"));
+        var toYear = Integer.parseInt(v.get("toYear"));
+
+        var month = Integer.parseInt(v.get("month2"));
+        var year = toYear;
 
         if (month - toMonth > 6)
             year--;
@@ -2085,5 +2202,36 @@ public class DkbPDFExtractor extends AbstractPDFExtractor
             year++;
 
         t.setDateTime(asDate(v.get("day") + "." + v.get("month2") + "." + year));
+
+        var bookingMonth = Integer.parseInt(v.get("month1"));
+        var bookingYear = toYear;
+
+        if (bookingMonth - toMonth > 6)
+            bookingYear--;
+        else if (toMonth - bookingMonth > 6)
+            bookingYear++;
+
+        t.setBookingDate(asDate(v.get("day1") + "." + v.get("month1") + "." + bookingYear));
+    }
+
+    /**
+     * Helper method to set the dates of an AccountTransaction based on the provided ParsedData.
+     *
+     * The bookings of the new account statement format contain the booking date in the first column ("Datum"). If
+     * the value date ("Wert") of the booking differs from the booking date, it is appended to the description of the
+     * booking ("/ Wert: dd.MM.yyyy") and provided in the transaction context. The value date is used as transaction
+     * date, the booking date is set additionally.
+     *
+     * @param t The AccountTransaction object to set the dates for.
+     * @param v The ParsedData object containing the date information. It should provide "date" (booking date) and
+     *            the value date (if available) in the transaction context.
+     */
+    private void dateTransactionHelper_Format02(AccountTransaction t, ParsedData v)
+    {
+        var bookingDate = asDate(stripBlanks(v.get("date")));
+        var valueDate = v.getTransactionContext().getString(VALUE_DATE);
+
+        t.setBookingDate(bookingDate);
+        t.setDateTime(valueDate != null ? asDate(valueDate) : bookingDate);
     }
 }
