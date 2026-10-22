@@ -65,14 +65,18 @@ public class NordaxBankABPDFExtractor extends AbstractPDFExtractor
                                                         }),
                                         //
                                         // @formatter:off
+                                        // Buchungsda Valutadatu Beschreibung Zahlungseinga Zahlungsausga
+                                        // tum m ng ng
+                                        //
                                         // 31.12.2024 01.01.2025 Interest 24,40
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "amount") //
+                                                        .attributes("bookingDate", "date", "amount") //
                                                         .documentContext("currency") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Interest (?<amount>[\\.,\\d]+)$") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Interest (?<amount>[\\.,\\d]+)$") //
                                                         .assign((t, v) -> {
                                                             t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
                                                             t.setCurrencyCode(v.get("currency"));
                                                             t.setAmount(asAmount(v.get("amount")));
                                                         })
@@ -102,6 +106,9 @@ public class NordaxBankABPDFExtractor extends AbstractPDFExtractor
                         .wrap(t -> new AccountTransferItem(t, true)));
 
         // @formatter:off
+        // Buchungsda Valutadatu Beschreibung Zahlungseinga Zahlungsausga
+        // tum m ng ng
+        //
         // 03.11.2025 03.11.2025 Zahlung an 2.000,00
         // 10.12.2024 10.12.2024 Bezahlung von 12.000,00
         // @formatter:on
@@ -112,9 +119,9 @@ public class NordaxBankABPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "type", "amount") //
+                        .section("bookingDate", "date", "type", "amount") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<type>(Zahlung an|Bezahlung von)) (?<amount>[\\.,\\d]+)$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<type>(Zahlung an|Bezahlung von)) (?<amount>[\\.,\\d]+)$") //
                         .assign((t, v) -> {
                             // @formatter:off
                             // When "Zahlung an" change from DEPOSIT to REMOVAL
@@ -123,6 +130,7 @@ public class NordaxBankABPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.REMOVAL);
 
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(v.get("currency"));
                             t.setAmount(asAmount(v.get("amount")));
                         })
