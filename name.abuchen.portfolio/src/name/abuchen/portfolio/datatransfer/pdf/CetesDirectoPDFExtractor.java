@@ -77,7 +77,10 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
     private void addBuySellTransaction()
     {
         final var type = new DocumentType("Movimientos del per", (context, lines) -> { //
-            var pTaxAmountTransaction = Pattern.compile("^(?<date>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) [\\d]{2}\\/[\\d]{2}\\/[\\d]{2} (?<wkn>[A-Z]{3}[0-9]{9})ISR.* (?<tax>[\\.,\\d]+)$");
+            // @formatter:off
+            // 06/01/22 06/01/22 SVD147779466ISR CETES 220106 0 3.70 0.00 6.20
+            // @formatter:on
+            var pTaxAmountTransaction = Pattern.compile("^(?<bookingDate>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) [\\d]{2}\\/[\\d]{2}\\/[\\d]{2} (?<wkn>[A-Z]{3}[0-9]{9})ISR.* (?<tax>[\\.,\\d]+)$");
 
             var taxAmountTransactionHelper = new TaxAmountTransactionHelper();
             context.putType(taxAmountTransactionHelper);
@@ -89,7 +92,7 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
                 {
                     var item = new TaxAmountTransactionItem();
                     item.line = i + 1;
-                    item.dateTime = asDate(m.group("date"), AdditionalLocales.MEXICO);
+                    item.bookingDate = asDate(m.group("bookingDate"), AdditionalLocales.MEXICO);
                     item.wkn = m.group("wkn");
                     item.tax = asAmount(m.group("tax"));
                     item.currency = asCurrencyCode(MXN);
@@ -126,9 +129,9 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
                                         // 04/01/22 06/01/22 SVD147529623COMPRA CETES 220203 6,080 9.95730000 2 5.51 60,540.38 0.00 -60,540.10
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "wkn", "name", "name1", "shares", "note1", "note2", "amount") //
-                                                        .match("^(?<date>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) " //
-                                                                        + "[\\d]{2}\\/[\\d]{2}\\/[\\d]{2} " //
+                                                        .attributes("bookingDate", "date", "wkn", "name", "name1", "shares", "note1", "note2", "amount") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) " //
+                                                                        + "(?<date>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) " //
                                                                         + "(?<wkn>[A-Z]{3}[0-9]{9})" //
                                                                         + "COMPRA " //
                                                                         + "(?<name>.*) " //
@@ -144,6 +147,7 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), AdditionalLocales.MEXICO));
+                                                            t.setBookingDate(asDate(v.get("bookingDate"), AdditionalLocales.MEXICO));
                                                             t.setShares(asShares(v.get("shares")));
                                                             t.setCurrencyCode(asCurrencyCode(MXN));
                                                             t.setAmount(asAmount(v.get("amount")));
@@ -153,9 +157,9 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
                                         // 06/01/22 06/01/22 SVD147779466AMORTIZACION CETES 220106 6,055 0 0.00 60,550.00 9.90
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date", "wkn", "name", "name1", "shares", "amount") //
-                                                        .match("^(?<date>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) " //
-                                                                        + "[\\d]{2}\\/[\\d]{2}\\/[\\d]{2} " //
+                                                        .attributes("bookingDate", "date", "wkn", "name", "name1", "shares", "amount") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) " //
+                                                                        + "(?<date>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) " //
                                                                         + "(?<wkn>[A-Z]{3}[0-9]{9})" //
                                                                         + "AMORTIZACION " //
                                                                         + "(?<name>.*) " + "(?<name1>.*) " //
@@ -172,11 +176,12 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
                                                             t.setSecurity(getOrCreateSecurity(v));
 
                                                             t.setDate(asDate(v.get("date"), AdditionalLocales.MEXICO));
+                                                            t.setBookingDate(asDate(v.get("bookingDate"), AdditionalLocales.MEXICO));
                                                             t.setShares(asShares(v.get("shares")));
                                                             t.setMonetaryAmount(amount);
 
                                                             var taxAmountTransactionHelper = context.getType(TaxAmountTransactionHelper.class).orElseGet(TaxAmountTransactionHelper::new);
-                                                            var item = taxAmountTransactionHelper.findItem(v.getStartLineNumber(), t.getPortfolioTransaction().getDateTime(), t.getPortfolioTransaction().getSecurity().getWkn());
+                                                            var item = taxAmountTransactionHelper.findItem(v.getStartLineNumber(), t.getPortfolioTransaction().getBookingDate(), t.getPortfolioTransaction().getSecurity().getWkn());
 
                                                             if (item.isPresent())
                                                             {
@@ -208,8 +213,8 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
                         // @formatter:off
                         // 06/01/22 06/01/22 SVD148097667COMPSI BONDDIA PF2 3 1.57377100 0 0.00 4.72 0.00 1.48
                         // @formatter:on
-                        .section("date", "wkn", "name", "name1", "shares", "amount") //
-                        .match("^[\\d]{2}\\/[\\d]{2}\\/[\\d]{2} " //
+                        .section("bookingDate", "date", "wkn", "name", "name1", "shares", "amount") //
+                        .match("^(?<bookingDate>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) " //
                                         + "(?<date>[\\d]{2}\\/[\\d]{2}\\/[\\d]{2}) " //
                                         + "(?<wkn>[A-Z]{3}[0-9]{9})" //
                                         + "COMPSI " //
@@ -224,6 +229,7 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
                             t.setSecurity(getOrCreateSecurity(v));
 
                             t.setDateTime(asDate(v.get("date"), AdditionalLocales.MEXICO));
+                            t.setBookingDate(asDate(v.get("bookingDate"), AdditionalLocales.MEXICO));
                             t.setShares(asShares(v.get("shares")));
                             t.setCurrencyCode(asCurrencyCode(MXN));
                             t.setAmount(asAmount(v.get("amount")));
@@ -236,14 +242,14 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
     {
         private List<TaxAmountTransactionItem> items = new ArrayList<>();
 
-        public Optional<TaxAmountTransactionItem> findItem(int line, LocalDateTime dateTime, String wkn)
+        public Optional<TaxAmountTransactionItem> findItem(int line, LocalDateTime bookingDate, String wkn)
         {
             for (TaxAmountTransactionItem item : items)
             {
                 if (item.line < line)
                     continue;
 
-                if (item.dateTime.equals(dateTime) && item.wkn.equals(wkn))
+                if (item.bookingDate.equals(bookingDate) && item.wkn.equals(wkn))
                     return Optional.of(item);
             }
             return Optional.empty();
@@ -254,7 +260,7 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
     {
         int line;
 
-        LocalDateTime dateTime;
+        LocalDateTime bookingDate;
         String wkn;
         String currency;
         long tax;
@@ -262,7 +268,7 @@ public class CetesDirectoPDFExtractor extends AbstractPDFExtractor
         @Override
         public String toString()
         {
-            return "TaxAmountTransactionItem [line=" + line + ", dateTime=" + dateTime + ", wkn=" + wkn + ", currency=" + currency + ", tax=" + tax + "]";
+            return "TaxAmountTransactionItem [line=" + line + ", bookingDate=" + bookingDate + ", wkn=" + wkn + ", currency=" + currency + ", tax=" + tax + "]";
         }
     }
 

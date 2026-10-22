@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.cetesdirecto;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -135,7 +136,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-01-04T00:00"), hasShares(6.080), //
+                        hasDate("2022-01-06T00:00"), hasBookingDate("2022-01-04T00:00"), //
+                        hasShares(6.080), //
                         hasSource("EdoCta01.txt"), //
                         hasNote("Term: 2 | Rate: 5.51"), //
                         hasAmount("MXN", 60540.38), hasGrossValue("MXN", 60540.38), //
@@ -143,7 +145,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-01-06T00:00"), hasShares(6.055), //
+                        hasDate("2022-01-06T00:00"), hasBookingDate("2022-01-06T00:00"), //
+                        hasShares(6.055), //
                         hasSource("EdoCta01.txt"), //
                         hasNote(null), //
                         hasAmount("MXN", 60543.80), hasGrossValue("MXN", 60550.00), //
@@ -151,7 +154,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check dividend transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2022-01-06T00:00"), hasExDate(null), //
+                        hasDate("2022-01-06T00:00"), hasBookingDate("2022-01-06T00:00"), //
+                        hasExDate(null), //
                         hasShares(3.00), //
                         hasSource("EdoCta01.txt"), //
                         hasNote(null), //
@@ -160,7 +164,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-01-11T00:00"), hasShares(21.00), //
+                        hasDate("2022-01-13T00:00"), hasBookingDate("2022-01-11T00:00"), //
+                        hasShares(21.00), //
                         hasSource("EdoCta01.txt"), //
                         hasNote("Term: 2 | Rate: 5.52"), //
                         hasAmount("MXN", 209.10), hasGrossValue("MXN", 209.10), //
@@ -168,7 +173,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-01-13T00:00"), hasShares(21.00), //
+                        hasDate("2022-01-13T00:00"), hasBookingDate("2022-01-13T00:00"), //
+                        hasShares(21.00), //
                         hasSource("EdoCta01.txt"), //
                         hasNote(null), //
                         hasAmount("MXN", 207.63), hasGrossValue("MXN", 210.00), //
@@ -176,7 +182,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check dividend transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2022-01-13T00:00"), hasExDate(null), //
+                        hasDate("2022-01-13T00:00"), hasBookingDate("2022-01-13T00:00"), //
+                        hasExDate(null), //
                         hasShares(1.00), //
                         hasSource("EdoCta01.txt"), //
                         hasNote(null), //
@@ -185,7 +192,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-01-18T00:00"), hasShares(2.872), //
+                        hasDate("2022-01-20T00:00"), hasBookingDate("2022-01-18T00:00"), //
+                        hasShares(2.872), //
                         hasSource("EdoCta01.txt"), //
                         hasNote("Term: 2 | Rate: 5.57"), //
                         hasAmount("MXN", 28596.03), hasGrossValue("MXN", 28596.03), //
@@ -193,7 +201,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-01-20T00:00"), hasShares(2.860), //
+                        hasDate("2022-01-20T00:00"), hasBookingDate("2022-01-20T00:00"), //
+                        hasShares(2.860), //
                         hasSource("EdoCta01.txt"), //
                         hasNote(null), //
                         hasAmount("MXN", 28596.99), hasGrossValue("MXN", 28600.00), //
@@ -201,7 +210,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check dividend transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2022-01-20T00:00"), hasExDate(null), //
+                        hasDate("2022-01-20T00:00"), hasBookingDate("2022-01-20T00:00"), //
+                        hasExDate(null), //
                         hasShares(1.00), //
                         hasSource("EdoCta01.txt"), //
                         hasNote(null), //
@@ -210,7 +220,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2022-01-25T00:00"), hasShares(3.505), //
+                        hasDate("2022-01-27T00:00"), hasBookingDate("2022-01-25T00:00"), //
+                        hasShares(3.505), //
                         hasSource("EdoCta01.txt"), //
                         hasNote("Term: 2 | Rate: 5.50"), //
                         hasAmount("MXN", 34900.61), hasGrossValue("MXN", 34900.61), //
@@ -218,7 +229,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2022-01-27T00:00"), hasShares(3.491), //
+                        hasDate("2022-01-27T00:00"), hasBookingDate("2022-01-27T00:00"), //
+                        hasShares(3.491), //
                         hasSource("EdoCta01.txt"), //
                         hasNote(null), //
                         hasAmount("MXN", 34901.31), hasGrossValue("MXN", 34910.00), //
@@ -226,7 +238,8 @@ public class CetesDirectoPDFExtractorTest
 
         // check dividend transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2022-01-27T00:00"), hasExDate(null), //
+                        hasDate("2022-01-27T00:00"), hasBookingDate("2022-01-27T00:00"), //
+                        hasExDate(null), //
                         hasShares(5.00), //
                         hasSource("EdoCta01.txt"), //
                         hasNote(null), //
