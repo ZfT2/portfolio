@@ -201,10 +201,14 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
                                         // 07.01.2026 08.01.2026 Gutschrift 5,42 EUR 53,928 292,17 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date") //
-                                                        .match("^(?<date>[\\d]{2}\\.[\\w]{2}\\.[\\d]{4}) [\\d]{2}\\.[\\w]{2}\\.[\\d]{4} Gutschrift .*$")
+                                                        .attributes("bookingDate", "date") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\w]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\w]{2}\\.[\\d]{4}) Gutschrift .*$")
                                                         .assign((t, v) -> {
+                                                            // The first date is the booking date (Buchung), the
+                                                            // second date is the value date (Wertstellung) and
+                                                            // used as transaction date.
                                                             t.setDate(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
 
                                                             context.put("date", v.get("date"));
                                                         })
@@ -399,24 +403,33 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
                                         // 03.06.2025 11.06.2025 Krediet 0.90 EUR 2.769834 2.49 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Krediet [\\.,\\d]+ [A-Z]{3} [\\.,\\d]+ [\\.,\\d]+ [A-Z]{3}.*$")
-                                                        .assign((t, v) -> t.setDateTime(asDate(v.get("date")))),
+                                                        .attributes("bookingDate", "date") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Krediet [\\.,\\d]+ [A-Z]{3} [\\.,\\d]+ [\\.,\\d]+ [A-Z]{3}.*$")
+                                                        .assign((t, v) -> {
+                                                            t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
+                                                        }),
                                         // @formatter:off
                                         // 15.01.2025 15.01.2025 Gutschrift 0,12 USD 0,663129 0,08 EUR
                                         // 07.04.2026 08.04.2026 Belastung 0,2695 USD 1,180634 0,27 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (Gutschrift|Belastung) [\\.,\\d]+ [A-Z]{3} [\\.,\\d]+ [\\.,\\d]+ [A-Z]{3}.*$")
-                                                        .assign((t, v) -> t.setDateTime(asDate(v.get("date")))),
+                                                        .attributes("bookingDate", "date") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (Gutschrift|Belastung) [\\.,\\d]+ [A-Z]{3} [\\.,\\d]+ [\\.,\\d]+ [A-Z]{3}.*$")
+                                                        .assign((t, v) -> {
+                                                            t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
+                                                        }),
                                         // @formatter:off
                                         // 27.04.2026 28.04.2026 Credit 0.57 EUR 17 9.69 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Credit [\\.,\\d]+ [A-Z]{3} [\\.,\\d]+ [\\.,\\d]+ [A-Z]{3}.*$")
-                                                        .assign((t, v) -> t.setDateTime(asDate(v.get("date")))))
+                                                        .attributes("bookingDate", "date") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Credit [\\.,\\d]+ [A-Z]{3} [\\.,\\d]+ [\\.,\\d]+ [A-Z]{3}.*$")
+                                                        .assign((t, v) -> {
+                                                            t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
+                                                        }))
 
                         .optionalOneOf(//
                         // @formatter:off
@@ -555,8 +568,8 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "amount", "currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
+                        .section("bookingDate", "date", "note", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note>(.berweisung" //
                                         + "|Lastschrift" //
                                         + "|Neue Einzahlung auf das Geldkonto" //
@@ -564,6 +577,7 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
                                         + "\\+(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})[\\s]*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
@@ -584,13 +598,14 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "note", "amount", "currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
+                        .section("bookingDate", "date", "note", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note>(Prime\\-Abonnementgeb.hr" //
                                         + "|.berweisung)) " //
                                         + "\\-(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})[\\s]*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setNote(v.get("note"));
@@ -686,8 +701,8 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
                         // @formatter:off
                         // 01.07.2025 30.06.2025 Erhaltene Zinsen +56,27 EUR
                         // @formatter:on
-                        .section("date", "type", "amount", "currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
+                        .section("bookingDate", "date", "type", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "Erhaltene Zinsen " //
                                         + "(?<type>[\\-\\+])(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})[\\s]*$") //
                         .assign((t, v) -> {
@@ -696,6 +711,7 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
                                 t.setType(AccountTransaction.Type.INTEREST_CHARGE);
 
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
 
@@ -750,11 +766,12 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST))
 
-                        .section("date", "amount", "currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Vorabpauschale " //
+                        .section("bookingDate", "date", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) Vorabpauschale " //
                                         + "(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3}).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setAmount(asAmount(v.get("amount")));
                         })
@@ -787,7 +804,11 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
                         // @formatter:on
                         .section("date") //
                         .match("^Der Betrag wurde am (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$") //
-                        .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
+                        .assign((t, v) -> {
+                            // The amount was booked on this date.
+                            t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("date")));
+                        })
 
                         // @formatter:off
                         // Gutschrift 3,65 EUR
@@ -858,9 +879,12 @@ public class ScalableCapitalPDFExtractor extends AbstractPDFExtractor
                                         // 24.01.2026 02.01.2026 Tax deduction 596.41 EUR 110.11 EUR
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("date") //
-                                                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (Steuerabbuchung|Tax deduction) .*$") //
-                                                        .assign((t, v) -> t.setDateTime(asDate(v.get("date")))),
+                                                        .attributes("bookingDate", "date") //
+                                                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (Steuerabbuchung|Tax deduction) .*$") //
+                                                        .assign((t, v) -> {
+                                                            t.setDateTime(asDate(v.get("date")));
+                                                            t.setBookingDate(asDate(v.get("bookingDate")));
+                                                        }),
 
                                         // @formatter:off
                                         // Ex-Tag 02.01.2026 Kalenderjahr

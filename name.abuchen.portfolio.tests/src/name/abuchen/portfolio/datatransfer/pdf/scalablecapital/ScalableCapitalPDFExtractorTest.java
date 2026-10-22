@@ -3,6 +3,7 @@ package name.abuchen.portfolio.datatransfer.pdf.scalablecapital;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasExDate;
@@ -79,7 +80,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-12-12T13:12:51"), hasShares(3.00), //
+                        hasDate("2024-12-12T13:12:51"), hasBookingDate(null), hasShares(3.00), //
                         hasSource("Kauf01.txt"), //
                         hasNote("Ord.-Nr.: SCALsin78vS5CYz"), //
                         hasAmount("EUR", 19.49), hasGrossValue("EUR", 18.50), //
@@ -113,7 +114,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-09-05T09:08:10"), hasShares(23.00), //
+                        hasDate("2025-09-05T09:08:10"), hasBookingDate(null), hasShares(23.00), //
                         hasSource("Kauf02.txt"), //
                         hasNote("Ord.-Nr.: SCALXmdTbQ7nMxD"), //
                         hasAmount("EUR", 2.11), hasGrossValue("EUR", 1.12), //
@@ -147,7 +148,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-09-16T13:39:04"), hasShares(4.00), //
+                        hasDate("2025-09-16T13:39:04"), hasBookingDate(null), hasShares(4.00), //
                         hasSource("Kauf03.txt"), //
                         hasNote("Ord.-Nr.: SCALTjDbBMvHgJv"), //
                         hasAmount("EUR", 864.00), hasGrossValue("EUR", 864.00), //
@@ -181,7 +182,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-12-09T13:00:49"), hasShares(0.242), //
+                        hasDate("2025-12-09T13:00:49"), hasBookingDate(null), hasShares(0.242), //
                         hasSource("Kauf04.txt"), //
                         hasNote("Ord.-Nr.: SCW2pFcgwaYpF84pLa3f"), //
                         hasAmount("EUR", 26.19), hasGrossValue("EUR", 26.19), //
@@ -215,7 +216,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-12-30T10:16:29"), hasShares(163.00), //
+                        hasDate("2025-12-30T10:16:29"), hasBookingDate(null), hasShares(163.00), //
                         hasSource("Kauf05.txt"), //
                         hasNote("Ord.-Nr.: SCALJ7ia7RAxG2B"), //
                         hasAmount("EUR", 7807.88), hasGrossValue("EUR", 7806.89), //
@@ -249,7 +250,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-08-12T09:16:57"), hasShares(21.00), //
+                        hasDate("2025-08-12T09:16:57"), hasBookingDate(null), hasShares(21.00), //
                         hasSource("Buy01.txt"), //
                         hasNote("Order ID: SCALkWztnWYGVpk"), //
                         hasAmount("EUR", 4846.74), hasGrossValue("EUR", 4845.75), //
@@ -283,7 +284,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-09-18T21:33:30"), hasShares(50.00), //
+                        hasDate("2025-09-18T21:33:30"), hasBookingDate(null), hasShares(50.00), //
                         hasSource("Buy02.txt"), //
                         hasNote("Order ID: tqnWxZxTmNwP8xJ"), //
                         hasAmount("EUR", 2000.00), hasGrossValue("EUR", 2000.00), //
@@ -317,7 +318,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-03-06T13:02:41"), hasShares(4.00), //
+                        hasDate("2026-03-06T13:02:41"), hasBookingDate(null), hasShares(4.00), //
                         hasSource("Buy03.txt"), //
                         hasNote("Order ID: ZmDcb31E0uXxNxm"), //
                         hasAmount("EUR", 307.67), hasGrossValue("EUR", 306.44), //
@@ -351,7 +352,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-05-07T11:28:30"), hasShares(0.935016), //
+                        hasDate("2025-05-07T11:28:30"), hasBookingDate(null), hasShares(0.935016), //
                         hasSource("Kopen01.txt"), //
                         hasNote("Order-ID: SCALcbFSrNzHRn3"), //
                         hasAmount("EUR", 5.00), hasGrossValue("EUR", 5.00), //
@@ -385,7 +386,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-08-25T11:07:44"), hasShares(1.071122), //
+                        hasDate("2025-08-25T11:07:44"), hasBookingDate(null), hasShares(1.071122), //
                         hasSource("Acquisto01.txt"), //
                         hasNote("ID ordine: tRFkKlxFUnG7LmN"), //
                         hasAmount("EUR", 250.00), hasGrossValue("EUR", 250.00), //
@@ -419,7 +420,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-04-22T11:25:50"), hasShares(1.002416), //
+                        hasDate("2026-04-22T11:25:50"), hasBookingDate(null), hasShares(1.002416), //
                         hasSource("Achat01.txt"), //
                         hasNote("Numéro d'ordre: QwDZ2j74jraGJHW"), //
                         hasAmount("EUR", 78.80), hasGrossValue("EUR", 78.80), //
@@ -453,7 +454,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2024-12-30T13:39:12"), hasShares(1.00), //
+                        hasDate("2024-12-30T13:39:12"), hasBookingDate(null), hasShares(1.00), //
                         hasSource("Verkauf01.txt"), //
                         hasNote("Ord.-Nr.: SCALRnomPwYQrc5"), //
                         hasAmount("EUR", 8.60), hasGrossValue("EUR", 9.59), //
@@ -487,7 +488,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-05-12T09:01:04"), hasShares(200.00), //
+                        hasDate("2025-05-12T09:01:04"), hasBookingDate(null), hasShares(200.00), //
                         hasSource("Verkauf02.txt"), //
                         hasNote("Ord.-Nr.: DbcK99JE4enn0td"), //
                         hasAmount("EUR", 472.00), hasGrossValue("EUR", 472.00), //
@@ -521,7 +522,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-05-12T09:48:14"), hasShares(5.00), //
+                        hasDate("2025-05-12T09:48:14"), hasBookingDate(null), hasShares(5.00), //
                         hasSource("Verkauf03.txt"), //
                         hasNote("Ord.-Nr.: SCALzcysZPDAU8W"), //
                         hasAmount("EUR", 278.65), hasGrossValue("EUR", 278.65), //
@@ -555,7 +556,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-06-13T11:16:30"), hasShares(21.00), //
+                        hasDate("2025-06-13T11:16:30"), hasBookingDate(null), hasShares(21.00), //
                         hasSource("Verkauf04.txt"), //
                         hasNote("Ord.-Nr.: SCAL1SRff6HgHQD"), //
                         hasAmount("EUR", 1125.91), hasGrossValue("EUR", 1176.42), //
@@ -589,7 +590,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2026-01-07T00:00"), hasShares(53.928), //
+                        hasDate("2026-01-08T00:00"), hasBookingDate("2026-01-07"), hasShares(53.928), //
                         hasSource("Verkauf05.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 289.43), hasGrossValue("EUR", 292.17), //
@@ -623,7 +624,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2026-01-14T00:00"), hasShares(1327), //
+                        hasDate("2025-12-31T00:00"), hasBookingDate("2026-01-14"), hasShares(1327), //
                         hasSource("Verkauf06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 1.33), hasGrossValue("EUR", 1.33), //
@@ -657,7 +658,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-12-29T12:38:52"), hasShares(70.00), //
+                        hasDate("2025-12-29T12:38:52"), hasBookingDate(null), hasShares(70.00), //
                         hasSource("Verkauf07.txt"), //
                         hasNote("Ord.-Nr.: RgWCVXnhH0pG3Xr"), //
                         hasAmount("EUR", 10897.60), hasGrossValue("EUR", 10897.60), //
@@ -665,7 +666,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check tax refund transaction
         assertThat(results, hasItem(taxRefund( //
-                        hasDate("2025-12-29T00:00"), hasShares(70.00), //
+                        hasDate("2025-12-29T00:00"), hasBookingDate(null), hasShares(70.00), //
                         hasSource("Verkauf07.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 366.75), hasGrossValue("EUR", 366.75), //
@@ -699,7 +700,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2025-09-18T13:15:54"), hasShares(19.00), //
+                        hasDate("2025-09-18T13:15:54"), hasBookingDate(null), hasShares(19.00), //
                         hasSource("Sell01.txt"), //
                         hasNote("Order ID: vsDaTlnzwGCiNLQ"), //
                         hasAmount("EUR", 14951.10), hasGrossValue("EUR", 14951.10), //
@@ -733,7 +734,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2026-02-12T08:29:36"), hasShares(63.00), //
+                        hasDate("2026-02-12T08:29:36"), hasBookingDate(null), hasShares(63.00), //
                         hasSource("Sell02.txt"), //
                         hasNote("Order ID: SCAL8o2jPH8xFe4"), //
                         hasAmount("EUR", 2095.27), hasGrossValue("EUR", 2121.53), //
@@ -767,7 +768,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-12-27T11:46:01"), hasShares(0.016515), //
+                        hasDate("2024-12-27T11:46:01"), hasBookingDate(null), hasShares(0.016515), //
                         hasSource("Sparplanausfuehrung01.txt"), //
                         hasNote("Ord.-Nr.: SCALx2qhYduKQJf"), //
                         hasAmount("EUR", 2.00), hasGrossValue("EUR", 2.00), //
@@ -801,7 +802,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-05-16T13:33:40"), hasShares(2.166255), //
+                        hasDate("2025-05-16T13:33:40"), hasBookingDate(null), hasShares(2.166255), //
                         hasSource("Sparplanausfuehrung02.txt"), //
                         hasNote("Ord.-Nr.: 000000000000000"), //
                         hasAmount("EUR", 200.00), hasGrossValue("EUR", 200.00), //
@@ -835,7 +836,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-05-16T13:49:30"), hasShares(3.85862), //
+                        hasDate("2025-05-16T13:49:30"), hasBookingDate(null), hasShares(3.85862), //
                         hasSource("Sparplanausfuehrung03.txt"), //
                         hasNote("Ord.-Nr.: 000000000000000"), //
                         hasAmount("EUR", 500.00), hasGrossValue("EUR", 500.00), //
@@ -869,7 +870,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-07-10T16:39:01"), hasShares(0.24321), //
+                        hasDate("2025-07-10T16:39:01"), hasBookingDate(null), hasShares(0.24321), //
                         hasSource("Sparplanausfuehrung04.txt"), //
                         hasNote("Ord.-Nr.: SCALz2xgFkvDZbm"), //
                         hasAmount("EUR", 602.40), hasGrossValue("EUR", 600.00), //
@@ -903,7 +904,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-09-16T11:24:09"), hasShares(13.697504), //
+                        hasDate("2025-09-16T11:24:09"), hasBookingDate(null), hasShares(13.697504), //
                         hasSource("Sparplanausfuehrung05.txt"), //
                         hasNote("Ord.-Nr.: SCALPVvYDWL5iH2"), //
                         hasAmount("EUR", 500.00), hasGrossValue("EUR", 500.00), //
@@ -937,7 +938,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-09-19T13:31:02"), hasShares(0.055472), //
+                        hasDate("2025-09-19T13:31:02"), hasBookingDate(null), hasShares(0.055472), //
                         hasSource("Sparplanausfuehrung06.txt"), //
                         hasNote("Ord.-Nr.: SCALNUFeqbHQBbc"), //
                         hasAmount("EUR", 2.61), hasGrossValue("EUR", 2.61), //
@@ -971,7 +972,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-01-16T11:07:00"), hasShares(0.585137), //
+                        hasDate("2026-01-16T11:07:00"), hasBookingDate(null), hasShares(0.585137), //
                         hasSource("Sparplanausfuehrung07.txt"), //
                         hasNote("Ord.-Nr.: SCALQCpPumUCcUV"), //
                         hasAmount("EUR", 50.00), hasGrossValue("EUR", 50.00), //
@@ -1005,7 +1006,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-01-02T11:53:21"), hasShares(2.99625400), //
+                        hasDate("2026-01-02T11:53:21"), hasBookingDate(null), hasShares(2.99625400), //
                         hasSource("Sparplanausfuehrung08.txt"), //
                         hasNote("Ord.-Nr.: SCALwDS3fsFjX2E"), //
                         hasAmount("EUR", 100.00), hasGrossValue("EUR", 100.00), //
@@ -1039,7 +1040,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-01-16T11:33:02"), hasShares(3.525858), //
+                        hasDate("2026-01-16T11:33:02"), hasBookingDate(null), hasShares(3.525858), //
                         hasSource("Sparplanausfuehrung09.txt"), //
                         hasNote("Ord.-Nr.: SCALfGmqAstsgrF"), //
                         hasAmount("EUR", 404.98), hasGrossValue("EUR", 404.98), //
@@ -1073,7 +1074,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-11-03T11:15:34"), hasShares(10.033444), //
+                        hasDate("2025-11-03T11:15:34"), hasBookingDate(null), hasShares(10.033444), //
                         hasSource("Sparplanausfuehrung10.txt"), //
                         hasNote("Ord.-Nr.: SCALUorEqfzeYUb"), //
                         hasAmount("EUR", 150.00), hasGrossValue("EUR", 150.00), //
@@ -1107,7 +1108,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-11-03T11:17:32"), hasShares(6.293266), //
+                        hasDate("2025-11-03T11:17:32"), hasBookingDate(null), hasShares(6.293266), //
                         hasSource("Sparplanausfuehrung11.txt"), //
                         hasNote("Ord.-Nr.: SCALHGMBev2MRUh"), //
                         hasAmount("EUR", 150.00), hasGrossValue("EUR", 150.00), //
@@ -1141,7 +1142,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-11-03T11:34:56"), hasShares(4.416563), //
+                        hasDate("2025-11-03T11:34:56"), hasBookingDate(null), hasShares(4.416563), //
                         hasSource("Sparplanausfuehrung12.txt"), //
                         hasNote("Ord.-Nr.: SCALFbcxeMLYUbj"), //
                         hasAmount("EUR", 200.00), hasGrossValue("EUR", 200.00), //
@@ -1175,7 +1176,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-01-02T11:50:13"), hasShares(2.142557), //
+                        hasDate("2026-01-02T11:50:13"), hasBookingDate(null), hasShares(2.142557), //
                         hasSource("Sparplanausfuehrung13.txt"), //
                         hasNote("Ord.-Nr.: XXX"), //
                         hasAmount("EUR", 150.00), hasGrossValue("EUR", 150.00), //
@@ -1209,7 +1210,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-01-19T12:02:31"), hasShares(0.886117), //
+                        hasDate("2026-01-19T12:02:31"), hasBookingDate(null), hasShares(0.886117), //
                         hasSource("Sparplanausfuehrung14.txt"), //
                         hasNote("Ord.-Nr.: SCALVwY7XHC1KBb"), //
                         hasAmount("EUR", 32.68), hasGrossValue("EUR", 32.68), //
@@ -1243,7 +1244,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-01-16T11:57:00"), hasShares(0.678058), //
+                        hasDate("2026-01-16T11:57:00"), hasBookingDate(null), hasShares(0.678058), //
                         hasSource("Sparplanausfuehrung15.txt"), //
                         hasNote("Ord.-Nr.: SCALqEQ8at1rFGj"), //
                         hasAmount("EUR", 50.00), hasGrossValue("EUR", 50.00), //
@@ -1277,7 +1278,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2026-01-16T11:31:41"), hasShares(12.213292), //
+                        hasDate("2026-01-16T11:31:41"), hasBookingDate(null), hasShares(12.213292), //
                         hasSource("Sparplanausfuehrung16.txt"), //
                         hasNote("Ord.-Nr.: xuFglxJGCAH3g26"), //
                         hasAmount("EUR", 500.00), hasGrossValue("EUR", 500.00), //
@@ -1311,7 +1312,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-12-16T11:58:49"), hasShares(0.720253), //
+                        hasDate("2025-12-16T11:58:49"), hasBookingDate(null), hasShares(0.720253), //
                         hasSource("Sparplanausfuehrung17.txt"), //
                         hasNote("Ord.-Nr.: SCAL3Vg97fQnDju"), //
                         hasAmount("EUR", 50.00), hasGrossValue("EUR", 50.00), //
@@ -1345,7 +1346,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-05-05T12:25:16"), hasShares(22.650225), //
+                        hasDate("2025-05-05T12:25:16"), hasBookingDate(null), hasShares(22.650225), //
                         hasSource("Savingsplan01.txt"), //
                         hasNote("Order ID: BZzUZDlXBK5mNIc"), //
                         hasAmount("EUR", 2425.00), hasGrossValue("EUR", 2425.00), //
@@ -1379,7 +1380,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-06-05T02:11:02"), hasShares(1.32005), //
+                        hasDate("2025-06-05T02:11:02"), hasBookingDate(null), hasShares(1.32005), //
                         hasSource("Savingsplan02.txt"), //
                         hasNote("Order ID: aYRCKHJ8ZrONSjY"), //
                         hasAmount("EUR", 85.65), hasGrossValue("EUR", 85.65), //
@@ -1413,7 +1414,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-01-15T00:00"), hasExDate("2024-12-31T00:00"), //
+                        hasDate("2025-01-15T00:00"), hasBookingDate("2025-01-15"), hasExDate("2024-12-31T00:00"), //
                         hasShares(0.663129), //
                         hasSource("Dividende01.txt"), //
                         hasNote(null), //
@@ -1449,7 +1450,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-01-15T00:00"), hasExDate("2024-12-31T00:00"), //
+                        hasDate("2025-01-15T00:00"), hasBookingDate("2025-01-15"), hasExDate("2024-12-31T00:00"), //
                         hasShares(0.663129), //
                         hasSource("Dividende01.txt"), //
                         hasNote(null), //
@@ -1484,7 +1485,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-06-17T00:00"), hasExDate("2025-05-15T00:00"), //
+                        hasDate("2025-06-17T00:00"), hasBookingDate("2025-06-16"), hasExDate("2025-05-15T00:00"), //
                         hasShares(0.284285), //
                         hasSource("Dividende02.txt"), //
                         hasNote(null), //
@@ -1520,7 +1521,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-06-17T00:00"), hasExDate("2025-05-15T00:00"), //
+                        hasDate("2025-06-17T00:00"), hasBookingDate("2025-06-16"), hasExDate("2025-05-15T00:00"), //
                         hasShares(0.284285), //
                         hasSource("Dividende02.txt"), //
                         hasNote(null), //
@@ -1555,7 +1556,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-06-23T00:00"), hasExDate("2025-06-19T00:00"), //
+                        hasDate("2025-06-23T00:00"), hasBookingDate("2025-06-18"), hasExDate("2025-06-19T00:00"), //
                         hasShares(3.00), //
                         hasSource("Dividende03.txt"), //
                         hasNote(null), //
@@ -1590,7 +1591,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-17T00:00"), hasExDate("2025-08-28T00:00"), //
+                        hasDate("2025-09-17T00:00"), hasBookingDate("2025-09-16"), hasExDate("2025-08-28T00:00"), //
                         hasShares(1.907523), //
                         hasSource("Dividende04.txt"), //
                         hasNote(null), //
@@ -1626,7 +1627,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-17T00:00"), hasExDate("2025-08-28T00:00"), //
+                        hasDate("2025-09-17T00:00"), hasBookingDate("2025-09-16"), hasExDate("2025-08-28T00:00"), //
                         hasShares(1.907523), //
                         hasSource("Dividende04.txt"), //
                         hasNote(null), //
@@ -1661,7 +1662,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-18T00:00"), hasExDate("2025-08-15T00:00"), //
+                        hasDate("2025-09-18T00:00"), hasBookingDate("2025-09-17"), hasExDate("2025-08-15T00:00"), //
                         hasShares(0.489446), //
                         hasSource("Dividende05.txt"), hasNote(null), //
                         hasAmount("EUR", 0.41), hasGrossValue("EUR", 0.56), //
@@ -1696,7 +1697,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-18T00:00"), hasExDate("2025-08-15T00:00"), //
+                        hasDate("2025-09-18T00:00"), hasBookingDate("2025-09-17"), hasExDate("2025-08-15T00:00"), //
                         hasShares(0.489446), //
                         hasSource("Dividende05.txt"), hasNote(null), //
                         hasAmount("EUR", 0.41), hasGrossValue("EUR", 0.56), //
@@ -1730,7 +1731,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-12T00:00"), hasExDate("2025-09-10T00:00"), //
+                        hasDate("2025-09-12T00:00"), hasBookingDate("2025-09-14"), hasExDate("2025-09-10T00:00"), //
                         hasShares(5.940872), //
                         hasSource("Dividende06.txt"), //
                         hasNote(null), //
@@ -1766,7 +1767,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-09-12T00:00"), hasExDate("2025-09-10T00:00"), //
+                        hasDate("2025-09-12T00:00"), hasBookingDate("2025-09-14"), hasExDate("2025-09-10T00:00"), //
                         hasShares(5.940872), //
                         hasSource("Dividende06.txt"), //
                         hasNote(null), //
@@ -1801,7 +1802,8 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-12-31T00:00"), hasExDate("2025-12-04T00:00"), //
+                        hasDate("2025-12-31T00:00"), hasBookingDate("2026-01-01"), //
+                        hasExDate("2025-12-04T00:00"), //
                         hasShares(20.43685), //
                         hasSource("Dividende07.txt"), //
                         hasNote(null), //
@@ -1836,7 +1838,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2026-01-09T00:00"), hasExDate("2025-12-05T00:00"), //
+                        hasDate("2026-01-09T00:00"), hasBookingDate("2026-01-09"), hasExDate("2025-12-05T00:00"), //
                         hasShares(1.588739), //
                         hasSource("Dividende08.txt"), //
                         hasNote(null), //
@@ -1871,7 +1873,8 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-12-31T00:00"), hasExDate("2025-12-12T00:00"), //
+                        hasDate("2025-12-31T00:00"), hasBookingDate("2026-01-08"), //
+                        hasExDate("2025-12-12T00:00"), //
                         hasShares(6.00), //
                         hasSource("Dividende09.txt"), hasNote(null), //
                         hasAmount("EUR", 3.30), hasGrossValue("EUR", 4.58), //
@@ -1905,7 +1908,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2025-06-11T00:00"), hasExDate("2025-06-04T00:00"), //
+                        hasDate("2025-06-11T00:00"), hasBookingDate("2025-06-03"), hasExDate("2025-06-04T00:00"), //
                         hasShares(2.769834), //
                         hasSource("Dividende10.txt"), //
                         hasNote(null), //
@@ -1940,7 +1943,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2026-03-20T00:00"), hasExDate("2026-03-12T00:00"), //
+                        hasDate("2026-03-20T00:00"), hasBookingDate("2026-03-19"), hasExDate("2026-03-12T00:00"), //
                         hasShares(1200), //
                         hasSource("Dividende11.txt"), //
                         hasNote(null), //
@@ -1975,7 +1978,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2026-04-28T00:00"), hasExDate("2026-04-24T00:00"), //
+                        hasDate("2026-04-28T00:00"), hasBookingDate("2026-04-27"), hasExDate("2026-04-24T00:00"), //
                         hasShares(17), //
                         hasSource("Dividende12.txt"), //
                         hasNote(null), //
@@ -2010,7 +2013,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2026-04-08T00:00"), hasExDate("2025-11-28T00:00"), //
+                        hasDate("2026-04-08T00:00"), hasBookingDate("2026-04-07"), hasExDate("2025-11-28T00:00"), //
                         hasShares(1.776463), //
                         hasSource("ReklassifizierungAusschuettung01.txt"), //
                         hasNote(null), //
@@ -2046,7 +2049,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2026-04-08T00:00"), hasExDate("2025-11-28T00:00"), //
+                        hasDate("2026-04-08T00:00"), hasBookingDate("2026-04-07"), hasExDate("2025-11-28T00:00"), //
                         hasShares(1.776463), //
                         hasSource("ReklassifizierungAusschuettung01.txt"), //
                         hasNote(null), //
@@ -2083,8 +2086,8 @@ public class ScalableCapitalPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionOrderCancellationUnsupported, //
                         dividend( //
-                                        hasDate("2026-04-08T00:00"), hasExDate("2025-10-31T00:00"), //
-                                        hasShares(1.180634), //
+                                        hasDate("2026-04-08T00:00"), hasBookingDate("2026-04-07"), //
+                                        hasExDate("2025-10-31T00:00"), hasShares(1.180634), //
                                         hasSource("ReklassifizierungAusschuettung02.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.34), hasGrossValue("EUR", 0.34), //
@@ -2114,7 +2117,7 @@ public class ScalableCapitalPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         interest( //
-                                        hasDate("2025-03-31T00:00"), hasShares(0.00), //
+                                        hasDate("2025-03-31T00:00"), hasBookingDate(null), hasShares(0.00), //
                                         hasSource("Rechnungsabschluss01.txt"), //
                                         hasNote("01.01.2025 - 31.03.2025"), //
                                         hasAmount("EUR", 13.69), hasGrossValue("EUR", 13.69), //
@@ -2144,7 +2147,7 @@ public class ScalableCapitalPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         interest( //
-                                        hasDate("2025-09-30T00:00"), hasShares(0.00), //
+                                        hasDate("2025-09-30T00:00"), hasBookingDate(null), hasShares(0.00), //
                                         hasSource("Rechnungsabschluss02.txt"), //
                                         hasNote("01.07.2025 - 30.09.2025"), //
                                         hasAmount("EUR", 6.06), hasGrossValue("EUR", 8.41), //
@@ -2174,7 +2177,7 @@ public class ScalableCapitalPDFExtractorTest
         assertThat(results, hasItem(withFailureMessage( //
                         Messages.MsgErrorTransactionAlternativeDocumentRequired, //
                         interest( //
-                                        hasDate("2026-06-30T00:00"), hasShares(0.00), //
+                                        hasDate("2026-06-30T00:00"), hasBookingDate(null), hasShares(0.00), //
                                         hasSource("Rechnungsabschluss03.txt"), //
                                         hasNote("01.04.2026 - 30.06.2026"), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -2202,27 +2205,31 @@ public class ScalableCapitalPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2025-03-31"), //
+                        hasDate("2025-03-31"), hasBookingDate("2025-04-01"), //
                         hasSource("Kontoauszug01.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 13.69), hasGrossValue("EUR", 13.69), //
                         hasTaxes("EUR", 0.00), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-04-04"), hasAmount("EUR", 4.99), //
-                        hasSource("Kontoauszug01.txt"), hasNote("Prime-Abonnementgebühr"))));
+        assertThat(results, hasItem(removal(hasDate("2025-04-04"), hasBookingDate("2025-04-03"), //
+                                hasAmount("EUR", 4.99), hasSource("Kontoauszug01.txt"), //
+                                hasNote("Prime-Abonnementgebühr"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-04-07"), hasAmount("EUR", 29715.63), //
-                        hasSource("Kontoauszug01.txt"), hasNote("Überweisung"))));
+        assertThat(results, hasItem(deposit(hasDate("2025-04-07"), hasBookingDate("2025-04-07"), //
+                                hasAmount("EUR", 29715.63), hasSource("Kontoauszug01.txt"), //
+                                hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-04-09"), hasAmount("EUR", 2000.00), //
-                        hasSource("Kontoauszug01.txt"), hasNote("Überweisung"))));
+        assertThat(results, hasItem(deposit(hasDate("2025-04-09"), hasBookingDate("2025-04-09"), //
+                                hasAmount("EUR", 2000.00), hasSource("Kontoauszug01.txt"), //
+                                hasNote("Überweisung"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-04-14"), hasAmount("EUR", 1200.00), //
-                        hasSource("Kontoauszug01.txt"), hasNote("Überweisung"))));
+        assertThat(results, hasItem(deposit(hasDate("2025-04-14"), hasBookingDate("2025-04-14"), //
+                                hasAmount("EUR", 1200.00), hasSource("Kontoauszug01.txt"), //
+                                hasNote("Überweisung"))));
     }
 
     @Test
@@ -2246,15 +2253,16 @@ public class ScalableCapitalPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2025-06-30"), //
+                        hasDate("2025-06-30"), hasBookingDate("2025-07-01"), //
                         hasSource("Kontoauszug02.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 41.43), hasGrossValue("EUR", 56.27), //
                         hasTaxes("EUR", 0.77 + 14.07), hasFees("EUR", 0.00))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-07-24"), hasAmount("EUR", 11344.57), //
-                        hasSource("Kontoauszug02.txt"), hasNote("Überweisung"))));
+        assertThat(results, hasItem(deposit(hasDate("2025-07-24"), hasBookingDate("2025-07-24"), //
+                                hasAmount("EUR", 11344.57), hasSource("Kontoauszug02.txt"), //
+                                hasNote("Überweisung"))));
     }
 
     @Test
@@ -2277,12 +2285,14 @@ public class ScalableCapitalPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-08-15"), hasAmount("EUR", 558.52), //
-                        hasSource("Kontoauszug03.txt"), hasNote("Lastschrift"))));
+        assertThat(results, hasItem(deposit(hasDate("2025-08-15"), hasBookingDate("2025-08-14"), //
+                                hasAmount("EUR", 558.52), hasSource("Kontoauszug03.txt"), //
+                                hasNote("Lastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-08-27"), hasAmount("EUR", 1000.00), //
-                        hasSource("Kontoauszug03.txt"), hasNote("Lastschrift"))));
+        assertThat(results, hasItem(deposit(hasDate("2025-08-27"), hasBookingDate("2025-08-25"), //
+                                hasAmount("EUR", 1000.00), hasSource("Kontoauszug03.txt"), //
+                                hasNote("Lastschrift"))));
     }
 
     @Test
@@ -2305,16 +2315,18 @@ public class ScalableCapitalPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2026-01-06"), hasAmount("EUR", 1000.00), //
-                        hasSource("Kontoauszug04.txt"), hasNote("Lastschrift"))));
+        assertThat(results, hasItem(deposit(hasDate("2026-01-06"), hasBookingDate("2026-01-05"), //
+                                hasAmount("EUR", 1000.00), hasSource("Kontoauszug04.txt"), //
+                                hasNote("Lastschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2026-01-23"), hasAmount("EUR", 5000.00), //
-                        hasSource("Kontoauszug04.txt"), hasNote("Überweisung"))));
+        assertThat(results, hasItem(deposit(hasDate("2026-01-23"), hasBookingDate("2026-01-23"), //
+                                hasAmount("EUR", 5000.00), hasSource("Kontoauszug04.txt"), //
+                                hasNote("Überweisung"))));
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2025-12-31"), //
+                        hasDate("2025-12-31"), hasBookingDate("2026-01-01"), //
                         hasSource("Kontoauszug04.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 36.28), hasGrossValue("EUR", 50.36), //
@@ -2324,7 +2336,7 @@ public class ScalableCapitalPDFExtractorTest
         assertThat(results, hasItem(skippedItem( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         interest( //
-                                        hasDate("2026-01-02"), //
+                                        hasDate("2026-01-02"), hasBookingDate("2026-01-24"), //
                                         hasSource("Kontoauszug04.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00)))));
@@ -2350,12 +2362,14 @@ public class ScalableCapitalPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2026-08-13"), hasAmount("EUR", 50.00), //
-                        hasSource("Kontoauszug05.txt"), hasNote("Neue Einzahlung auf das Geldkonto"))));
+        assertThat(results, hasItem(deposit(hasDate("2026-08-13"), hasBookingDate("2026-08-13"), //
+                                hasAmount("EUR", 50.00), hasSource("Kontoauszug05.txt"), //
+                                hasNote("Neue Einzahlung auf das Geldkonto"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2026-08-13"), hasAmount("EUR", 50.00), //
-                        hasSource("Kontoauszug05.txt"), hasNote("Überweisung"))));
+        assertThat(results, hasItem(removal(hasDate("2026-08-13"), hasBookingDate("2026-08-13"), //
+                                hasAmount("EUR", 50.00), hasSource("Kontoauszug05.txt"), //
+                                hasNote("Überweisung"))));
     }
 
     @Test
@@ -2379,7 +2393,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2026-03-31"), //
+                        hasDate("2026-03-31"), hasBookingDate("2026-04-01"), //
                         hasSource("Kontoauszug06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 9.53), hasGrossValue("EUR", 12.95), //
@@ -2406,8 +2420,9 @@ public class ScalableCapitalPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-07-04"), hasAmount("EUR", 1300.00), //
-                        hasSource("AccountStatement01.txt"), hasNote("Direct debit"))));
+        assertThat(results, hasItem(deposit(hasDate("2025-07-04"), hasBookingDate("2025-07-03"), //
+                                hasAmount("EUR", 1300.00), hasSource("AccountStatement01.txt"), //
+                                hasNote("Direct debit"))));
     }
 
     @Test
@@ -2430,8 +2445,9 @@ public class ScalableCapitalPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(taxRefund(hasDate("2026-01-10"), hasAmount("EUR", 3.65), //
-                        hasSource("Steuererstattung01.txt"), hasNote(null))));
+        assertThat(results, hasItem(taxRefund(hasDate("2026-01-10"), hasBookingDate("2026-01-10"), //
+                                hasAmount("EUR", 3.65), hasSource("Steuererstattung01.txt"), //
+                                hasNote(null))));
     }
 
     @Test
@@ -2461,7 +2477,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02"), hasShares(1.00), //
+                        hasDate("2026-01-02"), hasBookingDate("2026-01-24"), hasShares(1.00), //
                         hasSource("Vorabpauschale01.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 0.01), hasGrossValue("EUR", 0.01), //
@@ -2495,7 +2511,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02"), hasShares(973.053429), //
+                        hasDate("2026-01-02"), hasBookingDate("2026-01-24"), hasShares(973.053429), //
                         hasSource("Vorabpauschale02.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 4.35), hasGrossValue("EUR", 4.35), //
@@ -2529,7 +2545,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02"), hasShares(997.899037), //
+                        hasDate("2026-01-02"), hasBookingDate("2026-01-24"), hasShares(997.899037), //
                         hasSource("Vorabpauschale03.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 333.50), hasGrossValue("EUR", 333.50), //
@@ -2563,7 +2579,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02"), hasShares(4.090761), //
+                        hasDate("2026-01-02"), hasBookingDate("2026-01-24"), hasShares(4.090761), //
                         hasSource("Vorabpauschale04.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 0.93), hasGrossValue("EUR", 0.93), //
@@ -2599,7 +2615,7 @@ public class ScalableCapitalPDFExtractorTest
         assertThat(results, hasItem(skippedItem( //
                         Messages.MsgErrorTransactionTypeNotSupportedOrRequired, //
                         taxes( //
-                                        hasDate("2026-01-02"), hasShares(430), //
+                                        hasDate("2026-01-02"), hasBookingDate(null), hasShares(430), //
                                         hasSource("Vorabpauschale05.txt"), //
                                         hasNote(null), //
                                         hasAmount("EUR", 0.00), hasGrossValue("EUR", 0.00), //
@@ -2633,7 +2649,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02"), hasShares(42.319), //
+                        hasDate("2026-01-02"), hasBookingDate("2026-01-24"), hasShares(42.319), //
                         hasSource("Vorabpauschale06.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 14.33), hasGrossValue("EUR", 14.33), //
@@ -2667,7 +2683,7 @@ public class ScalableCapitalPDFExtractorTest
 
         // check taxes transaction
         assertThat(results, hasItem(taxes( //
-                        hasDate("2026-01-02"), hasShares(613), //
+                        hasDate("2026-01-02"), hasBookingDate("2026-01-24"), hasShares(613), //
                         hasSource("PreliminaryLumpSum01.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 110.11), hasGrossValue("EUR", 110.11), //
