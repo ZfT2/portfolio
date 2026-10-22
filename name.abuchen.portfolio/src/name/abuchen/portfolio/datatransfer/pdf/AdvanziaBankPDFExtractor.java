@@ -71,11 +71,12 @@ public class AdvanziaBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST))
 
-                        .section("date", "amount") //
+                        .section("date", "bookingDate", "amount") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) ZINSERTRAG (?<amount>[\\.\\d]+,[\\d]{2}).*$") //
+                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) ZINSERTRAG (?<amount>[\\.\\d]+,[\\d]{2}).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                         })
@@ -111,11 +112,12 @@ public class AdvanziaBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "amount") //
+                        .section("date", "bookingDate", "amount") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) EINZAHLUNG (?<amount>[\\.\\d]+,[\\d]{2}).*$") //
+                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) EINZAHLUNG (?<amount>[\\.\\d]+,[\\d]{2}).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                         })
@@ -151,11 +153,12 @@ public class AdvanziaBankPDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "amount") //
+                        .section("date", "bookingDate", "amount") //
                         .documentContext("currency") //
-                        .match("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) AUSZAHLUNG \\-(?<amount>[\\.\\d]+,[\\d]{2}).*$") //
+                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) AUSZAHLUNG \\-(?<amount>[\\.\\d]+,[\\d]{2}).*$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                         })

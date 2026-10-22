@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.advanziabank;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasGrossValue;
@@ -151,20 +152,23 @@ public class AdvanziaBankPDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-07-04"), hasAmount("EUR", 190.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-07-03"), hasBookingDate("2025-07-04"), //
+                        hasAmount("EUR", 190.00), //
                         hasSource("Kontoauszug03.txt"), hasNote(null))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2025-07-04"), hasAmount("EUR", 562.00), //
+        assertThat(results, hasItem(deposit(hasDate("2025-07-03"), hasBookingDate("2025-07-04"), //
+                        hasAmount("EUR", 562.00), //
                         hasSource("Kontoauszug03.txt"), hasNote(null))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2025-07-28"), hasAmount("EUR", 340.00), //
+        assertThat(results, hasItem(removal(hasDate("2025-07-28"), hasBookingDate("2025-07-28"), //
+                        hasAmount("EUR", 340.00), //
                         hasSource("Kontoauszug03.txt"), hasNote(null))));
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2025-07-31"), //
+                        hasDate("2025-07-31"), hasBookingDate("2025-07-31"), //
                         hasSource("Kontoauszug03.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 123.66), hasGrossValue("EUR", 123.66), //
