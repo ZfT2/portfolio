@@ -5,6 +5,7 @@ import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.dividend;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.fee;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasCurrencyCode;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
@@ -90,7 +91,8 @@ public class EbasePDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-07-26T00:00"), hasShares(180), //
+                        hasDate("2021-07-26T00:00"), hasBookingDate(null), //
+                        hasShares(180), //
                         hasSource("Dividende01.txt"), //
                         hasNote("Abrechnungsnr. 70418365490"), //
                         hasAmount("EUR", 84.05), hasGrossValue("EUR", 102.47), //
@@ -126,7 +128,8 @@ public class EbasePDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2021-07-26T00:00"), hasShares(180), //
+                        hasDate("2021-07-26T00:00"), hasBookingDate(null), //
+                        hasShares(180), //
                         hasSource("Dividende01.txt"), //
                         hasNote("Abrechnungsnr. 70418365490"), //
                         hasAmount("EUR", 84.05), hasGrossValue("EUR", 102.47), //
@@ -192,6 +195,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2019-11-21T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2019-11-21T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(12.729132)));
         assertThat(entry.getSource(), is("Umsatzabrechnung01.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX"));
@@ -217,6 +221,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-01-13T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-01-13T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(199.500000)));
         assertThat(entry.getSource(), is("Umsatzabrechnung01.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX"));
@@ -238,6 +243,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(PortfolioTransaction.Type.DELIVERY_INBOUND));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2019-09-30T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2019-09-30T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(10)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung01.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX"));
@@ -297,6 +303,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2019-11-21T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2019-11-21T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(12.729132)));
         assertThat(entry.getSource(), is("Umsatzabrechnung01.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX"));
@@ -318,6 +325,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-01-13T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-01-13T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(199.500000)));
         assertThat(entry.getSource(), is("Umsatzabrechnung01.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX"));
@@ -339,6 +347,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(PortfolioTransaction.Type.DELIVERY_INBOUND));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2019-09-30T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2019-09-30T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(10)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung01.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX"));
@@ -401,6 +410,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-01-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-01-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.705860)));
         assertThat(entry.getSource(), is("Umsatzabrechnung02.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX"));
@@ -422,6 +432,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-01-20T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-01-20T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.005395)));
         assertThat(entry.getSource(), is("Umsatzabrechnung02.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX | Wiederanlage Fondsertrag"));
@@ -441,6 +452,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.TAXES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-01-24T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2020-01-24T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung02.txt"));
         assertThat(transaction.getNote(),
@@ -497,6 +509,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-01-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-01-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.001162)));
         assertThat(entry.getSource(), is("Umsatzabrechnung03.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX | Verkauf wegen Vorabpauschale"));
@@ -517,6 +530,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2019-10-22T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2019-10-22T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.705860)));
         assertThat(entry.getSource(), is("Umsatzabrechnung03.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXXX/XXXXXXXX | vermögenswirksame Leistungen"));
@@ -537,6 +551,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2019-10-16T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2019-10-16T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(1)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung03.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: XXXXXXXXX/XXXXXXXXX"));
@@ -600,6 +615,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-01-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-01-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.001162)));
         assertThat(entry.getSource(), is("Umsatzabrechnung03.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX | Verkauf wegen Vorabpauschale"));
@@ -620,6 +636,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2019-10-22T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2019-10-22T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.705860)));
         assertThat(entry.getSource(), is("Umsatzabrechnung03.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXXX/XXXXXXXX | vermögenswirksame Leistungen"));
@@ -640,6 +657,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2019-10-16T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2019-10-16T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(1)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung03.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: XXXXXXXXX/XXXXXXXXX"));
@@ -693,6 +711,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-01-02T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2020-01-02T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(7.332986)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung04.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: XXXXXXXX/XXXXXXXX"));
@@ -739,6 +758,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2017-05-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2017-05-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.122649)));
         assertThat(entry.getSource(), is("Umsatzabrechnung05.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 111111111/11111111 | vermögenswirksame Leistungen"));
@@ -760,6 +780,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2017-12-22T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2017-12-22T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.100548)));
         assertThat(entry.getSource(), is("Umsatzabrechnung05.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 111111111/11111111 | Entgelt Verkauf"));
@@ -780,6 +801,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2017-12-22T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2017-12-22T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0.100548)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung05.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 111111111/11111111 | Depotführungsentgelt"));
@@ -826,6 +848,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2016-06-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2016-06-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(60)));
         assertThat(entry.getSource(), is("Umsatzabrechnung06.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXXX/XXXXXXXX"));
@@ -883,6 +906,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-07-30T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2020-07-30T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(37.327232)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung07.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: XXXXXXXXXX/XXXXXXXXXX"));
@@ -900,6 +924,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-08-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-08-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.278245)));
         assertThat(entry.getSource(), is("Umsatzabrechnung07.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXXXX/XXXXXXXXXX | Wiederanlage Fondsertrag"));
@@ -950,6 +975,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-10-29T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-10-29T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.551798)));
         assertThat(entry.getSource(), is("Umsatzabrechnung08.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400011237/29102020 | vermögenswirksame Leistungen"));
@@ -971,6 +997,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.409391)));
         assertThat(entry.getSource(), is("Umsatzabrechnung08.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400011151/27112020"));
@@ -992,6 +1019,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-23T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-23T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.414447)));
         assertThat(entry.getSource(), is("Umsatzabrechnung08.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450088642/11122020 | Entgelt Verkauf"));
@@ -1013,6 +1041,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-23T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-23T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.382295)));
         assertThat(entry.getSource(), is("Umsatzabrechnung08.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006407/23122020 | vermögenswirksame Leistungen"));
@@ -1033,6 +1062,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-12-23T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2020-12-23T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0.414447)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung08.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 450088642/11122020 | Depotführungsentgelt"));
@@ -1086,6 +1116,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2019-11-28T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2019-11-28T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(12)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung09.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: XXXXXXXXXX/XXXXXXXXXX"));
@@ -1103,6 +1134,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2019-12-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2019-12-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.200653)));
         assertThat(entry.getSource(), is("Umsatzabrechnung09.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXXXXXXXX/XXXXXXXXXX | Wiederanlage Fondsertrag"));
@@ -1152,6 +1184,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-10-19T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-10-19T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.703198)));
         assertThat(entry.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxx/16102020 | vermögenswirksame Leistungen"));
@@ -1177,6 +1210,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-17T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-17T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.678808)));
         assertThat(entry.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxx/16112020"));
@@ -1202,6 +1236,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-17T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-17T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.674710)));
         assertThat(entry.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxx/16122020"));
@@ -1227,6 +1262,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-23T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-23T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.167976)));
         assertThat(entry.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxx/11122020 | Entgelt Verkauf"));
@@ -1250,6 +1286,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-12-23T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2020-12-23T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0.167976)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: xxx/11122020 | VL-Vertragsentgelt"));
@@ -1293,6 +1330,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-10-19T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-10-19T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.703198)));
         assertThat(entry.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxx/16102020 | vermögenswirksame Leistungen"));
@@ -1314,6 +1352,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-17T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-17T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.678808)));
         assertThat(entry.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxx/16112020"));
@@ -1335,6 +1374,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-17T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-17T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.674710)));
         assertThat(entry.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxx/16122020"));
@@ -1356,6 +1396,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-23T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-23T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.167976)));
         assertThat(entry.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxx/11122020 | Entgelt Verkauf"));
@@ -1375,6 +1416,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-12-23T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2020-12-23T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0.167976)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung10.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: xxx/11122020 | VL-Vertragsentgelt"));
@@ -1421,6 +1463,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(9.999999)));
         assertThat(entry.getSource(), is("Umsatzabrechnung11.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000000000/000000000 | Entgeltbelastung Verkauf"));
@@ -1440,6 +1483,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(9.999999)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung11.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000000000/000000000 | Depotführungsentgelt"));
@@ -1486,6 +1530,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2022-01-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2022-01-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.047085)));
         assertThat(entry.getSource(), is("Umsatzabrechnung12.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 987654321/03012022 | vermögenswirksame Leistungen"));
@@ -1506,6 +1551,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2022-01-07T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2022-01-07T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.022249)));
         assertThat(entry.getSource(), is("Umsatzabrechnung12.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 987654323/06012022 | Entgeltbelastung Verkauf"));
@@ -1525,6 +1571,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2022-01-07T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2022-01-07T00:00")));
         assertThat(transaction.getSource(), is("Umsatzabrechnung12.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 987654323/06012022 | Depotführungsentgelt"));
 
@@ -1570,6 +1617,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-07-05T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-07-05T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.024859)));
         assertThat(entry.getSource(), is("Umsatzabrechnung13.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 123456789/123456789 | Entgeltbelastung Verkauf"));
@@ -1589,6 +1637,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-07-05T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-07-05T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0.024859)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung13.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 123456789/123456789 | Depotführungsentgelt"));
@@ -1635,6 +1684,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-07-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-07-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1234.1234)));
         assertThat(entry.getSource(), is("Umsatzabrechnung14.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 123456789/123456789 | vermögenswirksame Leistungen"));
@@ -1741,6 +1791,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.138927)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021"));
@@ -1762,6 +1813,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.879612)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021"));
@@ -1787,6 +1839,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.510346)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021"));
@@ -1808,6 +1861,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.221967)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021"));
@@ -1833,6 +1887,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.048774)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -1854,6 +1909,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.483285)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -1875,6 +1931,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.869440)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/03052021 | vermögenswirksame Leistungen"));
@@ -1896,6 +1953,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.142698)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -1917,6 +1975,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.865179)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -1938,6 +1997,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.529988)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -1959,6 +2019,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.223201)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -1980,6 +2041,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.047562)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2001,6 +2063,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.475691)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2022,6 +2085,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.576541)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2043,6 +2107,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.939015)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021 | vermögenswirksame Leistungen"));
@@ -2064,6 +2129,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.146836)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/28052021"));
@@ -2085,6 +2151,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.881525)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2106,6 +2173,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.229964)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2126,6 +2194,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-06-14T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-06-14T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0.049184)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/14062021"));
@@ -2222,6 +2291,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.138927)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021"));
@@ -2243,6 +2313,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.879612)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021"));
@@ -2264,6 +2335,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.510346)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021"));
@@ -2285,6 +2357,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-06T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-06T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.221967)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021"));
@@ -2306,6 +2379,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.048774)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -2327,6 +2401,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.483285)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -2348,6 +2423,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.869440)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/03052021 | vermögenswirksame Leistungen"));
@@ -2369,6 +2445,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.142698)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -2390,6 +2467,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.865179)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -2411,6 +2489,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.529988)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -2432,6 +2511,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-05-04T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-05-04T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.223201)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30042021"));
@@ -2453,6 +2533,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.047562)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2474,6 +2555,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.475691)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2495,6 +2577,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.576541)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2516,6 +2599,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.939015)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021 | vermögenswirksame Leistungen"));
@@ -2537,6 +2621,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.146836)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/28052021"));
@@ -2558,6 +2643,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.881525)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2579,6 +2665,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-06-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-06-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.229964)));
         assertThat(entry.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31052021"));
@@ -2599,6 +2686,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-06-14T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-06-14T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0.049184)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung15.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/14062021"));
@@ -2690,6 +2778,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-01-25T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-01-25T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.002155)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/22012021 | Verkauf wegen Vorabpauschale"));
@@ -2710,6 +2799,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-01-26T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-01-26T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.002987)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/22012021 | Verkauf wegen Vorabpauschale"));
@@ -2730,6 +2820,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-01-26T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-01-26T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.000110)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/22012021 | Verkauf wegen Vorabpauschale"));
@@ -2750,6 +2841,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-01-26T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-01-26T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.000268)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/22012021 | Verkauf wegen Vorabpauschale"));
@@ -2774,6 +2866,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-01-25T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-01-25T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.000143)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/22012021 | Verkauf wegen Vorabpauschale"));
@@ -2794,6 +2887,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-02-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-02-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.525761)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450159982/29012021"));
@@ -2815,6 +2909,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-02-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-02-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(3.084040)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/29012021 | vermögenswirksame Leistungen"));
@@ -2836,6 +2931,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-02-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-02-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.054216)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450083460/29012021"));
@@ -2857,6 +2953,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-02-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-02-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.142943)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450246382/29012021"));
@@ -2878,6 +2975,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-02-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-02-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.494992)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450089736/29012021"));
@@ -2899,6 +2997,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-02-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-02-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.224522)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450061638/29012021"));
@@ -2920,6 +3019,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-02-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-02-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.175007)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450263877/29012021"));
@@ -2941,6 +3041,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-03-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-03-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.053239)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450083904/26022021"));
@@ -2962,6 +3063,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-03-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-03-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.520901)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450161611/26022021"));
@@ -2983,6 +3085,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-03-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-03-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(3.037206)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/26022021 | vermögenswirksame Leistungen"));
@@ -3004,6 +3107,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-03-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-03-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.473622)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450089969/26022021"));
@@ -3025,6 +3129,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-03-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-03-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.137031)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450249782/26022021"));
@@ -3046,6 +3151,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-03-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-03-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.211233)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450061809/26022021"));
@@ -3067,6 +3173,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-03-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-03-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.117828)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450267643/26022021"));
@@ -3088,6 +3195,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.049875)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450085597/31032021"));
@@ -3109,6 +3217,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.488794)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 450165636/31032021"));
@@ -3130,6 +3239,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-04-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-04-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.947679)));
         assertThat(entry.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/31032021 | vermögenswirksame Leistungen"));
@@ -3150,6 +3260,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.TAXES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-01-22T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-01-22T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0L)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/22012021 | Vorabpauschale zum Stichtag 31.12.2020"));
@@ -3166,6 +3277,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.TAXES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-01-22T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-01-22T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0L)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/22012021 | Vorabpauschale zum Stichtag 31.12.2020"));
@@ -3182,6 +3294,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.TAXES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-01-22T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-01-22T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0L)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/22012021 | Vorabpauschale zum Stichtag 31.12.2020"));
@@ -3198,6 +3311,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.TAXES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-01-22T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-01-22T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0L)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/22012021 | Vorabpauschale zum Stichtag 31.12.2020"));
@@ -3214,6 +3328,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.TAXES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-01-22T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-01-22T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0L)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung16.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/22012021 | Vorabpauschale zum Stichtag 31.12.2020"));
@@ -3339,6 +3454,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.793716)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/26112020"));
@@ -3360,6 +3476,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(9.887676)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/26112020"));
@@ -3381,6 +3498,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(4.954360)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/25112020"));
@@ -3406,6 +3524,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.033610)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3427,6 +3546,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.325715)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3448,6 +3568,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(3.202562)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3469,6 +3590,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.384890)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/01122020 | Wiederanlage Fondsertrag"));
@@ -3489,6 +3611,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.414731)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3510,6 +3633,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.038637)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3531,6 +3655,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.373877)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3556,6 +3681,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.137606)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020 | vermögenswirksame Leistungen"));
@@ -3584,6 +3710,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(300.991871)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/01122020"));
@@ -3703,6 +3830,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.793716)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/26112020"));
@@ -3724,6 +3852,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(9.887676)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/26112020"));
@@ -3745,6 +3874,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-11-27T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-11-27T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(4.954360)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/25112020"));
@@ -3766,6 +3896,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.033610)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3787,6 +3918,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.325715)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3808,6 +3940,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(3.202562)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3829,6 +3962,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.384890)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/01122020 | Wiederanlage Fondsertrag"));
@@ -3849,6 +3983,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.414731)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3870,6 +4005,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.038637)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3891,6 +4027,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.373877)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020"));
@@ -3912,6 +4049,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.137606)));
         assertThat(entry.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/30112020 | vermögenswirksame Leistungen"));
@@ -3940,6 +4078,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2020-12-01T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2020-12-01T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(300.991871)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung17.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 000/01122020"));
@@ -3986,6 +4125,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-10-15T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-10-15T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(20.422296)));
         assertThat(entry.getSource(), is("Umsatzabrechnung18.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400065846/13102021"));
@@ -4044,6 +4184,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-28T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-28T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(7.101511)));
         assertThat(entry.getSource(), is("Umsatzabrechnung19.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/21122020"));
@@ -4065,6 +4206,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2020-12-28T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2020-12-28T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(18.568667)));
         assertThat(entry.getSource(), is("Umsatzabrechnung19.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 000/21122020"));
@@ -4115,6 +4257,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-07-05T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-07-05T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.095371)));
         assertThat(entry.getSource(), is("Umsatzabrechnung20.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400357714/02072021 | Entgeltbelastung Verkauf"));
@@ -4134,6 +4277,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.FEES));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2021-07-05T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2021-07-05T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(0.095371)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung20.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: 400357714/02072021 | Depotführungsentgelt"));
@@ -4180,6 +4324,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2016-01-18T00:00")));
+        assertNull(entry.getPortfolioTransaction().getBookingDate());
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.082378)));
         assertThat(entry.getSource(), is("Umsatzabrechnung21.txt"));
         assertThat(entry.getNote(), is("Wiederanlage Ertragsausschüttung"));
@@ -4261,6 +4406,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.502194)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006077/25102018"));
@@ -4286,6 +4432,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(3.760425)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006077/25102018"));
@@ -4311,6 +4458,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.428056)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006079/25102018"));
@@ -4332,6 +4480,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.298277)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006079/25102018"));
@@ -4357,6 +4506,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(5.883736)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006076/25102018"));
@@ -4378,6 +4528,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(3.635976)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006076/25102018"));
@@ -4399,6 +4550,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.579236)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006080/25102018"));
@@ -4420,6 +4572,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.492048)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006080/25102018"));
@@ -4492,6 +4645,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.502194)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006077/25102018"));
@@ -4513,6 +4667,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(3.760425)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006077/25102018"));
@@ -4534,6 +4689,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.428056)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006079/25102018"));
@@ -4555,6 +4711,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.298277)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006079/25102018"));
@@ -4576,6 +4733,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(5.883736)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006076/25102018"));
@@ -4597,6 +4755,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(3.635976)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006076/25102018"));
@@ -4618,6 +4777,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.SELL));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.579236)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006080/25102018"));
@@ -4639,6 +4799,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2018-10-30T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2018-10-30T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.492048)));
         assertThat(entry.getSource(), is("Umsatzabrechnung22.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: 400006080/25102018"));
@@ -4689,6 +4850,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-08-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-08-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.276295)));
         assertThat(entry.getSource(), is("Umsatzabrechnung23.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXX/XXX"));
@@ -4714,6 +4876,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-08-09T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-08-09T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.025198)));
         assertThat(entry.getSource(), is("Umsatzabrechnung23.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXX/XXX"));
@@ -4739,6 +4902,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-09-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-09-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.222628)));
         assertThat(entry.getSource(), is("Umsatzabrechnung23.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXX/XXXX"));
@@ -4790,6 +4954,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-08-03T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-08-03T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.276295)));
         assertThat(entry.getSource(), is("Umsatzabrechnung23.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXX/XXX"));
@@ -4811,6 +4976,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-08-09T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-08-09T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(1.025198)));
         assertThat(entry.getSource(), is("Umsatzabrechnung23.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXX/XXX"));
@@ -4832,6 +4998,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2021-09-02T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2021-09-02T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(2.222628)));
         assertThat(entry.getSource(), is("Umsatzabrechnung23.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: XXXX/XXXX"));
@@ -4881,6 +5048,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2022-06-17T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2022-06-17T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(27.707360)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung24.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: xxxx/xxxx"));
@@ -4926,6 +5094,7 @@ public class EbasePDFExtractorTest
         assertThat(transaction.getType(), is(AccountTransaction.Type.DIVIDENDS));
 
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2022-06-17T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2022-06-17T00:00")));
         assertThat(transaction.getShares(), is(Values.Share.factorize(27.707360)));
         assertThat(transaction.getSource(), is("Umsatzabrechnung24.txt"));
         assertThat(transaction.getNote(), is("Ref.-Nr.: xxxx/xxxx"));
@@ -4972,6 +5141,7 @@ public class EbasePDFExtractorTest
         assertThat(entry.getAccountTransaction().getType(), is(AccountTransaction.Type.BUY));
 
         assertThat(entry.getPortfolioTransaction().getDateTime(), is(LocalDateTime.parse("2022-06-20T00:00")));
+        assertThat(entry.getPortfolioTransaction().getBookingDate(), is(LocalDateTime.parse("2022-06-20T00:00")));
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.041696)));
         assertThat(entry.getSource(), is("Umsatzabrechnung25.txt"));
         assertThat(entry.getNote(), is("Ref.-Nr.: xxxx/xxxx | Wiederanlage Fondsertrag"));
@@ -5017,7 +5187,8 @@ public class EbasePDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-31T00:00"), hasShares(8.584242), //
+                        hasDate("2023-08-31T00:00"), hasBookingDate("2023-08-31T00:00"), //
+                        hasShares(8.584242), //
                         hasSource("Umsatzabrechnung26.txt"), //
                         hasNote("Ref.-Nr.: 0400238042/31082023"), //
                         hasAmount("EUR", 5000.00), hasGrossValue("EUR", 4990.02), //
@@ -5025,7 +5196,8 @@ public class EbasePDFExtractorTest
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-31T00:00"), hasShares(48.088457), //
+                        hasDate("2023-08-31T00:00"), hasBookingDate("2023-08-31T00:00"), //
+                        hasShares(48.088457), //
                         hasSource("Umsatzabrechnung26.txt"), //
                         hasNote("Ref.-Nr.: 0400039899/30082023"), //
                         hasAmount("EUR", 4000.00), hasGrossValue("EUR", 3992.02), //
@@ -5059,7 +5231,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-23T00:00"), hasShares(30.000000), //
+                        hasDate("2023-08-23T00:00"), hasBookingDate("2023-08-23T00:00"), //
+                        hasShares(30.000000), //
                         hasSource("Umsatzabrechnung27.txt"), //
                         hasNote("Ref.-Nr.: 0400036212/21082023"), //
                         hasAmount("EUR", 3078.84), hasGrossValue("EUR", 3072.69), //
@@ -5094,7 +5267,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-23T00:00"), hasShares(30.000000), //
+                        hasDate("2023-08-23T00:00"), hasBookingDate("2023-08-23T00:00"), //
+                        hasShares(30.000000), //
                         hasSource("Umsatzabrechnung27.txt"), //
                         hasNote("Ref.-Nr.: 0400036212/21082023"), //
                         hasAmount("EUR", 3078.84), hasGrossValue("EUR", 3072.69), //
@@ -5148,7 +5322,8 @@ public class EbasePDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-07-17T00:00"), hasShares(0.2631950), //
+                        hasDate("2023-07-17T00:00"), hasBookingDate("2023-07-17T00:00"), //
+                        hasShares(0.2631950), //
                         hasSource("Umsatzabrechnung28.txt"), //
                         hasNote("Ref.-Nr.: 0400084351/14072023"), //
                         hasAmount("EUR", 150.00), hasGrossValue("EUR", 149.70), //
@@ -5156,7 +5331,8 @@ public class EbasePDFExtractorTest
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-07-18T00:00"), hasShares(1.302784), //
+                        hasDate("2023-07-18T00:00"), hasBookingDate("2023-07-18T00:00"), //
+                        hasShares(1.302784), //
                         hasSource("Umsatzabrechnung28.txt"), //
                         hasNote("Ref.-Nr.: 0400124334/14072023"), //
                         hasAmount("EUR", 100.00), hasGrossValue("EUR", 99.80), //
@@ -5164,7 +5340,8 @@ public class EbasePDFExtractorTest
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-01T00:00"), hasShares(4.563874), //
+                        hasDate("2023-08-01T00:00"), hasBookingDate("2023-08-01T00:00"), //
+                        hasShares(4.563874), //
                         hasSource("Umsatzabrechnung28.txt"), //
                         hasNote("Ref.-Nr.: 0400000608/31072023"), //
                         hasAmount("EUR", 2000.00), hasGrossValue("EUR", 1996.01), //
@@ -5173,7 +5350,8 @@ public class EbasePDFExtractorTest
 
         // check 4th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-01T00:00"), hasShares(18.81825900), //
+                        hasDate("2023-08-01T00:00"), hasBookingDate("2023-08-01T00:00"), //
+                        hasShares(18.81825900), //
                         hasSource("Umsatzabrechnung28.txt"), //
                         hasNote("Ref.-Nr.: 0400001107/31072023"), //
                         hasAmount("EUR", 2000.00), hasGrossValue("EUR", 1996.01), //
@@ -5223,7 +5401,8 @@ public class EbasePDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-07-17T00:00"), hasShares(0.2631950), //
+                        hasDate("2023-07-17T00:00"), hasBookingDate("2023-07-17T00:00"), //
+                        hasShares(0.2631950), //
                         hasSource("Umsatzabrechnung28.txt"), //
                         hasNote("Ref.-Nr.: 0400084351/14072023"), //
                         hasAmount("EUR", 150.00), hasGrossValue("EUR", 149.70), //
@@ -5231,7 +5410,8 @@ public class EbasePDFExtractorTest
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-07-18T00:00"), hasShares(1.302784), //
+                        hasDate("2023-07-18T00:00"), hasBookingDate("2023-07-18T00:00"), //
+                        hasShares(1.302784), //
                         hasSource("Umsatzabrechnung28.txt"), //
                         hasNote("Ref.-Nr.: 0400124334/14072023"), //
                         hasAmount("EUR", 100.00), hasGrossValue("EUR", 99.80), //
@@ -5239,7 +5419,8 @@ public class EbasePDFExtractorTest
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-01T00:00"), hasShares(4.563874), //
+                        hasDate("2023-08-01T00:00"), hasBookingDate("2023-08-01T00:00"), //
+                        hasShares(4.563874), //
                         hasSource("Umsatzabrechnung28.txt"), //
                         hasNote("Ref.-Nr.: 0400000608/31072023"), //
                         hasAmount("EUR", 2000.00), hasGrossValue("EUR", 1996.01), //
@@ -5252,7 +5433,8 @@ public class EbasePDFExtractorTest
 
         // check 4th buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-01T00:00"), hasShares(18.81825900), //
+                        hasDate("2023-08-01T00:00"), hasBookingDate("2023-08-01T00:00"), //
+                        hasShares(18.81825900), //
                         hasSource("Umsatzabrechnung28.txt"), //
                         hasNote("Ref.-Nr.: 0400001107/31072023"), //
                         hasAmount("EUR", 2000.00), hasGrossValue("EUR", 1996.01), //
@@ -5291,7 +5473,8 @@ public class EbasePDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-10-27T00:00"), hasShares(0.533761), //
+                        hasDate("2023-10-27T00:00"), hasBookingDate("2023-10-27T00:00"), //
+                        hasShares(0.533761), //
                         hasSource("Umsatzabrechnung29.txt"), //
                         hasNote("Ref.-Nr.: 0400004708/26102023 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 40.00), hasGrossValue("EUR", 39.92), //
@@ -5299,7 +5482,8 @@ public class EbasePDFExtractorTest
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-11-27T00:00"), hasShares(0.505318), //
+                        hasDate("2023-11-27T00:00"), hasBookingDate("2023-11-27T00:00"), //
+                        hasShares(0.505318), //
                         hasSource("Umsatzabrechnung29.txt"), //
                         hasNote("Ref.-Nr.: 0400002625/24112023 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 40.00), hasGrossValue("EUR", 39.92), //
@@ -5307,7 +5491,8 @@ public class EbasePDFExtractorTest
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-12-19T00:00"), hasShares(0.604172), //
+                        hasDate("2023-12-19T00:00"), hasBookingDate("2023-12-19T00:00"), //
+                        hasShares(0.604172), //
                         hasSource("Umsatzabrechnung29.txt"), //
                         hasNote("Ref.-Nr.: 0400130505/15122023 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 48.77), hasGrossValue("EUR", 48.77), //
@@ -5315,7 +5500,8 @@ public class EbasePDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-12-15T00:00"), hasShares(39.68203200), //
+                        hasDate("2023-12-15T00:00"), hasBookingDate("2023-12-15T00:00"), //
+                        hasShares(39.68203200), //
                         hasSource("Umsatzabrechnung29.txt"), //
                         hasNote("Ref.-Nr.: 0400059203/15122023"), //
                         hasAmount("EUR", 48.77), hasGrossValue("EUR", 60.71), //
@@ -5353,7 +5539,8 @@ public class EbasePDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-09-26T00:00"), hasShares(0.047550), //
+                        hasDate("2023-09-26T00:00"), hasBookingDate("2023-09-26T00:00"), //
+                        hasShares(0.047550), //
                         hasSource("Umsatzabrechnung30.txt"), //
                         hasNote("Ref.-Nr.: 0400010911/22092023 | Wiederanlage Fondsertrag"), hasAmount("USD", 17.05),
                         hasGrossValue("USD", 17.05), //
@@ -5361,7 +5548,8 @@ public class EbasePDFExtractorTest
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-09-26T00:00"), hasShares(0.130878), //
+                        hasDate("2023-09-26T00:00"), hasBookingDate("2023-09-26T00:00"), //
+                        hasShares(0.130878), //
                         hasSource("Umsatzabrechnung30.txt"), //
                         hasNote("Ref.-Nr.: 0400010223/22092023 | Wiederanlage Fondsertrag"), hasAmount("EUR", 4.96),
                         hasGrossValue("EUR", 4.96), //
@@ -5369,7 +5557,8 @@ public class EbasePDFExtractorTest
 
         // check 1st dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-09-22T00:00"), hasShares(54.479737), //
+                        hasDate("2023-09-22T00:00"), hasBookingDate("2023-09-22T00:00"), //
+                        hasShares(54.479737), //
                         hasSource("Umsatzabrechnung30.txt"), //
                         hasNote("Ref.-Nr.: 2210868091/45619741"), //
                         hasAmount("USD", 17.05), hasGrossValue("USD", 20.91), //
@@ -5377,7 +5566,8 @@ public class EbasePDFExtractorTest
 
         // check 2nd dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-09-22T00:00"), hasShares(38.873327), //
+                        hasDate("2023-09-22T00:00"), hasBookingDate("2023-09-22T00:00"), //
+                        hasShares(38.873327), //
                         hasSource("Umsatzabrechnung30.txt"), //
                         hasNote("Ref.-Nr.: 0400008188/22092023"), //
                         hasAmount("EUR", 4.96), hasGrossValue("EUR", 6.08), //
@@ -5409,7 +5599,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-07-14T00:00"), hasShares(3.395511), //
+                        hasDate("2023-07-14T00:00"), hasBookingDate("2023-07-14T00:00"), //
+                        hasShares(3.395511), //
                         hasSource("Umsatzabrechnung31.txt"), //
                         hasNote("Ref.-Nr.: 0400001111/13072023 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 40.00), hasGrossValue("EUR", 39.92), //
@@ -5417,7 +5608,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-08-15T00:00"), hasShares(3.524447), //
+                        hasDate("2023-08-15T00:00"), hasBookingDate("2023-08-15T00:00"), //
+                        hasShares(3.524447), //
                         hasSource("Umsatzabrechnung31.txt"), //
                         hasNote("Ref.-Nr.: 0400011111/14082023 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 40.00), hasGrossValue("EUR", 39.92), //
@@ -5425,7 +5617,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-09-15T00:00"), hasShares(3.508340), //
+                        hasDate("2023-09-15T00:00"), hasBookingDate("2023-09-15T00:00"), //
+                        hasShares(3.508340), //
                         hasSource("Umsatzabrechnung31.txt"), //
                         hasNote("Ref.-Nr.: 0400001111/14092023 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 40.00), hasGrossValue("EUR", 39.92), //
@@ -5457,7 +5650,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-05-04T00:00"), hasShares(2.959297), //
+                        hasDate("2021-05-04T00:00"), hasBookingDate("2021-05-04T00:00"), //
+                        hasShares(2.959297), //
                         hasSource("Umsatzabrechnung32.txt"), //
                         hasNote("Ref.-Nr.: 400014734/03052021 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 40.00), hasGrossValue("EUR", 39.92), //
@@ -5465,7 +5659,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2021-05-31T00:00"), hasShares(2.885220), //
+                        hasDate("2021-05-31T00:00"), hasBookingDate("2021-05-31T00:00"), //
+                        hasShares(2.885220), //
                         hasSource("Umsatzabrechnung32.txt"), //
                         hasNote("Ref.-Nr.: 400012542/28052021 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 40.00), hasGrossValue("EUR", 39.92), //
@@ -5473,7 +5668,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(sale( //
-                        hasDate("2021-06-18T00:00"), hasShares(2.043934), //
+                        hasDate("2021-06-18T00:00"), hasBookingDate("2021-06-18T00:00"), //
+                        hasShares(2.043934), //
                         hasSource("Umsatzabrechnung32.txt"), //
                         hasNote("Ref.-Nr.: 708/17062021 | Ausgang externer Übertrag"), //
                         hasAmount("EUR", 28.64), hasGrossValue("EUR", 28.64), //
@@ -5481,7 +5677,8 @@ public class EbasePDFExtractorTest
 
         // check delivery outbound transaction
         assertThat(results, hasItem(outboundDelivery( //
-                        hasDate("2021-06-18T00:00"), hasShares(266), //
+                        hasDate("2021-06-18T00:00"), hasBookingDate("2021-06-18T00:00"), //
+                        hasShares(266), //
                         hasSource("Umsatzabrechnung32.txt"), //
                         hasNote("Ref.-Nr.: 708/17062021"), //
                         hasAmount("EUR", 3736.08), hasGrossValue("EUR", 3736.08), //
@@ -5489,7 +5686,8 @@ public class EbasePDFExtractorTest
 
         // check delivery outbound transaction
         assertThat(results, hasItem(fee( //
-                        hasDate("2021-06-16T00:00"), hasShares(266), //
+                        hasDate("2021-06-16T00:00"), hasBookingDate(null), //
+                        hasShares(266), //
                         hasSource("Umsatzabrechnung32.txt"), //
                         hasNote("Ref.-Nr.: 708/17062021 | Depotführungsentgelt | VL-Vertragsentgelt"), //
                         hasAmount("EUR", 12.00 + 7.50), hasGrossValue("EUR", 12.00 + 7.50), //
@@ -5526,7 +5724,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-10-02T00:00"), hasShares(2.848289), //
+                        hasDate("2023-10-02T00:00"), hasBookingDate("2023-10-02T00:00"), //
+                        hasShares(2.848289), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5534,7 +5733,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-10-16T00:00"), hasShares(2.88344), //
+                        hasDate("2023-10-16T00:00"), hasBookingDate("2023-10-16T00:00"), //
+                        hasShares(2.88344), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5542,7 +5742,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-10-17T00:00"), hasShares(2.222486), //
+                        hasDate("2023-10-17T00:00"), hasBookingDate("2023-10-17T00:00"), //
+                        hasShares(2.222486), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5550,7 +5751,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-11-02T00:00"), hasShares(2.303581), //
+                        hasDate("2023-11-02T00:00"), hasBookingDate("2023-11-02T00:00"), //
+                        hasShares(2.303581), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5558,7 +5760,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-11-03T00:00"), hasShares(3.084795), //
+                        hasDate("2023-11-03T00:00"), hasBookingDate("2023-11-03T00:00"), //
+                        hasShares(3.084795), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5566,7 +5769,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-11-16T00:00"), hasShares(2.256182), //
+                        hasDate("2023-11-16T00:00"), hasBookingDate("2023-11-16T00:00"), //
+                        hasShares(2.256182), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5574,7 +5778,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-11-16T00:00"), hasShares(2.963818), //
+                        hasDate("2023-11-16T00:00"), hasBookingDate("2023-11-16T00:00"), //
+                        hasShares(2.963818), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5582,7 +5787,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2023-12-01T00:00"), hasShares(2.929550), //
+                        hasDate("2023-12-01T00:00"), hasBookingDate("2023-12-01T00:00"), //
+                        hasShares(2.929550), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5590,7 +5796,8 @@ public class EbasePDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2023-12-14T00:00"), hasShares(90.037945), //
+                        hasDate("2023-12-14T00:00"), hasBookingDate("2023-12-14T00:00"), //
+                        hasShares(90.037945), //
                         hasSource("Umsatzabrechnung33.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 25.24), hasGrossValue("EUR", 25.24), //
@@ -5627,7 +5834,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-04-02T00:00"), hasShares(2.569778), //
+                        hasDate("2024-04-02T00:00"), hasBookingDate("2024-04-02T00:00"), //
+                        hasShares(2.569778), //
                         hasSource("Umsatzabrechnung34.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5635,7 +5843,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-04-03T00:00"), hasShares(1.961092), //
+                        hasDate("2024-04-03T00:00"), hasBookingDate("2024-04-03T00:00"), //
+                        hasShares(1.961092), //
                         hasSource("Umsatzabrechnung34.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5643,7 +5852,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-04-15T00:00"), hasShares(2.587831), //
+                        hasDate("2024-04-15T00:00"), hasBookingDate("2024-04-15T00:00"), //
+                        hasShares(2.587831), //
                         hasSource("Umsatzabrechnung34.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5651,7 +5861,8 @@ public class EbasePDFExtractorTest
 
         // check buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2024-04-16T00:00"), hasShares(1.990235), //
+                        hasDate("2024-04-16T00:00"), hasBookingDate("2024-04-16T00:00"), //
+                        hasShares(1.990235), //
                         hasSource("Umsatzabrechnung34.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 37.50), hasGrossValue("EUR", 37.50), //
@@ -5659,7 +5870,8 @@ public class EbasePDFExtractorTest
 
         // check dividends transaction
         assertThat(results, hasItem(dividend( //
-                        hasDate("2024-04-29T00:00"), hasShares(128.804746), //
+                        hasDate("2024-04-29T00:00"), hasBookingDate("2024-04-29T00:00"), //
+                        hasShares(128.804746), //
                         hasSource("Umsatzabrechnung34.txt"), //
                         hasNote("Ref.-Nr.: 1234123412/12341234"), //
                         hasAmount("EUR", 22.73), hasGrossValue("EUR", 27.85), //
@@ -5697,7 +5909,8 @@ public class EbasePDFExtractorTest
 
         // check 1st buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-01-28T00:00"), hasShares(0.097258), //
+                        hasDate("2025-01-28T00:00"), hasBookingDate("2025-01-28T00:00"), //
+                        hasShares(0.097258), //
                         hasSource("Umsatzabrechnung35.txt"), //
                         hasNote("Ref.-Nr.: 0400000987/27012025 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 13.29), hasGrossValue("EUR", 13.29), //
@@ -5706,7 +5919,8 @@ public class EbasePDFExtractorTest
 
         // check 2nd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-02-27T00:00"), hasShares(0.096250), //
+                        hasDate("2025-02-27T00:00"), hasBookingDate("2025-02-27T00:00"), //
+                        hasShares(0.096250), //
                         hasSource("Umsatzabrechnung35.txt"), //
                         hasNote("Ref.-Nr.: 0400017713/26022025 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 13.29), hasGrossValue("EUR", 13.29), //
@@ -5715,7 +5929,8 @@ public class EbasePDFExtractorTest
 
         // check 3rd buy sell transaction
         assertThat(results, hasItem(purchase( //
-                        hasDate("2025-04-01T00:00"), hasShares(0.104955), //
+                        hasDate("2025-04-01T00:00"), hasBookingDate("2025-04-01T00:00"), //
+                        hasShares(0.104955), //
                         hasSource("Umsatzabrechnung35.txt"), //
                         hasNote("Ref.-Nr.: 0400033849/31032025 | vermögenswirksame Leistungen"), //
                         hasAmount("EUR", 13.29), hasGrossValue("EUR", 13.26), //
@@ -5753,6 +5968,7 @@ public class EbasePDFExtractorTest
         var transaction = (AccountTransaction) item.getSubject();
         assertThat(transaction.getType(), is(AccountTransaction.Type.REMOVAL));
         assertThat(transaction.getDateTime(), is(LocalDateTime.parse("2022-12-12T00:00")));
+        assertThat(transaction.getBookingDate(), is(LocalDateTime.parse("2022-12-12T00:00")));
         assertThat(transaction.getMonetaryAmount(), is(Money.of("EUR", Values.Amount.factorize(200.00))));
         assertThat(transaction.getSource(), is("DepotStatement01.txt"));
         assertThat(transaction.getNote(), is("SEPA Lastschrift Einzug | Ref.-Nr.: 020739500"));
@@ -5778,7 +5994,7 @@ public class EbasePDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2020-04-14"), hasAmount("EUR", 15.00), //
+        assertThat(results, hasItem(removal(hasDate("2020-04-14"), hasBookingDate("2020-04-14"), hasAmount("EUR", 15.00), //
                         hasSource("DepotStatement02.txt"), hasNote("SEPA Lastschrift Einzug | Ref.-Nr.: 123456"))));
     }
 
@@ -5802,12 +6018,12 @@ public class EbasePDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-04-06"), hasAmount("EUR", 5000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-04-06"), hasBookingDate("2020-04-06"), hasAmount("EUR", 5000.00), //
                         hasSource("DepotStatement03.txt"),
                         hasNote("SEPA Überweisung Gutschrift | Ref.-Nr.: 013015328"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2020-04-07"), hasAmount("EUR", 10000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2020-04-07"), hasBookingDate("2020-04-07"), hasAmount("EUR", 10000.00), //
                         hasSource("DepotStatement03.txt"),
                         hasNote("SEPA Überweisung Gutschrift | Ref.-Nr.: 013017353"))));
     }
@@ -5832,11 +6048,11 @@ public class EbasePDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2021-06-21"), hasAmount("EUR", 1231.37), //
+        assertThat(results, hasItem(removal(hasDate("2021-06-21"), hasBookingDate("2021-06-21"), hasAmount("EUR", 1231.37), //
                         hasSource("DepotStatement04.txt"), hasNote("SEPA Überweisung | Ref.-Nr.: 014852180"))));
 
         // assert transaction
-        assertThat(results, hasItem(fee(hasDate("2021-06-21"), hasAmount("EUR", 2.50), //
+        assertThat(results, hasItem(fee(hasDate("2021-06-21"), hasBookingDate("2021-06-21"), hasAmount("EUR", 2.50), //
                         hasSource("DepotStatement04.txt"), hasNote("Entgeltbuchung | Ref.-Nr.: 014852181"))));
     }
 }

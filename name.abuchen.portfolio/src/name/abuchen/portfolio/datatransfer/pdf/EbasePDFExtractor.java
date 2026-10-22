@@ -229,7 +229,11 @@ public class EbasePDFExtractor extends AbstractPDFExtractor
                                         section -> section //
                                                         .attributes("date") //
                                                         .match("^.* Buchungsdatum (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4})$") //
-                                                        .assign((t, v) -> t.setDate(asDate(v.get("date")))),
+                                                        .assign((t, v) -> {
+                                                            var date = asDate(v.get("date"));
+                                                            t.setDate(date);
+                                                            t.setBookingDate(date);
+                                                        }),
                                         // @formatter:off
                                         // Wiederanlage Ertragsausschüttung 400023594/2001 18.01.2016 23,550000 0,082378 1,94 EUR
                                         // @formatter:on
@@ -508,7 +512,11 @@ public class EbasePDFExtractor extends AbstractPDFExtractor
                         // @formatter:on
                         .section("date") //
                         .match("^.* Buchungsdatum (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4})$") //
-                        .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
+                        .assign((t, v) -> {
+                            var date = asDate(v.get("date"));
+                            t.setDateTime(date);
+                            t.setBookingDate(date);
+                        })
 
                         // @formatter:off
                         // IE00BJZ2DC62 12,729132 26,002300 USD 1,105500 299,40 EUR
@@ -697,7 +705,11 @@ public class EbasePDFExtractor extends AbstractPDFExtractor
                         // @formatter:on
                         .section("date") //
                         .match("^.* Buchungsdatum (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4})$") //
-                        .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
+                        .assign((t, v) -> {
+                            var date = asDate(v.get("date"));
+                            t.setDateTime(date);
+                            t.setBookingDate(date);
+                        })
 
                         .oneOf( //
                                         // @formatter:off
@@ -795,7 +807,11 @@ public class EbasePDFExtractor extends AbstractPDFExtractor
                         // @formatter:on
                         .section("date") //
                         .match("^.* Buchungsdatum (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4})$") //
-                        .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
+                        .assign((t, v) -> {
+                            var date = asDate(v.get("date"));
+                            t.setDateTime(date);
+                            t.setBookingDate(date);
+                        })
 
                         // @formatter:off
                         // LU0378453376 10,000000
@@ -867,7 +883,11 @@ public class EbasePDFExtractor extends AbstractPDFExtractor
                         // @formatter:on
                         .section("date") //
                         .match("^.* Buchungsdatum (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4})$") //
-                        .assign((t, v) -> t.setDateTime(asDate(v.get("date"))))
+                        .assign((t, v) -> {
+                            var date = asDate(v.get("date"));
+                            t.setDateTime(date);
+                            t.setBookingDate(date);
+                        })
 
                         .oneOf( //
                                         // @formatter:off
@@ -1051,14 +1071,15 @@ public class EbasePDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note1", "note2", "amount", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
+                        .section("bookingDate", "date", "note1", "note2", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note1>[\\d]+) " //
-                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                        + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note2>SEPA .berweisung Gutschrift) " //
                                         + "(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setNote(concatenate(v.get("note2"), v.get("note1"), " | Ref.-Nr.: "));
@@ -1077,14 +1098,15 @@ public class EbasePDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "note1", "note2", "amount", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
+                        .section("bookingDate", "date", "note1", "note2", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note1>[\\d]+) " //
-                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                        + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note2>SEPA (Lastschrift|.berweisung)( Einzug)?) " //
                                         + "(\\-)?(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setNote(concatenate(v.get("note2"), v.get("note1"), " | Ref.-Nr.: "));
@@ -1101,14 +1123,15 @@ public class EbasePDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.FEES))
 
-                        .section("date", "note1", "note2", "amount", "currency") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
+                        .section("bookingDate", "date", "note1", "note2", "amount", "currency") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note1>[\\d]+) " //
-                                        + "[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} " //
+                                        + "(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) " //
                                         + "(?<note2>Entgeltbuchung) " //
                                         + "\\-(?<amount>[\\.,\\d]+) (?<currency>[A-Z]{3})$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date")));
+                            t.setBookingDate(asDate(v.get("bookingDate")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(asCurrencyCode(v.get("currency")));
                             t.setNote(concatenate(v.get("note2"), v.get("note1"), " | Ref.-Nr.: "));
