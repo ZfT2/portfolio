@@ -123,11 +123,12 @@ public class InsertActionTest
         assertThat(properties, hasItem("amount"));
         assertThat(properties, hasItem("shares"));
         assertThat(properties, hasItem("dateTime"));
+        assertThat(properties, hasItem("bookingDate"));
         assertThat(properties, hasItem("type"));
         assertThat(properties, hasItem("note"));
         assertThat(properties, hasItem("source"));
         assertThat(properties, hasItem("updatedAt"));
 
-        assertThat(properties.size(), is(10));
+        assertThat(properties.size(), is(11));
     }
 }

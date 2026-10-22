@@ -250,6 +250,7 @@ public abstract class Transaction implements Annotated, Adaptable
 
     private String uuid;
     private LocalDateTime date;
+    private LocalDateTime bookingDate;
     private String currencyCode;
     private long amount;
 
@@ -309,6 +310,24 @@ public abstract class Transaction implements Annotated, Adaptable
     public void setDateTime(LocalDateTime date)
     {
         this.date = date;
+        this.updatedAt = Instant.now();
+    }
+
+    /**
+     * Returns the booking date of this transaction, i.e. the date on which the
+     * transaction was booked by the bank or broker.
+     * <p>
+     * If the transaction does not carry a booking date, {@code null} is
+     * returned. In that case the transaction date is used instead.
+     */
+    public LocalDateTime getBookingDate()
+    {
+        return bookingDate;
+    }
+
+    public void setBookingDate(LocalDateTime bookingDate)
+    {
+        this.bookingDate = bookingDate;
         this.updatedAt = Instant.now();
     }
 

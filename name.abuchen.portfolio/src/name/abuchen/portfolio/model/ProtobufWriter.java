@@ -552,6 +552,9 @@ import name.abuchen.portfolio.money.Money;
         t.setCurrencyCode(newTransaction.getCurrencyCode());
         t.setAmount(newTransaction.getAmount());
 
+        if (newTransaction.hasBookingDate())
+            t.setBookingDate(fromLocalDateTime(newTransaction.getBookingDate()));
+
         if (newTransaction.hasNote())
             t.setNote(newTransaction.getNote());
         if (newTransaction.hasSource())
@@ -1171,6 +1174,9 @@ import name.abuchen.portfolio.money.Money;
         newTransaction.setDate(asTimestamp(t.getDateTime()));
         newTransaction.setCurrencyCode(t.getCurrencyCode());
         newTransaction.setAmount(t.getAmount());
+
+        if (t.getBookingDate() != null)
+            newTransaction.setBookingDate(asLocalDateTime(t.getBookingDate()));
 
         if (t.getNote() != null)
             newTransaction.setNote(t.getNote());

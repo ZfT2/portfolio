@@ -472,6 +472,18 @@ public class ExtractorMatchers
                         t -> ((AccountTransaction) t).getExDate());
     }
 
+    public static Matcher<Transaction> hasBookingDate(String dateString)
+    {
+        var expected = dateString == null ? null
+                        : dateString.contains("T") //$NON-NLS-1$
+                                        ? LocalDateTime.parse(dateString)
+                                        : LocalDate.parse(dateString).atStartOfDay();
+
+        return new PropertyMatcher<>("bookingDate", //$NON-NLS-1$
+                        expected, //
+                        Transaction::getBookingDate);
+    }
+
     public static Matcher<Transaction> hasShares(double value)
     {
         // work with BigDecimal to have better assertion failed messages

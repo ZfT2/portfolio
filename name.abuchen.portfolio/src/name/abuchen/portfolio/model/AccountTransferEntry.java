@@ -81,6 +81,13 @@ public class AccountTransferEntry implements CrossEntry, Annotated
         this.transactionTo.setDateTime(date);
     }
 
+    @Override
+    public void setBookingDate(LocalDateTime bookingDate)
+    {
+        this.transactionFrom.setBookingDate(bookingDate);
+        this.transactionTo.setBookingDate(bookingDate);
+    }
+
     public void setAmount(long amount)
     {
         this.transactionFrom.setAmount(amount);
@@ -161,6 +168,7 @@ public class AccountTransferEntry implements CrossEntry, Annotated
     private void copyAttributesOver(AccountTransaction from, AccountTransaction to)
     {
         to.setDateTime(from.getDateTime());
+        to.setBookingDate(from.getBookingDate());
         to.setNote(from.getNote());
         to.setSource(from.getSource());
     }

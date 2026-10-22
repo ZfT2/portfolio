@@ -923,6 +923,32 @@ private static final long serialVersionUID = 0L;
     return exDate_ == null ? name.abuchen.portfolio.model.proto.v1.PLocalDateTime.getDefaultInstance() : exDate_;
   }
 
+  public static final int BOOKINGDATE_FIELD_NUMBER = 19;
+  private name.abuchen.portfolio.model.proto.v1.PLocalDateTime bookingDate_;
+  /**
+   * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+   * @return Whether the bookingDate field is set.
+   */
+  @java.lang.Override
+  public boolean hasBookingDate() {
+    return ((bitField0_ & 0x00000800) != 0);
+  }
+  /**
+   * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+   * @return The bookingDate.
+   */
+  @java.lang.Override
+  public name.abuchen.portfolio.model.proto.v1.PLocalDateTime getBookingDate() {
+    return bookingDate_ == null ? name.abuchen.portfolio.model.proto.v1.PLocalDateTime.getDefaultInstance() : bookingDate_;
+  }
+  /**
+   * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+   */
+  @java.lang.Override
+  public name.abuchen.portfolio.model.proto.v1.PLocalDateTimeOrBuilder getBookingDateOrBuilder() {
+    return bookingDate_ == null ? name.abuchen.portfolio.model.proto.v1.PLocalDateTime.getDefaultInstance() : bookingDate_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -990,6 +1016,9 @@ private static final long serialVersionUID = 0L;
     }
     if (((bitField0_ & 0x00000400) != 0)) {
       output.writeMessage(18, getExDate());
+    }
+    if (((bitField0_ & 0x00000800) != 0)) {
+      output.writeMessage(19, getBookingDate());
     }
     getUnknownFields().writeTo(output);
   }
@@ -1061,6 +1090,10 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000400) != 0)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(18, getExDate());
+    }
+    if (((bitField0_ & 0x00000800) != 0)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(19, getBookingDate());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -1151,6 +1184,11 @@ private static final long serialVersionUID = 0L;
       if (!getExDate()
           .equals(other.getExDate())) return false;
     }
+    if (hasBookingDate() != other.hasBookingDate()) return false;
+    if (hasBookingDate()) {
+      if (!getBookingDate()
+          .equals(other.getBookingDate())) return false;
+    }
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -1227,6 +1265,10 @@ private static final long serialVersionUID = 0L;
     if (hasExDate()) {
       hash = (37 * hash) + EXDATE_FIELD_NUMBER;
       hash = (53 * hash) + getExDate().hashCode();
+    }
+    if (hasBookingDate()) {
+      hash = (37 * hash) + BOOKINGDATE_FIELD_NUMBER;
+      hash = (53 * hash) + getBookingDate().hashCode();
     }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
@@ -1361,6 +1403,7 @@ private static final long serialVersionUID = 0L;
         getUnitsFieldBuilder();
         getUpdatedAtFieldBuilder();
         getExDateFieldBuilder();
+        getBookingDateFieldBuilder();
       }
     }
     @java.lang.Override
@@ -1406,6 +1449,11 @@ private static final long serialVersionUID = 0L;
       if (exDateBuilder_ != null) {
         exDateBuilder_.dispose();
         exDateBuilder_ = null;
+      }
+      bookingDate_ = null;
+      if (bookingDateBuilder_ != null) {
+        bookingDateBuilder_.dispose();
+        bookingDateBuilder_ = null;
       }
       return this;
     }
@@ -1524,6 +1572,12 @@ private static final long serialVersionUID = 0L;
             : exDateBuilder_.build();
         to_bitField0_ |= 0x00000400;
       }
+      if (((from_bitField0_ & 0x00040000) != 0)) {
+        result.bookingDate_ = bookingDateBuilder_ == null
+            ? bookingDate_
+            : bookingDateBuilder_.build();
+        to_bitField0_ |= 0x00000800;
+      }
       result.bitField0_ |= to_bitField0_;
     }
 
@@ -1635,6 +1689,9 @@ private static final long serialVersionUID = 0L;
       }
       if (other.hasExDate()) {
         mergeExDate(other.getExDate());
+      }
+      if (other.hasBookingDate()) {
+        mergeBookingDate(other.getBookingDate());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -1768,6 +1825,13 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00020000;
               break;
             } // case 146
+            case 154: {
+              input.readMessage(
+                  getBookingDateFieldBuilder().getBuilder(),
+                  extensionRegistry);
+              bitField0_ |= 0x00040000;
+              break;
+            } // case 154
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -3400,6 +3464,125 @@ private static final long serialVersionUID = 0L;
         exDate_ = null;
       }
       return exDateBuilder_;
+    }
+
+    private name.abuchen.portfolio.model.proto.v1.PLocalDateTime bookingDate_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        name.abuchen.portfolio.model.proto.v1.PLocalDateTime, name.abuchen.portfolio.model.proto.v1.PLocalDateTime.Builder, name.abuchen.portfolio.model.proto.v1.PLocalDateTimeOrBuilder> bookingDateBuilder_;
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     * @return Whether the bookingDate field is set.
+     */
+    public boolean hasBookingDate() {
+      return ((bitField0_ & 0x00040000) != 0);
+    }
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     * @return The bookingDate.
+     */
+    public name.abuchen.portfolio.model.proto.v1.PLocalDateTime getBookingDate() {
+      if (bookingDateBuilder_ == null) {
+        return bookingDate_ == null ? name.abuchen.portfolio.model.proto.v1.PLocalDateTime.getDefaultInstance() : bookingDate_;
+      } else {
+        return bookingDateBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     */
+    public Builder setBookingDate(name.abuchen.portfolio.model.proto.v1.PLocalDateTime value) {
+      if (bookingDateBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bookingDate_ = value;
+      } else {
+        bookingDateBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00040000;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     */
+    public Builder setBookingDate(
+        name.abuchen.portfolio.model.proto.v1.PLocalDateTime.Builder builderForValue) {
+      if (bookingDateBuilder_ == null) {
+        bookingDate_ = builderForValue.build();
+      } else {
+        bookingDateBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00040000;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     */
+    public Builder mergeBookingDate(name.abuchen.portfolio.model.proto.v1.PLocalDateTime value) {
+      if (bookingDateBuilder_ == null) {
+        if (((bitField0_ & 0x00040000) != 0) &&
+          bookingDate_ != null &&
+          bookingDate_ != name.abuchen.portfolio.model.proto.v1.PLocalDateTime.getDefaultInstance()) {
+          getBookingDateBuilder().mergeFrom(value);
+        } else {
+          bookingDate_ = value;
+        }
+      } else {
+        bookingDateBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00040000;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     */
+    public Builder clearBookingDate() {
+      bitField0_ = (bitField0_ & ~0x00040000);
+      bookingDate_ = null;
+      if (bookingDateBuilder_ != null) {
+        bookingDateBuilder_.dispose();
+        bookingDateBuilder_ = null;
+      }
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     */
+    public name.abuchen.portfolio.model.proto.v1.PLocalDateTime.Builder getBookingDateBuilder() {
+      bitField0_ |= 0x00040000;
+      onChanged();
+      return getBookingDateFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     */
+    public name.abuchen.portfolio.model.proto.v1.PLocalDateTimeOrBuilder getBookingDateOrBuilder() {
+      if (bookingDateBuilder_ != null) {
+        return bookingDateBuilder_.getMessageOrBuilder();
+      } else {
+        return bookingDate_ == null ?
+            name.abuchen.portfolio.model.proto.v1.PLocalDateTime.getDefaultInstance() : bookingDate_;
+      }
+    }
+    /**
+     * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        name.abuchen.portfolio.model.proto.v1.PLocalDateTime, name.abuchen.portfolio.model.proto.v1.PLocalDateTime.Builder, name.abuchen.portfolio.model.proto.v1.PLocalDateTimeOrBuilder> 
+        getBookingDateFieldBuilder() {
+      if (bookingDateBuilder_ == null) {
+        bookingDateBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            name.abuchen.portfolio.model.proto.v1.PLocalDateTime, name.abuchen.portfolio.model.proto.v1.PLocalDateTime.Builder, name.abuchen.portfolio.model.proto.v1.PLocalDateTimeOrBuilder>(
+                getBookingDate(),
+                getParentForChildren(),
+                isClean());
+        bookingDate_ = null;
+      }
+      return bookingDateBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

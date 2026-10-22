@@ -278,4 +278,19 @@ public interface PTransactionOrBuilder extends
    * <code>optional .name.abuchen.portfolio.PLocalDateTime exDate = 18;</code>
    */
   name.abuchen.portfolio.model.proto.v1.PLocalDateTimeOrBuilder getExDateOrBuilder();
+
+  /**
+   * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+   * @return Whether the bookingDate field is set.
+   */
+  boolean hasBookingDate();
+  /**
+   * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+   * @return The bookingDate.
+   */
+  name.abuchen.portfolio.model.proto.v1.PLocalDateTime getBookingDate();
+  /**
+   * <code>optional .name.abuchen.portfolio.PLocalDateTime bookingDate = 19;</code>
+   */
+  name.abuchen.portfolio.model.proto.v1.PLocalDateTimeOrBuilder getBookingDateOrBuilder();
 }
