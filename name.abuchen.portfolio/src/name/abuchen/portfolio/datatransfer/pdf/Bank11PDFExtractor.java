@@ -45,6 +45,7 @@ public class Bank11PDFExtractor extends AbstractPDFExtractor
         this.addDocumentTyp(type);
 
         // @formatter:off
+        // Bu-Tag Wert Vorgang
         // 19.10. 19.10. Überweisungsgutschr.                                                       18.500,00 H
         // @formatter:on
         var depositBlock = new Block("^[\\d]{2}\\.[\\d]{2}\\. [\\d]{2}\\.[\\d]{2}\\. .*gutschr\\.?[\\s]{1,}[\\.,\\d]+ [H]");
@@ -53,11 +54,12 @@ public class Bank11PDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
 
-                        .section("date", "note", "amount") //
+                        .section("bookingDate", "date", "note", "amount") //
                         .documentContext("currency", "year") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. (?<note>.*gutschr\\.?)[\\s]{1,}(?<amount>[\\.,\\d]+) [H]$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) (?<note>.*gutschr\\.?)[\\s]{1,}(?<amount>[\\.,\\d]+) [H]$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
 
@@ -70,6 +72,7 @@ public class Bank11PDFExtractor extends AbstractPDFExtractor
                         .wrap(TransactionItem::new));
 
         // @formatter:off
+        // Bu-Tag Wert Vorgang
         // 31.10. 31.10. Überweisungsauftrag                                               3.000,00 S
         // 21.11. 21.11. Umbuchung                                                           200,00 S
         // @formatter:on
@@ -79,11 +82,12 @@ public class Bank11PDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.REMOVAL))
 
-                        .section("date", "note", "amount") //
+                        .section("bookingDate", "date", "note", "amount") //
                         .documentContext("currency", "year") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. (?<note>(Umbuchung|.*berweisungsauftrag))[\\s]{1,}(?<amount>[\\.,\\d]+) [S]$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) (?<note>(Umbuchung|.*berweisungsauftrag))[\\s]{1,}(?<amount>[\\.,\\d]+) [S]$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
 
@@ -93,6 +97,7 @@ public class Bank11PDFExtractor extends AbstractPDFExtractor
                         .wrap(TransactionItem::new));
 
         // @formatter:off
+        // Bu-Tag Wert Vorgang
         // 30.12. 31.12. Abschluss lt. Anlage 1                                                         52,66 H
         // 31.03. 31.03. Abschluss                                                                      56,88 H
         // @formatter:on
@@ -102,11 +107,12 @@ public class Bank11PDFExtractor extends AbstractPDFExtractor
 
                         .subject(() -> new AccountTransaction(AccountTransaction.Type.INTEREST))
 
-                        .section("date", "amount") //
+                        .section("bookingDate", "date", "amount") //
                         .documentContext("currency", "year") //
-                        .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.) [\\d]{2}\\.[\\d]{2}\\. Abschluss.*[\\s]{1,}(?<amount>[\\.,\\d]+) [H]$") //
+                        .match("^(?<bookingDate>[\\d]{2}\\.[\\d]{2}\\.) (?<date>[\\d]{2}\\.[\\d]{2}\\.) Abschluss.*[\\s]{1,}(?<amount>[\\.,\\d]+) [H]$") //
                         .assign((t, v) -> {
                             t.setDateTime(asDate(v.get("date") + v.get("year")));
+                            t.setBookingDate(asDate(v.get("bookingDate") + v.get("year")));
                             t.setAmount(asAmount(v.get("amount")));
                             t.setCurrencyCode(v.get("currency"));
                         })

@@ -2,6 +2,7 @@ package name.abuchen.portfolio.datatransfer.pdf.bank11;
 
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.deposit;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasAmount;
+import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasBookingDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasDate;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasFees;
 import static name.abuchen.portfolio.datatransfer.ExtractorMatchers.hasGrossValue;
@@ -54,60 +55,60 @@ public class Bank11PDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-10-19"), hasAmount("EUR", 18500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-10-19"), hasBookingDate("2022-10-19"), hasAmount("EUR", 18500.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-11-14"), hasAmount("EUR", 4500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-11-14"), hasBookingDate("2022-11-14"), hasAmount("EUR", 4500.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-11-22"), hasAmount("EUR", 1500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-11-22"), hasBookingDate("2022-11-22"), hasAmount("EUR", 1500.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-12-08"), hasAmount("EUR", 2000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-12-08"), hasBookingDate("2022-12-08"), hasAmount("EUR", 2000.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2022-12-15"), hasAmount("EUR", 6000.00), //
+        assertThat(results, hasItem(deposit(hasDate("2022-12-15"), hasBookingDate("2022-12-15"), hasAmount("EUR", 6000.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-10-31"), hasAmount("EUR", 3000.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-10-31"), hasBookingDate("2022-10-31"), hasAmount("EUR", 3000.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-07"), hasAmount("EUR", 350.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-07"), hasBookingDate("2022-11-07"), hasAmount("EUR", 350.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-15"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-15"), hasBookingDate("2022-11-15"), hasAmount("EUR", 200.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-21"), hasAmount("EUR", 200.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-21"), hasBookingDate("2022-11-21"), hasAmount("EUR", 200.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Umbuchung"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-11-30"), hasAmount("EUR", 3000.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-11-30"), hasBookingDate("2022-11-30"), hasAmount("EUR", 3000.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-12-05"), hasAmount("EUR", 2000.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-12-05"), hasBookingDate("2022-12-05"), hasAmount("EUR", 2000.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-12-16"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-12-16"), hasBookingDate("2022-12-16"), hasAmount("EUR", 150.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2022-12-30"), hasAmount("EUR", 1250.00), //
+        assertThat(results, hasItem(removal(hasDate("2022-12-30"), hasBookingDate("2022-12-30"), hasAmount("EUR", 1250.00), //
                         hasSource("Kontoauszug01.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2022-12-30"), //
+                        hasDate("2022-12-31"), hasBookingDate("2022-12-30"), //
                         hasSource("Kontoauszug01.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 52.66), hasGrossValue("EUR", 52.66), //
@@ -134,76 +135,76 @@ public class Bank11PDFExtractorTest
         new AssertImportActions().check(results, "EUR");
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-01-05"), hasAmount("EUR", 1300.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-01-05"), hasBookingDate("2023-01-05"), hasAmount("EUR", 1300.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-01-16"), hasAmount("EUR", 4600.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-01-16"), hasBookingDate("2023-01-16"), hasAmount("EUR", 4600.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-01-24"), hasAmount("EUR", 500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-01-24"), hasBookingDate("2023-01-24"), hasAmount("EUR", 500.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-02-15"), hasAmount("EUR", 4200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-02-15"), hasBookingDate("2023-02-15"), hasAmount("EUR", 4200.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-03-16"), hasAmount("EUR", 4200.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-03-16"), hasBookingDate("2023-03-16"), hasAmount("EUR", 4200.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(deposit(hasDate("2023-04-28"), hasAmount("EUR", 17500.00), //
+        assertThat(results, hasItem(deposit(hasDate("2023-04-28"), hasBookingDate("2023-04-28"), hasAmount("EUR", 17500.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsgutschrift"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-02"), hasAmount("EUR", 3500.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-02"), hasBookingDate("2023-01-02"), hasAmount("EUR", 3500.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-09"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-09"), hasBookingDate("2023-01-09"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-17"), hasAmount("EUR", 100.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-17"), hasBookingDate("2023-01-17"), hasAmount("EUR", 100.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-25"), hasAmount("EUR", 17500.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-25"), hasBookingDate("2023-01-25"), hasAmount("EUR", 17500.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-01-30"), hasAmount("EUR", 4000.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-01-30"), hasBookingDate("2023-01-30"), hasAmount("EUR", 4000.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-02-13"), hasAmount("EUR", 150.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-02-13"), hasBookingDate("2023-02-13"), hasAmount("EUR", 150.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-02-28"), hasAmount("EUR", 3000.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-02-28"), hasBookingDate("2023-02-28"), hasAmount("EUR", 3000.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-03-08"), hasAmount("EUR", 800.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-03-08"), hasBookingDate("2023-03-08"), hasAmount("EUR", 800.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-03-09"), hasAmount("EUR", 1100.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-03-09"), hasBookingDate("2023-03-09"), hasAmount("EUR", 1100.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-03-30"), hasAmount("EUR", 6900.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-03-30"), hasBookingDate("2023-03-30"), hasAmount("EUR", 6900.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
-        assertThat(results, hasItem(removal(hasDate("2023-05-02"), hasAmount("EUR", 17600.00), //
+        assertThat(results, hasItem(removal(hasDate("2023-05-02"), hasBookingDate("2023-05-02"), hasAmount("EUR", 17600.00), //
                         hasSource("Kontoauszug02.txt"), hasNote("Überweisungsauftrag"))));
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2023-03-31"), //
+                        hasDate("2023-03-31"), hasBookingDate("2023-03-31"), //
                         hasSource("Kontoauszug02.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 56.88), hasGrossValue("EUR", 56.88), //
@@ -211,7 +212,7 @@ public class Bank11PDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2023-04-27"), //
+                        hasDate("2023-04-28"), hasBookingDate("2023-04-27"), //
                         hasSource("Kontoauszug02.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 24.50), hasGrossValue("EUR", 24.50), //
@@ -219,7 +220,7 @@ public class Bank11PDFExtractorTest
 
         // assert transaction
         assertThat(results, hasItem(interest( //
-                        hasDate("2023-12-29"), //
+                        hasDate("2023-12-31"), hasBookingDate("2023-12-29"), //
                         hasSource("Kontoauszug02.txt"), //
                         hasNote(null), //
                         hasAmount("EUR", 29.52), hasGrossValue("EUR", 29.52), //
